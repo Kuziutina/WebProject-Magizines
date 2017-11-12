@@ -1,3 +1,5 @@
+package Helper;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -16,10 +18,12 @@ public class Render {
     private static Configuration getCfg() throws IOException {
         if (cfg == null) {
             cfg = new Configuration(Configuration.VERSION_2_3_20);
-            cfg.setDirectoryForTemplateLoading(new File("D:/MyProjects/BigProject/web/templates"));
+            cfg.setDirectoryForTemplateLoading(new File("C:/Users/Sofia/IdeaProjects/big_project/web/templates"));
             cfg.setDefaultEncoding("UTF-8");
             cfg.setLocale(Locale.US);
+            cfg.setEncoding(Locale.US, "UTF-8");
             cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+
         }
         return cfg;
     }
@@ -27,6 +31,7 @@ public class Render {
     public static void render(HttpServletResponse response, Map<String, Object> context, String templateName) throws IOException, TemplateException {
         Configuration cfg = getCfg();
         Template template = cfg.getTemplate(templateName);
+        response.setCharacterEncoding("UTF-8");
         template.process(context, response.getWriter());
     }
 }

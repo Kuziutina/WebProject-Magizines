@@ -1,0 +1,541 @@
+body {
+    margin: 50px 0 0 0;
+    font-family: Tahoma;
+}
+
+.about {
+    font-size: 23px;
+}
+#heading {
+    margin-bottom: 20px;
+}
+
+#magazine_image {
+    width: 550px;
+    height: 700px;
+    float: left;
+    margin: 0;
+    border: solid black;
+}
+
+.row {
+    margin-bottom: 60px;
+}
+
+footer {
+    background-image: url('http://old.nasha.lv/siteimages/a/17/5e/a07e3ce6df5fab50192df633fa3f3b.jpg');
+    height: 150px;
+}
+
+#magazine_descr {
+    float: right;
+    font-size: 20px;
+    margin-left: 40px;
+}
+
+#log_in {
+    float: right;
+    margin: 40px 100px 40px 0;
+}
+
+#log_in a {
+    font-size: 1.3em;
+    background-color: #d39e00;
+}
+
+header {
+    background-image: url('http://old.nasha.lv/siteimages/a/17/5e/a07e3ce6df5fab50192df633fa3f3b.jpg');
+    margin-bottom: 50px;
+    height: auto;
+}
+
+#content {
+    margin: 40px 120px 70px 120px;
+}
+
+a[name='logo'] img {
+    margin: 30px 30px 30px 100px;
+    width: 200px;
+    height: 100px;
+}
+
+nav a {
+    text-decoration: none;
+}
+
+nav ul {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+nav li {
+    list-style-position: inside;
+    font: 1.7em 'Oswald', sans-serif;
+    padding: 10px;
+    background-size: cover;
+}
+
+.add_magazine {
+    color: #b2b2b2;
+}
+.add_magazine:hover {
+    text-decoration-line: underline;
+    cursor: pointer;
+}
+
+.top-menu li {
+    display: inline-block;
+    padding: 10px 30px;
+}
+
+.list_limiter ul {
+    margin: 0;
+    padding: 0;
+}
+
+.top-menu li.active {
+    background: #29c5e6;
+    color: #fff;
+}
+
+.top-menu a {
+    color: #b2b2b2;
+}
+
+form[name='search'] {
+    margin-top: 10px;
+}
+
+.checked {
+    color: orange;
+}
+
+#search_bar {
+    margin-bottom: 20px;
+}
+
+#result_list {
+    margin-top: 40px;
+}
+
+.list_limiter {
+    padding: 0;
+    margin: 0;
+}
+
+.list_limiter li {
+    display: inline-block;
+}
+
+#description, #heading {
+    margin-top: 40px;
+}
+
+/* Carousel */
+.carousel {
+    margin-bottom: 0;
+    padding: 0 40px 40px 40px;
+}
+
+.carousel-control-prev {
+    left: -20px;
+    height: 60px;
+    width: 60px;
+    background: none repeat scroll 0 0 #29c5e6;
+    border: 4px solid #FFFFFF;
+    border-radius: 30px;
+    font-size: 5rem;
+    margin-top: 240px;
+}
+
+.carousel-control-next {
+    right: -20px;
+    height: 60px;
+    width: 60px;
+    background: none repeat scroll 0 0 #29c5e6;
+    border: 4px solid #FFFFFF;
+    border-radius: 30px;
+    font-size: 5rem;
+    margin-top: 240px;
+}
+
+/* The indicators */
+.carousel-indicators {
+    top: auto;
+    bottom: -10px;
+}
+
+/* The colour of the indicators */
+.carousel-indicators li {
+    background: #cecece;
+}
+
+.carousel-item img {
+    height: 400px;
+    width: 300px;
+    border: solid black;
+}
+
+.result_img {
+    border: solid black;
+    height: 400px;
+    width: 300px;
+    margin-bottom: 5px;
+}
+
+div.horizontal_tab {
+    overflow: hidden;
+    width: 700px;
+    margin-top: 50px;
+    text-align: left;
+}
+
+div.vertical_tab {
+    float: left;
+    margin-top: 50px;
+    text-align: left;
+}
+
+div.vertical_tab button {
+    display: block;
+    background-color: #f1f1f1;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    margin-bottom: 5px;
+    width: 120px;
+    height: 50px;
+    text-align: right;
+    transition: 0.3s;
+}
+
+div.vertical_tab button:hover {
+    background-color: #ddd;
+}
+
+div.vertical_tab button.active {
+    background-color: #ccc;
+}
+
+div.horizontal_tab button {
+    background-color: #f1f1f1;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    margin: 0;
+    transition: 0.3s;
+}
+
+div.horizontal_tab button:hover {
+    background-color: #ddd;
+}
+
+div.horizontal_tab button.active {
+    background-color: #ccc;
+}
+
+.tabcontent {
+    display: none;
+    width: 700px;
+    height: 300px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+}
+
+.tabcontent.vert {
+    margin-top: 50px;
+}
+
+#read_issue {
+    margin: 40px 0;
+}
+
+.user_data button {
+    margin-top: 20px;
+}
+
+.user_data {
+    margin: 100px 0;
+}
+
+.friend_list {
+    margin-top: 40px;
+    list-style: none;
+}
+
+.friend_list li {
+    margin-bottom: 20px;
+}
+
+.friend_profile {
+    margin-left: 10px;
+}
+
+.review_list {
+
+    width: 700px;
+    height: 200px;
+    overflow-y: auto;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+.result_item {
+    margin-bottom: 40px;
+}
+
+.review, .message {
+    text-align: left;
+    padding: 20px 0;
+}
+
+.review_author, .message_author {
+    font: 15px black;
+}
+
+.review_text, .message_text {
+    border: 1px solid #ccc;
+    margin-bottom: 0;
+}
+
+.message_theme {
+    font: 25px black;
+    padding-bottom: 5px;
+}
+
+.review_area {
+    margin: 20px 0 10px 0;
+}
+
+.modal_title {
+    margin-top: 20px;
+}
+
+
+form[name="message"] textarea {
+    width: 300px;
+    margin: 10px 0;
+}
+
+form[name="message"] input{
+    width: 300px;
+}
+
+form[name="message"] label{
+    max-width: 300px;
+}
+
+.user_profile {
+    margin-top: 50px;
+}
+
+.user_profile a {
+    font-size: 25px;
+}
+
+.user_profile button, .user_profile a button {
+    margin: 20px 0;
+    font-size: 18px;
+}
+
+textarea {
+    resize: none;
+}
+
+.carousel-item {
+    margin: 0 10px 0 10px;
+}
+
+.carousel-item p {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.carousel-indicators .active {
+    background: #428bca;
+}
+
+.featurette-divider {
+    margin: 5rem 0; /* Space out the Bootstrap <hr> more */
+}
+
+/* Thin out the marketing headings */
+.featurette-heading {
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -.05rem;
+}
+
+/* RESPONSIVE CSS
+-------------------------------------------------- */
+
+@media (min-width: 40em) {
+
+    .featurette-heading {
+        font-size: 50px;
+    }
+}
+
+@media (min-width: 62em) {
+    .featurette-heading {
+        margin-top: 7rem;
+    }
+}
+
+fieldset,
+.rating label {
+    margin: 0;
+    padding: 0;
+}
+
+
+
+/****** Style Star Rating Widget *****/
+
+.rating, .review_rating, .rating_vote {
+    border: none;
+}
+
+#issue_list {
+    list-style: none;
+    text-align: left;
+}
+
+.rating input {
+    display: none;
+}
+
+.rating label:before {
+    margin: 5px;
+    font-size: 1.25em;
+    font-family: FontAwesome;
+    display: inline-block;
+    content: "\f005";
+}
+
+.review_rating input {
+    display: none;
+}
+
+.review_rating label:before {
+    font-size: 1.25em;
+    margin: 3px;
+    font-family: FontAwesome;
+    display: inline-block;
+    content: "\f005";
+
+}.rating_vote input {
+    display: none;
+}
+
+.rating_vote label:before {
+    font-size: 1.25em;
+    margin: 3px;
+    font-family: FontAwesome;
+    display: inline-block;
+    content: "\f005";
+}
+
+.rating, .review_rating, .rating_vote label.checked {
+    color: #ffd700;
+}
+
+.rating_vote {
+    direction: rtl;
+}
+
+.rating, .review_rating, .rating_vote label {
+    color: #6c757d;
+}
+
+/***** CSS Magic to Highlight Stars on Hover *****/
+
+/* show gold star when clicked */
+.rating_vote > input:checked ~ label,
+    /* hover current star */
+.rating_vote:not(:checked) > label:hover,
+    /* hover previous stars in list */
+.rating_vote:not(:checked) > label:hover ~ label {
+    color: #ffd700;
+}
+
+/* hover current star when changing rating */
+.rating_vote > input:checked + label:hover,
+.rating_vote > input:checked ~ label:hover,
+
+    /* lighten current selection */
+.rating_vote > label:hover ~ input:checked ~ label,
+.rating_vote > input:checked ~ label:hover ~ label {
+    color: #ffed85;
+}
+
+/* login modal */
+
+.account-box
+{
+    border: 2px solid rgba(153, 153, 153, 0.75);
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    z-index: 3;
+    font-size: 13px !important;
+    font-family: "Helvetica Neue" ,Helvetica,Arial,sans-serif;
+    background-color: #ffffff;
+    padding: 20px;
+}
+
+.logo {
+    text-align: center;
+    margin: 10px 0 27px 0;
+}
+.logo img
+{
+    width: 138px;
+    height: 80px;
+    position: relative;
+}
+
+.forgotLnk
+{
+    margin-top: 10px;
+    display: block;
+}
+
+.purple-bg
+{
+    background-color: #6E329D;
+    color: #fff;
+    margin-top: 10px;
+}
+.or-box
+{
+    position: relative;
+    border-top: 1px solid #dfdfdf;
+    padding-top: 20px;
+    margin-top:20px;
+}
+.or
+{
+    color: #666666;
+    background-color: #ffffff;
+    position: absolute;
+    text-align: center;
+    top: -8px;
+    width: 40px;
+    left: 90px;
+}
+.account-box .btn:hover
+{
+    color: #fff;
+    cursor: pointer;
+}
+
+.review_area {
+    resize: none;
+}
+

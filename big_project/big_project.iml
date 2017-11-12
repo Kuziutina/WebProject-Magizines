@@ -23,5 +23,9 @@
     <orderEntry type="library" name="freemarker" level="project" />
     <orderEntry type="library" name="postgresql-42.1.4" level="project" />
     <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
+    <orderEntry type="library" name="activation-1.1" level="project" />
+    <orderEntry type="library" name="javax.mail-1.4.5" level="project" />
+    <orderEntry type="library" name="smtp-1.4.4" level="project" />
+    <orderEntry type="library" name="common-lang3" level="project" />
   </component>
 </module>

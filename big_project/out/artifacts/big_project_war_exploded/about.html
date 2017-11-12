@@ -1,0 +1,205 @@
+<!--<#ftl encoding="Windows-1251"/>-->
+<!DOCTYPE html>
+<html lang="ru">
+<html>
+<head>
+    <meta charset="UTF-8" content="text/html">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link href="css/magazine_site.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>MagazineSite</title>
+</head>
+<body>
+
+
+<div class="modal fade" id="sign_in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="account-box">
+                <div class="logo ">
+                    <img src="images/magazines.png" alt="logo"/>
+                </div>
+                <form class="form-signin" action="#">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Email" required autofocus/>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="Пароль" required/>
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" value="remember-me"/>
+                        Запомнить меня
+                    </label>
+                    <button class="btn btn-lg btn-block purple-bg" data-dismiss="modal" type="submit">
+                        Войти
+                    </button>
+                </form>
+                <a class="forgotLnk" href="" data-dismiss="modal" onclick="showForgotPass()">Восстановление пароля</a>
+                <div class="or-box row-block">
+                    <div class="row">
+                        <div class="col-md-12 row-block">
+                            <a>Нет аккаунта?</a>
+                            <button class="btn btn-primary btn-block" data-dismiss="modal" onclick="showSignUp()">
+                                Зарегистрироваться
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="sign_up">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="account-box">
+                <div class="logo ">
+                    <img src="images/magazines.png" alt="logo"/>
+                </div>
+                <form class="form-signup" method="post">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Имя пользователя" required autofocus name="username"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Email" required name="mail"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="Пароль" required name="password"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="Повторите пароль" required name="repeat_password"/>
+                    </div>
+                    <button class="btn btn-lg btn-block purple-bg" data-dismiss="modal" type="submit">
+                        Регистрация
+                    </button>
+                </form>
+                <div class="or-box row-block">
+                    <div class="row">
+                        <div class="col-md-12 row-block">
+                            <a>Уже зарегистрированы?</a>
+                            <button class="btn btn-primary btn-block" data-dismiss="modal" onclick="showSignIn()">
+                                Войти
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="forgot_pass">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="account-box">
+                <div class="logo ">
+                    <img src="images/magazines.png" alt="logo"/>
+                </div>
+                <form class="form-signup" action="#">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Имя пользователя" required autofocus/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Email" required/>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-lg btn-block purple-bg" data-dismiss="modal" type="submit">
+                            Отправить
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="add_magazine">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="form-group">
+                <div align="center">
+                    <h2 id="modal_title">Добавить журнал</h2>
+                </div>
+                <form class="form-review" action="#">
+                    <fieldset>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" placeholder="Название" required autofocus/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <textarea title="Описание" required class="form-control" id="review_area"
+                                          rows="7" placeholder="Описание..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group" align="center">
+                            <h5>Обложка</h5>
+                            <input type="file" id="cover">
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <button class="btn btn-lg btn-block purple-bg" data-dismiss="modal" type="submit">
+                        Добавить
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<header>
+    <div id="log_in">
+        <a>Username</a>
+        <button id="sign_in_btn" onclick="showSignIn()">Войти</button>
+        <button id="sign_up_btn" onclick="showSignUp()">Регистрация</button>
+        <form name="search" action="....." method="get">
+            <input type="text" name="q" placeholder="Поиск">
+            <button type="submit">Искать</button>
+        </form>
+    </div>
+    <a href="/" name="logo"><img src=images/magazines.png alt="SiteName logo"></a>
+</header>
+<nav>
+    <ul class="top-menu">
+        <li><a href="/">Главная Страница</a></li>
+        <li><a href="/magazines">Журналы</a></li>
+        <li><a href="/newest_issues">Последние выпуски</a></li>
+
+        <!-- Класс auth отображаются только у авторизованного юзера-->
+        <li class="auth"><span class="add_magazine" onclick="showAddMagazine()">Добавить журнал</span></li>
+        <li class="auth"><a href="/personal_account/">Личный кабинет</a></li>
+
+        <li class="active">О сайте</li>
+    </ul>
+</nav>
+<div id="content" align="center">
+
+    <div id="heading">
+        <h1>О сайте</h1>
+    </div>
+    <p class="about">
+        Очень хороший сайт журналов, просто лучший, лучше, чем этот сайт просто нет.
+        Очень хороший сайт журналов, просто лучший, лучше, чем этот сайт просто нет.
+        Очень хороший сайт журналов, просто лучший, лучше, чем этот сайт просто нет.
+    </p>
+
+
+</div>
+</body>
+<footer>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/module_wind.js"></script>
+</footer>
+</html>
