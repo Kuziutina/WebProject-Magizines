@@ -19,6 +19,8 @@ public class AjaxChangeAccountServlet extends HttpServlet {
         String email = request.getParameter("email");
         String newPassword = request.getParameter("new_password");
         String lastPassword = request.getParameter("last_password");
+        boolean change_email = false;
+        String confirmation = "";
 
         JSONObject jsonObject = new JSONObject();
 
@@ -34,8 +36,8 @@ public class AjaxChangeAccountServlet extends HttpServlet {
                 jsonObject.put("errors", true);
             }
             else {
-                String confirmation = String.valueOf(java.util.UUID.randomUUID());
-                SenderEmail senderEmail = new SenderEmail("https://localhost:8080/confirmation/" + confirmation, email);
+                change_email = true;
+                confirmation = String.valueOf(java.util.UUID.randomUUID());
                 userRepo.updateUserConfirmation(user, confirmation);
                 userRepo.updateUserLogin(user, email);
                 user.setConfirmation(confirmation);
@@ -59,6 +61,11 @@ public class AjaxChangeAccountServlet extends HttpServlet {
         response.setContentType("text/json");
         response.getWriter().print(jsonObject.toString());
         response.getWriter().close();
+
+        if (change_email) {
+            SenderEmail senderEmail = new SenderEmail("https://localhost:8080/confirmation/" + confirmation, email);
+            senderEmail.run();
+        }
 
     }
 

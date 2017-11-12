@@ -234,7 +234,7 @@ public class UserRepo {
         conn = DBConnection.getConnection();
 
         try {
-            statement = conn.prepareStatement("update users set username = ? where login = ?");
+            statement = conn.prepareStatement("update users set name = ? where login = ?");
             statement.setString(1, username);
             statement.setString(2, user.getLogin());
 

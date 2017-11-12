@@ -86,7 +86,7 @@
 
     var change_email = function () {
         var text = $("#email_change").val();
-        $("#error_email").html("");
+        $("#error-email").html("");
         if (text == "") {
             $("#error-email").append("Это поле не может быть пустым");
         }
@@ -98,10 +98,10 @@
                 dataType: "json",
                 success: function (result) {
                     if (result.errors) {
-                        $("#error-email").append("used");
+                        $("#error-email").append("Данная почта уже используется");
                     }
                     else {
-                        alert("jtgktng");
+                        alert("Ваша почта была изменена. На почту было вислано письмо для подтверждения, пожалуйста, воспользуйтесь им.");
                     }
                 },
                 error: function (jqXHR, exception) {
@@ -131,9 +131,12 @@
     var change_password = function () {
         var text = $("#password_change").val();
         var text2 = $("#last_change").val();
-        $("#error_password").html("");
+        $("#error-password").html("");
         if (text == "" || text2 == "") {
-            $("#error-email").append("Оба поля должны быть заполнены");
+            $("#error-password").append("Оба поля должны быть заполнены");
+        }
+        if (text.length <= 4) {
+            $("#error-password").append("Пароль слишком короткий");
         }
         else {
             $.ajax({
@@ -146,10 +149,12 @@
                 dataType: "json",
                 success: function (result) {
                     if (result.errors) {
-                        $("#error-password").append("not true");
+                        $("#error-password").append("Пароль введен не верно");
                     }
                     else {
-                        alert("your password was change");
+                        $("#password_change").val("");
+                        $("#last_change").val("");
+                        alert("Ваш пароль был изменён");
                     }
                 },
                 error: function (jqXHR, exception) {

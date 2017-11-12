@@ -5,11 +5,20 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
-public class SenderEmail {
+public class SenderEmail implements Runnable{
     private Properties props;
     private Session session;
     private Message message;
+    private String text;
+    private String to_email;
     public SenderEmail(String text, String to_email) {
+        this.text = text;
+        this.to_email = to_email;
+    }
+
+
+    @Override
+    public void run() {
         props = new Properties();
         props.put("mail.smtp.host", "smtp.yandex.ru");
         props.put("mail.smtp.auth", "true");
@@ -38,23 +47,5 @@ public class SenderEmail {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
-
-
-
     }
-
-    public boolean sendMessage() {
-        try {
-            Transport.send(message);
-            return true;
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-
-
-
-
 }

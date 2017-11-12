@@ -33,6 +33,7 @@ public class AjaxCheckSignUpServlet extends HttpServlet {
             User user = User.newBuilder().setName(username).setLogin(email).setPassword(password)
                     .setConfirmation(confirmation).build();
             SenderEmail senderEmail = new SenderEmail("https://localhost:8080/confirmation/" + confirmation, email);
+            senderEmail.run();
             userRepo.addUser(user);
             user = userRepo.getUserByLogin(user.getLogin());
             request.getSession().setAttribute("current_user", user);

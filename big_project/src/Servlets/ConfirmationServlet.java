@@ -24,6 +24,7 @@ public class ConfirmationServlet extends HttpServlet {
 
         if (user != null) {
             userRepo.updateUserConfirmation(user, "");
+            user.setConfirmation("");
             request.getSession().setAttribute("current_user", user);
         }
 

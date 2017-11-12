@@ -35,6 +35,7 @@ public class AjaxRestoringServlet extends HttpServlet {
             userRepo.updateUserPassword(user, pwd);
 
             SenderEmail senderEmail = new SenderEmail(pwd, email);
+            senderEmail.run();
 //            senderEmail.sendMessage();
         }
 

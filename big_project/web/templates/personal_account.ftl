@@ -44,7 +44,7 @@
         </div>
         <#else >
             <div class="user_profile">
-                <div><a class="username">UserName</a></div>
+                <div><a class="username">${another_user.name}</a></div>
                 <div><a href="#"><button id="user_subscriptions">Подписки пользователя</button></a></div>
                 <div><a href="#"><button id="send_msg">Отправить сообщение</button></a></div>
             </div>
