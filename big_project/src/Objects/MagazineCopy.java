@@ -19,7 +19,7 @@ public class MagazineCopy {
     public MagazineCopy() {
     }
 
-    public MagazineCopy(int id, String name, String description, String picture_path, String path, Date date, int magazine_id, int number) {
+    public MagazineCopy(int id, String name, String description, String picture_path, String path, Date date, int magazine_id) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -27,7 +27,16 @@ public class MagazineCopy {
         this.path = path;
         this.date = date;
         this.magazine_id = magazine_id;
-        this.number = number;
+
+    }
+
+    public MagazineCopy(String name, String description, String picture_path, String path, Date date, int magazine_id) {
+        this.name = name;
+        this.description = description;
+        this.picture_path = picture_path;
+        this.path = path;
+        this.date = date;
+        this.magazine_id = magazine_id;
     }
 
     public int getId() {

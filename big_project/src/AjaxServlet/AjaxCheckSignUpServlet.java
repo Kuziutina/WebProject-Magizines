@@ -63,7 +63,7 @@ public class AjaxCheckSignUpServlet extends HttpServlet {
             if (remember) {
                 String cookie = String.valueOf(java.util.UUID.randomUUID());
                 Cookie c = new Cookie("userid", cookie);
-                c.setMaxAge(2*60);
+                c.setMaxAge(8*60);
                 response.addCookie(c);
 
                 userRepo.updateUserCookie(user, cookie);

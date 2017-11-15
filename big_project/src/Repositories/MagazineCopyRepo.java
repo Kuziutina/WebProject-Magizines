@@ -25,7 +25,7 @@ public class MagazineCopyRepo {
             if (resultSet.next()) {
                 return new MagazineCopy(resultSet.getInt("id"), name,resultSet.getString("description"),
                         resultSet.getString("picture_path"), resultSet.getString("path"),
-                        resultSet.getTimestamp("date"), resultSet.getInt("magazine_id"), resultSet.getInt("number"));///
+                        resultSet.getTimestamp("date"), resultSet.getInt("magazine_id"));///
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -43,9 +43,9 @@ public class MagazineCopyRepo {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                return new MagazineCopy(resultSet.getInt("id"),resultSet.getString("name"),resultSet.getString("description"),
+                return new MagazineCopy(id, resultSet.getString("name"),resultSet.getString("description"),
                         resultSet.getString("picture_path"), resultSet.getString("path"),
-                        resultSet.getTimestamp("date"), resultSet.getInt("magazine_id"), resultSet.getInt("number"));///
+                        resultSet.getTimestamp("date"), resultSet.getInt("magazine_id"));///
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -53,7 +53,28 @@ public class MagazineCopyRepo {
         return null;
     }
 
-    public List<MagazineCopy> getMagazineCopyByMagazineId(int id) {
+    public int getMagazineCopyId(MagazineCopy magazineCopy) {
+        PreparedStatement statement = null;
+        try {
+            conn = DBConnection.getConnection();
+            statement = conn.prepareStatement("select * from magazines_copies where name=? and picture_path=? and path=?");
+            statement.setString(1, magazineCopy.getName());
+            statement.setString(2, magazineCopy.getPicture_path());
+            statement.setString(3, magazineCopy.getPath());
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+
+    public List<MagazineCopy> getMagazineCopiesByMagazineId(int id) {
         PreparedStatement statement = null;
         List<MagazineCopy> magazineCopies = new ArrayList<>();
         try {
@@ -66,7 +87,7 @@ public class MagazineCopyRepo {
             while (resultSet.next()) {
                  magazineCopies.add(new MagazineCopy(resultSet.getInt("id"),resultSet.getString("name"),resultSet.getString("description"),
                         resultSet.getString("picture_path"), resultSet.getString("path"),
-                        resultSet.getTimestamp("date"), id, resultSet.getInt("number")));///
+                        resultSet.getTimestamp("date"), id));///
             }
             return magazineCopies;
         } catch (SQLException e) {
@@ -75,32 +96,33 @@ public class MagazineCopyRepo {
         return null;
     }
 
-    public List<MagazineCopy> getMagazineCopyByMagazine(Magazine magazine) {
-        return getMagazineCopyByMagazineId(magazine.getId());
+    public List<MagazineCopy> getMagazineCopiesByMagazine(Magazine magazine) {
+        return getMagazineCopiesByMagazineId(magazine.getId());
     }
 
-    public MagazineCopy getConcreteMagazineCopy (Magazine magazine, int number) {
-        PreparedStatement statement = null;
+//    public MagazineCopy getConcreteMagazineCopy (MagazineCopy magazineCopy) {
+//        PreparedStatement statement = null;
+//
+//        try {
+//            conn = DBConnection.getConnection();
+//            statement = conn.prepareStatement("select * from magazines_copies where magazine_id = ? and number = ?");
+//            statement.setInt(1, magazine.getId());
+//            statement.setInt(2, number);
+//
+//            ResultSet resultSet = statement.executeQuery();
+//
+//            if (resultSet.next()) {
+//                return new MagazineCopy(resultSet.getInt("id"),resultSet.getString("name"),resultSet.getString("description"),
+//                        resultSet.getString("picture_path"), resultSet.getString("path"),
+//                        resultSet.getTimestamp("date"), magazine.getId());///
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return null;
+//    }
 
-        try {
-            conn = DBConnection.getConnection();
-            statement = conn.prepareStatement("select * from magazines_copies where magazine_id = ? and number = ?");
-            statement.setInt(1, magazine.getId());
-            statement.setInt(2, number);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                return new MagazineCopy(resultSet.getInt("id"),resultSet.getString("name"),resultSet.getString("description"),
-                        resultSet.getString("picture_path"), resultSet.getString("path"),
-                        resultSet.getTimestamp("date"), magazine.getId(), number);///
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
 
 
 }

@@ -123,6 +123,29 @@ public class UserRepo {
         return null;
     }
 
+    public List<User> getFriends(User user) {
+        PreparedStatement statement;
+        conn = DBConnection.getConnection();
+        List<User> users;
+
+        try {
+            users = new ArrayList<>();
+            statement = conn.prepareStatement("select * FROM friends where user_id = ?");
+            statement.setInt(1, user.getId());
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                users.add(getUserById(resultSet.getInt("friend_id")));
+            }
+            return users;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public boolean addUser(User user) {
         PreparedStatement statement;
 
@@ -144,7 +167,7 @@ public class UserRepo {
         return false;
     }
 
-    public User getUserByCoockie(String cookie) {
+    public User getUserByCookie(String cookie) {
         PreparedStatement statement;
         conn = DBConnection.getConnection();
 
@@ -155,7 +178,9 @@ public class UserRepo {
             ResultSet resultSet = statement.executeQuery();
 
             if(resultSet.next()) {
-                return new User(resultSet.getInt("id"), resultSet.getString("login") , resultSet.getString("password"), resultSet.getString("name"));
+                return User.newBuilder().setId(resultSet.getInt("id")).setLogin(resultSet.getString("login"))
+                        .setPassword(resultSet.getString("password")).setName(resultSet.getString("name"))
+                        .setConfirmation(resultSet.getString("confirmation")).setCookie_login(cookie).build();
             }
 
         } catch (SQLException e) {
@@ -269,6 +294,24 @@ public class UserRepo {
 
         return false;
 
+    }
+
+    public boolean deleteFriend(User user, int friend_id) {
+        PreparedStatement statement;
+        try {
+            conn = DBConnection.getConnection();
+            statement = conn.prepareStatement("delete from friends where user_id = ? and friend_id = ?");
+            statement.setInt(1, user.getId());
+            statement.setInt(2, friend_id);
+
+            statement.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

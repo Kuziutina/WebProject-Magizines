@@ -34,7 +34,7 @@ public class AuthCookieFilter implements Filter {
         }
 
         if (foundCookie) {
-            User user = userRepo.getUserByCoockie(userId);
+            User user = userRepo.getUserByCookie(userId);
             if (user != null) {
                 request.getSession().setAttribute("current_user", user);
             }

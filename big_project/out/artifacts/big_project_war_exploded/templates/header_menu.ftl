@@ -330,34 +330,37 @@
                 <div align="center">
                     <h2 id="modal_title">Добавить журнал</h2>
                 </div>
-                <form class="form-review" action="#">
+                <form method="post" class="form-review" action="/create-magazine" id="create" enctype="multipart/form-data">
                     <fieldset>
                         <div class="form-group">
                             <div class="col-md-12">
-                                <input type="text" class="form-control" placeholder="Название" required autofocus/>
+                                <input name="title" type="text" class="form-control" placeholder="Название" required autofocus/>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-md-12">
-                                <textarea title="Описание" required class="form-control" id="review_area"
+                                <textarea name="description" title="Описание" required class="form-control" id="review_area"
                                           rows="7" placeholder="Описание..."></textarea>
                             </div>
                         </div>
 
                         <div class="form-group" align="center">
                             <h5>Обложка</h5>
-                            <input type="file" id="cover">
+                            <input name="cover" type="file" id="cover">
                         </div>
                     </fieldset>
-                </form>
+                  </form>
             </div>
             <div class="form-group">
                 <div class="col-md-12">
-                    <button class="btn btn-lg btn-block purple-bg" data-dismiss="modal" type="submit">
-                        Добавить
-                    </button>
+                <#--<button form="create" class="btn btn-lg btn-block purple-bg" type="submit">-->
+                <#--Добавить-->
+                <#--</button>-->
+
+                    <input form="create" type="submit" value="ok">
                 </div>
+
             </div>
         </div>
     </div>

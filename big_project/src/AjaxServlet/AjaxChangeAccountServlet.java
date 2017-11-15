@@ -63,7 +63,7 @@ public class AjaxChangeAccountServlet extends HttpServlet {
         response.getWriter().close();
 
         if (change_email) {
-            SenderEmail senderEmail = new SenderEmail("https://localhost:8080/confirmation/" + confirmation, email);
+            SenderEmail senderEmail = new SenderEmail("localhost:8080/confirmation/" + confirmation, email);
             senderEmail.run();
         }
 

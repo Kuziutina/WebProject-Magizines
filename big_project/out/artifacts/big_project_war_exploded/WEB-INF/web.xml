@@ -40,6 +40,30 @@
         <servlet-name>ChangeAccount</servlet-name>
         <servlet-class>Servlets.ChangeAccountServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Friends</servlet-name>
+        <servlet-class>Servlets.FriendsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AjaxFriends</servlet-name>
+        <servlet-class>AjaxServlet.AjaxFriendServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Magazine</servlet-name>
+        <servlet-class>Servlets.MagazineServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateMagazine</servlet-name>
+        <servlet-class>Servlets.CreateMagazineServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Loader</servlet-name>
+        <servlet-class>Helper.LoaderServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AjaxMagazineReview</servlet-name>
+        <servlet-class>AjaxServlet.AjaxMagazineReviewServlet</servlet-class>
+    </servlet>
     
     <servlet-mapping>
         <servlet-name>AboutServlet</servlet-name>
@@ -77,6 +101,30 @@
         <servlet-name>ChangeAccount</servlet-name>
         <url-pattern>/edit</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Friends</servlet-name>
+        <url-pattern>/myfriends</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AjaxFriends</servlet-name>
+        <url-pattern>/ajax_change_friend</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Magazine</servlet-name>
+        <url-pattern>/magazine/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateMagazine</servlet-name>
+        <url-pattern>/create-magazine</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Loader</servlet-name>
+        <url-pattern>/load/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AjaxMagazineReview</servlet-name>
+        <url-pattern>/ajax_magazine_review</url-pattern>
+    </servlet-mapping>
     <!--<servlet-mapping>-->
         <!--<servlet-name>default</servlet-name>-->
         <!--<url-pattern>*.css</url-pattern>-->
@@ -92,6 +140,7 @@
         <filter-name>AuthCookieFilter</filter-name>
         <servlet-name>AboutServlet</servlet-name>
         <servlet-name>PersonalAccount</servlet-name>
+        <servlet-name>Friends</servlet-name>
         <!--здесь калякаем все, в которых эт надо вызывать-->
     </filter-mapping>
     
