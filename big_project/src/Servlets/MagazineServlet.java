@@ -3,6 +3,7 @@ package Servlets;
 import Helper.Render;
 import Objects.Magazine;
 import Objects.MagazineCopy;
+import Objects.User;
 import Repositories.MagazineCopyRepo;
 import Repositories.MagazineRepo;
 import com.sun.org.apache.regexp.internal.RE;
@@ -47,10 +48,19 @@ public class MagazineServlet extends HttpServlet {
         }
         else if (path.length == 3) {
             objects = new HashMap<>();
-            int magazine_id = Integer.parseInt(path[1]);
             int id = Integer.parseInt(path[2]);
             MagazineCopyRepo magazineCopyRepo = new MagazineCopyRepo();
-            MagazineCopy magazineCopy =
+            MagazineCopy magazineCopy = magazineCopyRepo.getMagazineCopyById(id);
+            User user = (User) request.getSession().getAttribute("current_user");
+
+            objects.put("user", user);
+            objects.put("magazineCopy", magazineCopy);
+            try {
+                Render.render(response, objects, "/magazineIssue.ftl");
+            } catch (TemplateException e) {
+                e.printStackTrace();
+            }
+
         }
 
 

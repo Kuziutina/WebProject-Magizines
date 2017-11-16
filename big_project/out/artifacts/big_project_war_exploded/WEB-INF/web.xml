@@ -64,6 +64,10 @@
         <servlet-name>AjaxMagazineReview</servlet-name>
         <servlet-class>AjaxServlet.AjaxMagazineReviewServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreatMagazineIssue</servlet-name>
+        <servlet-class>Servlets.CreateMagazineCopyServlet</servlet-class>
+    </servlet>
     
     <servlet-mapping>
         <servlet-name>AboutServlet</servlet-name>
@@ -125,6 +129,10 @@
         <servlet-name>AjaxMagazineReview</servlet-name>
         <url-pattern>/ajax_magazine_review</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreatMagazineIssue</servlet-name>
+        <url-pattern>/create-magazine-copy/*</url-pattern>
+    </servlet-mapping>
     <!--<servlet-mapping>-->
         <!--<servlet-name>default</servlet-name>-->
         <!--<url-pattern>*.css</url-pattern>-->
@@ -141,6 +149,7 @@
         <servlet-name>AboutServlet</servlet-name>
         <servlet-name>PersonalAccount</servlet-name>
         <servlet-name>Friends</servlet-name>
+        <servlet-name>Magazine</servlet-name>
         <!--здесь калякаем все, в которых эт надо вызывать-->
     </filter-mapping>
     

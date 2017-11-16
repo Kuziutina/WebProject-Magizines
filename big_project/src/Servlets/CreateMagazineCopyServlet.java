@@ -2,6 +2,8 @@ package Servlets;
 
 import Helper.GenerateString;
 import Objects.Magazine;
+import Objects.MagazineCopy;
+import Repositories.MagazineCopyRepo;
 import Repositories.MagazineRepo;
 
 import javax.servlet.ServletException;
@@ -15,25 +17,33 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.util.Date;
 
 @WebServlet(name = "CreateMagazineCopyServlet")
 @MultipartConfig
 public class CreateMagazineCopyServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String title = request.getParameter("title");
-        String description = request.getParameter("description");
+        String title = request.getParameter("copy_title");
+        String description = request.getParameter("copy_description");
         Part imagePart = request.getPart("cover");
+        String magazineId = request.getPathInfo().replaceFirst("/", "");
         String cover[] = imagePart.getContentType().split("/");
-        Magazine magazine = new Magazine().newBuilder().setName(title).setDescription(description).build();
+        Part magazinePart = request.getPart("magazine-file");
+        String extension = getExtension(getFileName(magazinePart));
+
+        MagazineCopy magazineCopy = new MagazineCopy();
+        magazineCopy.setName(title);
+        magazineCopy.setDescription(description);
+        magazineCopy.setDate(new Date(System.currentTimeMillis()));
+        magazineCopy.setMagazine_id(Integer.parseInt(magazineId));
         if (!cover[0].equals("image")) {
-            magazine.setPicture_path("default.png");
+            magazineCopy.setPicture_path("default.png");
         }
         else {
 
             String fileName = GenerateString.generate() + "." + cover[1];
             String path = "D:/project_images/";
-            File uploads = new File(path);
-            File file = new File(uploads, fileName);
+            File file = new File(new File(path), fileName);
 
             try (InputStream input = imagePart.getInputStream()) {
                 Files.copy(input, file.toPath());
@@ -41,19 +51,47 @@ public class CreateMagazineCopyServlet extends HttpServlet {
 //            imagePart.write(path);
             imagePart.getInputStream().close();
             imagePart.delete();
-            magazine.setPicture_path(fileName);
+            magazineCopy.setPicture_path(fileName);
         }
 
-        MagazineRepo magazineRepo = new MagazineRepo();
-        magazineRepo.addMagazine(magazine);
 
-        int id = magazineRepo.getMagazineId(magazine);
+        String fileMagazineName = GenerateString.generate() + "." + extension;
+        String path = "D:/project_documents/";
+        File file = new File(new File(path), fileMagazineName);
 
-        response.sendRedirect("/magazine/" + id);
+        try (InputStream input = magazinePart.getInputStream()) {
+            Files.copy(input, file.toPath());
+        }
+//            imagePart.write(path);
+        magazinePart.getInputStream().close();
+        magazinePart.delete();
+        magazineCopy.setPath(fileMagazineName);
+
+        MagazineCopyRepo magazineCopyRepo = new MagazineCopyRepo();
+        magazineCopyRepo.addMagazineCopy(magazineCopy);
+        int id = magazineCopyRepo.getMagazineCopyId(magazineCopy);
+
+        response.sendRedirect("/magazine/" + magazineId + "/" + id);
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+    }
+
+    private String getFileName(Part part) {
+        String contentDisp = part.getHeader("content-disposition");
+        System.out.println("content-disposition header= "+contentDisp);
+        String[] tokens = contentDisp.split(";");
+        for (String token : tokens) {
+            if (token.trim().startsWith("filename")) {
+                return token.substring(token.indexOf("=") + 2, token.length()-1);
+            }
+        }
+        return "";
+    }
+
+    private String getExtension(String fileName){
+        return fileName.substring(fileName.lastIndexOf("."));
     }
 }

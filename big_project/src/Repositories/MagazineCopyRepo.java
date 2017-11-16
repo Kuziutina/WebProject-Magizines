@@ -3,10 +3,7 @@ package Repositories;
 import Objects.Magazine;
 import Objects.MagazineCopy;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +70,6 @@ public class MagazineCopyRepo {
         return -1;
     }
 
-
     public List<MagazineCopy> getMagazineCopiesByMagazineId(int id) {
         PreparedStatement statement = null;
         List<MagazineCopy> magazineCopies = new ArrayList<>();
@@ -98,6 +94,29 @@ public class MagazineCopyRepo {
 
     public List<MagazineCopy> getMagazineCopiesByMagazine(Magazine magazine) {
         return getMagazineCopiesByMagazineId(magazine.getId());
+    }
+
+    public boolean addMagazineCopy(MagazineCopy magazineCopy) {
+        PreparedStatement statement;
+        try {
+            conn = DBConnection.getConnection();
+            statement = conn.prepareStatement("insert into magazines_copies (name, description, picture_path, path, date, magazine_id)" +
+                    "values(?,?,?,?,?,?)");
+            statement.setString(1, magazineCopy.getName());
+            statement.setString(2, magazineCopy.getDescription());
+            statement.setString(3, magazineCopy.getPicture_path());
+            statement.setString(4, magazineCopy.getPath());
+            statement.setTimestamp(5, new Timestamp(magazineCopy.getDate().getTime()));
+            statement.setInt(6, magazineCopy.getMagazine_id());
+
+            statement.executeUpdate();
+
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
 //    public MagazineCopy getConcreteMagazineCopy (MagazineCopy magazineCopy) {

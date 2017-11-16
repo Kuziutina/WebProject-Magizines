@@ -123,35 +123,35 @@
                 <div align="center">
                     <h2 class="modal_title">Добавить выпуск</h2>
                 </div>
-                <form class="form-review" id="create-copy" action="/create-magazine-copy">
+                <form class="form-review" id="create-copy" action="/create-magazine-copy/${magazine.id}" method="post" enctype="multipart/form-data">
                     <fieldset>
                         <div class="form-group">
                             <div class="col-md-12">
-                                <input id="copy-name" type="text" class="form-control" placeholder="Название" required autofocus/>
+                                <input name="copy_title" id="copy-name" type="text" class="form-control" placeholder="Название" required autofocus/>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-md-12">
-                                <textarea id="copy-description" title="Описание" required class="form-control"
+                                <textarea name="copy_description" id="copy-description" title="Описание" required class="form-control"
                                           rows="7" placeholder="Описание..."></textarea>
                             </div>
                         </div>
 
                         <div class="form-group" align="center">
                             <h5>Обложка</h5>
-                            <input type="file" id="cover">
+                            <input accept="image/*" name="cover" type="file" id="cover">
                         </div>
                         <div class="form-group" align="center">
                             <h5>Файл выпуска</h5>
-                            <input type="file" id="magazine_file">
+                            <input accept=".txt,.pdf,.doc,.docx,.fb2" name="magazine-file" type="file" id="magazine_file">
                         </div>
                     </fieldset>
                 </form>
             </div>
             <div class="form-group">
                 <div class="col-md-12">
-                    <button form="create-copy" class="btn btn-lg btn-block purple-bg" type="button">
+                    <button form="create-copy" class="btn btn-lg btn-block purple-bg" type="button" onclick="create_issue()">
                         Добавить
                     </button>
                 </div>
@@ -159,6 +159,22 @@
         </div>
     </div>
 </div>
+
+<script>
+    var create_issue = function () {
+        var title = $("#copy-name").val();
+        var mag = $("#magazine_file").val();
+        if (title == "") {
+            alert("name empty");
+        }
+        else if(mag == "") {
+            alert("file empty");
+        }
+        else {
+            $("#create-copy").submit();
+        }
+    }
+</script>
 
 
 
@@ -223,8 +239,10 @@
             </#if>
         </ul>
     </div>
-    <button class="auth" id="write_review" onclick="showReview()">Оставить отзыв</button>
-    <button class="auth" id="add_issue">Добавить выпуск</button>
+    <#if user??>
+        <button class="auth" id="write_review" onclick="showReview()">Оставить отзыв</button>
+        <button class="auth" id="add_issue" onclick="showAddIssue()">Добавить выпуск</button>
+    </#if>
 
 </div>
 </body>

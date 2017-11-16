@@ -1,11 +1,12 @@
 package Objects;
 
-import java.util.Calendar;
+import java.util.Date;
+import java.util.Date;
 
 public class MagazineCopyReview {
     private int id;
     private String review;
-    private Calendar date;
+    private Date date;
     private int score;
     private int user_id;
     private int magazine_copy_id;
@@ -29,11 +30,11 @@ public class MagazineCopyReview {
         this.review = review;
     }
 
-    public Calendar getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(Calendar date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
