@@ -24,7 +24,7 @@
                     <fieldset>
                         <div class="form-group">
                             <div class="col-md-12">
-                                <textarea title="Отзыв" class="form-control" id="review_area"
+                                <textarea title="Отзыв" class="form-control" id="review_area_create"
                                           rows="7" placeholder="Оставьте отзыв..."></textarea>
                             </div>
                         </div>
@@ -48,7 +48,7 @@
             </div>
             <div class="form-group">
                 <div class="col-md-12">
-                    <button class="btn btn-lg btn-block purple-bg" data-dismiss="modal" type="submit">
+                    <button class="btn btn-lg btn-block purple-bg" type="button" onclick="create_review()">
                         Отправить
                     </button>
                 </div>
@@ -56,6 +56,69 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    var create_review = function () {
+        $("#error-score").html("");
+        console.log("i start create review");
+        console.log($("textarea#review_area_create").val());
+        var text = $("input[name='rating']:checked").val();
+        if (text == null) {
+            $("#error-score").append("please choose");
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "/ajax_magazine_review",
+                data: {
+                    "magazine_id": ${magazineCopy.id},
+                    "review": $("textarea#review_area_create").val(),
+                    "score": $("input[name='rating']:checked").val(),
+                    "copy" : 'true'
+                },
+                dataType: "json",
+                success: function (result) {
+
+                },
+                error: function (jqXHR, exception) {
+
+                    if (jqXHR.status === 0) {
+                        alert('Not connect.\n Verify Network.');
+                    } else if (jqXHR.status == 404) {
+                        alert('Requested page not found. [404]');
+                    } else if (jqXHR.status == 500) {
+                        alert('Internal Server Error [500].');
+                    } else if (exception === 'parsererror') {
+                        alert('Requested JSON parse failed.');
+                    } else if (exception === 'timeout') {
+                        alert('Time out error.');
+                    } else if (exception === 'abort') {
+                        alert('Ajax request aborted.');
+                    } else {
+                        alert('Uncaught Error.\n' + jqXHR.responseText);
+                    }
+                },
+            });
+
+            $("#reviews").append("<div class='review'>" +
+                    "<#if user??><a href='/user/${user.id}' class='review_author'>${user.name}</a></#if>" +
+                    "<p class='review_text'>"+$("#review_area_create").val()+"</p>" +
+                    "<fieldset class='review_rating'>" +
+                    "<label contenteditable='false'></label>" +
+                    "<label contenteditable='false' class='full'></label>" +
+                    "<label contenteditable='false' class='full checked'></label>" +
+                    "<label contenteditable='false' class='full checked'></label>" +
+                    "<label contenteditable='false' class='full checked'></label>" +
+                    "</fieldset></div>");
+            $("#review_area_create").val("");
+            $("#leave_review").hide();
+            console.log("i end");
+        }
+    }
+
+
+</script>
 
 <div id="content" align="center">
 
@@ -85,7 +148,7 @@
     </div>
 
     <button id="read_issue">Посмотреть выпуск</button>
-    <div class="review_list">
+    <div class="review_list" id="reviews">
     <#if !magazineCopy.reviews?? || magazineCopy.reviews?size == 0>
         <p>К данному журналу пока нет отзывов</p>
     <#else >

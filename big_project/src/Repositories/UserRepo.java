@@ -1,5 +1,6 @@
 package Repositories;
 
+import Objects.Magazine;
 import Objects.User;
 
 import java.sql.Connection;
@@ -312,6 +313,85 @@ public class UserRepo {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public boolean addSubscription(User user, int magazine_id) {
+        PreparedStatement statement;
+        try {
+            conn = DBConnection.getConnection();
+            statement = conn.prepareStatement("insert into subscriptions VALUES (?, ?)");
+            statement.setInt(1, user.getId());
+            statement.setInt(2, magazine_id);
+
+            statement.executeUpdate();
+
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public boolean deleteSubscription(User user, int magazine_id) {
+        PreparedStatement statement;
+        try {
+            conn = DBConnection.getConnection();
+            statement = conn.prepareStatement("delete from subscriptions where user_id = ? and magazine_id = ?");
+            statement.setInt(1, user.getId());
+            statement.setInt(2, magazine_id);
+
+            statement.executeUpdate();
+
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public boolean hasSubscription(User user, int magazine_id) {
+        PreparedStatement statement;
+        try {
+            conn = DBConnection.getConnection();
+            statement = conn.prepareStatement("select * from subscriptions where user_id = ? and magazine_id = ?");
+            statement.setInt(1, user.getId());
+            statement.setInt(2, magazine_id);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+
+    }
+
+    public List<Magazine> getSubscriptions(User user) {
+        PreparedStatement statement;
+        List<Magazine> magazines;
+        try {
+            magazines = new ArrayList<>();
+            conn = DBConnection.getConnection();
+            statement = conn.prepareStatement("select * from magazines join subscriptions on id = magazine_id where user_id = ?");
+            statement.setInt(1, user.getId());
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                magazines.add(new Magazine().newBuilder().setName(resultSet.getString("name")).setDescription(resultSet.getString("description"))
+                                            .setId(resultSet.getInt("id")).setPicture_path(resultSet.getString("picture_path")).build());
+            }
+            return magazines;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
     }
 
 }

@@ -1,7 +1,9 @@
 package AjaxServlet;
 
+import Objects.MagazineCopyReview;
 import Objects.MagazineReview;
 import Objects.User;
+import Repositories.MagazineCopyReviewRepo;
 import Repositories.MagazineReviewRepo;
 import org.json.JSONObject;
 
@@ -20,10 +22,18 @@ public class AjaxMagazineReviewServlet extends HttpServlet {
         String review = request.getParameter("review");
         User user = (User) request.getSession().getAttribute("current_user");
         int score = Integer.parseInt(request.getParameter("score"));
+        String copy = request.getParameter("copy");
 
-        MagazineReview magazineReview = new MagazineReview(review,new Date(System.currentTimeMillis()), score, user.getId(), magazine_id);
-        MagazineReviewRepo magazineReviewRepo = new MagazineReviewRepo();
-        magazineReviewRepo.addMagazineReview(magazineReview);
+        if (copy == null) {
+            MagazineReview magazineReview = new MagazineReview(review, new Date(System.currentTimeMillis()), score, user.getId(), magazine_id);
+            MagazineReviewRepo magazineReviewRepo = new MagazineReviewRepo();
+            magazineReviewRepo.addMagazineReview(magazineReview);
+        }
+        else {
+            MagazineCopyReview magazineCopyReview = new MagazineCopyReview(review, new Date(System.currentTimeMillis()), score, user.getId(), magazine_id);
+            MagazineCopyReviewRepo magazineCopyReviewRepo = new MagazineCopyReviewRepo();
+            magazineCopyReviewRepo.addMagazineCopyReview(magazineCopyReview);
+        }
 
         JSONObject jsonObject = new JSONObject();
 

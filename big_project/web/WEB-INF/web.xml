@@ -150,6 +150,7 @@
         <servlet-name>PersonalAccount</servlet-name>
         <servlet-name>Friends</servlet-name>
         <servlet-name>Magazine</servlet-name>
+        <servlet-name>MainServlet</servlet-name>
         <!--здесь калякаем все, в которых эт надо вызывать-->
     </filter-mapping>
     

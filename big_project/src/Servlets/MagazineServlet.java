@@ -6,6 +6,7 @@ import Objects.MagazineCopy;
 import Objects.User;
 import Repositories.MagazineCopyRepo;
 import Repositories.MagazineRepo;
+import Repositories.UserRepo;
 import com.sun.org.apache.regexp.internal.RE;
 import freemarker.template.TemplateException;
 
@@ -35,8 +36,16 @@ public class MagazineServlet extends HttpServlet {
             magazine.getCopies();
             magazine.getReviews();
             int score = (int) Math.round(magazine.getScore());
+            UserRepo userRepo = new UserRepo();
+            User user = (User) request.getSession().getAttribute("current_user");
+            if (user != null) {
+                objects.put("has", userRepo.hasSubscription(user, id));
+            }
+            else {
+                objects.put("has", false);
+            }
 
-            objects.put("user", request.getSession().getAttribute("current_user"));
+            objects.put("user", user);
             objects.put("magazine", magazine);
             objects.put("score", score);
 
@@ -51,6 +60,7 @@ public class MagazineServlet extends HttpServlet {
             int id = Integer.parseInt(path[2]);
             MagazineCopyRepo magazineCopyRepo = new MagazineCopyRepo();
             MagazineCopy magazineCopy = magazineCopyRepo.getMagazineCopyById(id);
+            magazineCopy.getReviews();
             User user = (User) request.getSession().getAttribute("current_user");
 
             objects.put("user", user);

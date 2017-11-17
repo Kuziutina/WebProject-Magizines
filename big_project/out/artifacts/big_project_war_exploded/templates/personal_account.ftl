@@ -33,7 +33,7 @@
             <a href="/edit"><button  id="user_settings">Настройки аккаунта</button></a>
         </div>
         <div>
-            <a href="#"><button href="#" id="my_subscriptions">Мои подписки</button></a>
+            <a href="/user/${user.id}/subscriptions"><buttonid="my_subscriptions">Мои подписки</button></a>
         </div>
         <div>
             <a href="/myfriends"><button id="my_friends">Мои друзья</button></a>
@@ -45,7 +45,7 @@
         <#else >
             <div class="user_profile">
                 <div><a class="username">${another_user.name}</a></div>
-                <div><a href="#"><button id="user_subscriptions">Подписки пользователя</button></a></div>
+                <div><a href="/user/${another_user.id}/subscriptions"><button id="user_subscriptions">Подписки пользователя</button></a></div>
                 <#if user??>
                 <div><a href="#"><button id="send_msg">Отправить сообщение</button></a></div>
                 <div><a href="#"><button id="send_msg">Добавить в друзья</button></a></div>

@@ -174,6 +174,53 @@
             $("#create-copy").submit();
         }
     }
+
+    var subscribe = function () {
+        var text = $("#subscription").text();
+        var has;
+        console.log("i start and has " + text);
+        if (text == 'Подписаться') {
+            has = true;
+            $("#subscription").text('Отписаться');
+        }
+        else {
+            has = false;
+            $("#subscription").text("Подписаться");
+        }
+        $.ajax({
+            type: "GET",
+            url: "/ajax_subscribe_servlet",
+            data: {
+                "magazine_id": ${magazine.id},
+                "has" : has
+            },
+            dataType: "json",
+            success: function (result) {
+
+            },
+            error: function (jqXHR, exception) {
+
+                if (jqXHR.status === 0) {
+                    alert('Not connect.\n Verify Network.');
+                } else if (jqXHR.status == 404) {
+                    alert('Requested page not found. [404]');
+                } else if (jqXHR.status == 500) {
+                    alert('Internal Server Error [500].');
+                } else if (exception === 'parsererror') {
+                    alert('Requested JSON parse failed.');
+                } else if (exception === 'timeout') {
+                    alert('Time out error.');
+                } else if (exception === 'abort') {
+                    alert('Ajax request aborted.');
+                } else {
+                    alert('Uncaught Error.\n' + jqXHR.responseText);
+                }
+            },
+        });
+
+        console.log("i end");
+
+    }
 </script>
 
 
@@ -204,6 +251,13 @@
             </div>
         </div>
     </div>
+    <#if user??>
+    <div class="row">
+    <div class="col-md-5 text-center">
+        <button type="button" onclick="subscribe()" id="subscription"><#if has>Отписаться<#else >Подписаться</#if></button>
+    </div>
+    </div>
+    </#if>
     <div class="horizontal_tab">
         <button class="tablink" id="onDefault" onclick="openTab(event,'reviews')">Отзывы</button>
         <button class="tablink" onclick="openTab(event, 'issues')">Выпуски</button>
@@ -234,7 +288,7 @@
                 <p> данном разделе пока нет журналов</p>
                 <#else >
             <#list magazine.copies as copy>
-                <li><a href="#">copy.name</a></li>
+                <li><a href="/magazine/${magazine.id}/${copy.id}">${copy.name}</a></li>
                 </#list>
             </#if>
         </ul>

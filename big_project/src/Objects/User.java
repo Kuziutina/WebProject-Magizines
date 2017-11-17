@@ -1,5 +1,7 @@
 package Objects;
 
+import Repositories.UserRepo;
+
 import java.util.List;
 
 public class User {
@@ -10,7 +12,7 @@ public class User {
     private String cookie_login;
     private String confirmation;
 
-    private List<Magazine> magazines;
+    private List<Magazine> subscriptions;
     private List<User> friends;
     private List<Letter> letters;
 
@@ -143,5 +145,17 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Magazine> getSubscriptions() {
+        if (subscriptions == null) {
+            UserRepo userRepo = new UserRepo();
+            subscriptions = userRepo.getSubscriptions(this);
+        }
+        return subscriptions;
+    }
+
+    public void setSubscriptions(List<Magazine> subscriptions) {
+        this.subscriptions = subscriptions;
     }
 }

@@ -1,5 +1,7 @@
 package Objects;
 
+import Repositories.MagazineCopyReviewRepo;
+
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +14,7 @@ public class MagazineCopy {
     private Date date;
     private int magazine_id;
     private int number;
+    private double score;
 
     private List<MagazineCopyReview> reviews;
     private Magazine magazine;
@@ -101,5 +104,26 @@ public class MagazineCopy {
 
     public void setMagazine_id(int magazine_id) {
         this.magazine_id = magazine_id;
+    }
+
+    public List<MagazineCopyReview> getReviews() {
+        if (reviews == null) {
+            MagazineCopyReviewRepo magazineCopyReviewRepo = new MagazineCopyReviewRepo();
+            reviews = magazineCopyReviewRepo.getMagazineCopyReview(this);
+        }
+        return reviews;
+    }
+
+    public void setReviews(List<MagazineCopyReview> reviews) {
+        this.reviews = reviews;
+    }
+
+    public double getScore() {
+        double summ = 0;
+        for (MagazineCopyReview magazineReview: this.getReviews()) {
+            summ += magazineReview.getScore();
+        }
+        score = summ/this.getReviews().size();
+        return score;
     }
 }
