@@ -14,7 +14,23 @@ import java.io.IOException;
 @WebServlet(name = "AjaxFriendServlet")
 public class AjaxFriendServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User user = (User) request.getSession().getAttribute("current_user");
+        String id = request.getParameter("friend_id");
+        String has = request.getParameter("has");
+        UserRepo userRepo = new UserRepo();
 
+        if (has.equals("true")) {
+            userRepo.addFriend(user, Integer.parseInt(id));
+        }
+        else {
+            userRepo.deleteFriend(user, Integer.parseInt(id));
+        }
+
+        JSONObject jsonObject = new JSONObject();
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/json");
+        response.getWriter().print(jsonObject.toString());
+        response.getWriter().close();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

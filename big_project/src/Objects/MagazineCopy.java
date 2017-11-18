@@ -15,6 +15,7 @@ public class MagazineCopy {
     private int magazine_id;
     private int number;
     private double score;
+    private String format_date;
 
     private List<MagazineCopyReview> reviews;
     private Magazine magazine;
@@ -116,6 +117,14 @@ public class MagazineCopy {
 
     public void setReviews(List<MagazineCopyReview> reviews) {
         this.reviews = reviews;
+    }
+
+    public String getFormat_date() {
+        return date.toString();
+    }
+
+    public void setFormat_date(String format_date) {
+        this.format_date = format_date;
     }
 
     public double getScore() {

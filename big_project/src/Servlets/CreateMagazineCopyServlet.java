@@ -23,6 +23,7 @@ import java.util.Date;
 @MultipartConfig
 public class CreateMagazineCopyServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         String title = request.getParameter("copy_title");
         String description = request.getParameter("copy_description");
         Part imagePart = request.getPart("cover");

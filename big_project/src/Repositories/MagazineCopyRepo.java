@@ -119,6 +119,28 @@ public class MagazineCopyRepo {
         return false;
     }
 
+    public List<MagazineCopy> getAllMagazineCopies(){
+        PreparedStatement statement = null;
+        List<MagazineCopy> magazineCopies;
+        try {
+            magazineCopies = new ArrayList<>();
+            conn = DBConnection.getConnection();
+            statement = conn.prepareStatement("select * from magazines_copies order by date");
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                magazineCopies.add(new MagazineCopy(resultSet.getInt("id"), resultSet.getString("name"),resultSet.getString("description"),
+                        resultSet.getString("picture_path"), resultSet.getString("path"),
+                        resultSet.getTimestamp("date"), resultSet.getInt("magazine_id")));///
+            }
+            return magazineCopies;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 //    public MagazineCopy getConcreteMagazineCopy (MagazineCopy magazineCopy) {
 //        PreparedStatement statement = null;
 //

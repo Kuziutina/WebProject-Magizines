@@ -1,8 +1,10 @@
 package Servlets;
 
 import Helper.Render;
+import Objects.Letter;
 import Objects.Magazine;
 import Objects.User;
+import Repositories.LetterRepo;
 import Repositories.UserRepo;
 import freemarker.template.TemplateException;
 
@@ -29,14 +31,16 @@ public class PersonalAccountServlet extends HttpServlet {
 
         UserRepo userRepo = new UserRepo();
         User another_user = userRepo.getEasyUserById(Integer.parseInt(id));
+        User user = (User) request.getSession().getAttribute("current_user");
 
         if (path.length == 2) {
             if (another_user == null) {
                 response.sendRedirect("/error");
             } else {
                 Map<String, Object> objects = new HashMap<>();
+                objects.put("has", user != null && userRepo.hasFriend(user, another_user.getId()));
                 objects.put("another_user", another_user);
-                objects.put("user", request.getSession().getAttribute("current_user"));
+                objects.put("user", user);
 
                 try {
                     Render.render(response, objects, "/personal_account.ftl");
@@ -45,7 +49,7 @@ public class PersonalAccountServlet extends HttpServlet {
                 }
             }
         }
-        else if (path.length == 3) {
+        else if (path.length == 3 && path[2].equals("subscriptions")) {
             String spage = request.getParameter("p");
             String scount = request.getParameter("showby");
             int page, count;
@@ -86,6 +90,27 @@ public class PersonalAccountServlet extends HttpServlet {
                 } catch (TemplateException e) {
                     e.printStackTrace();
                 }
+            }
+        }
+        else if (path.length == 3 && path[2].equals("conversation")) {
+            List<User> friends = userRepo.getFriends(user);
+            LetterRepo letterRepo = new LetterRepo();
+            List<User> conversations = letterRepo.getAllConversation(user);
+            List<Letter> letters = null;
+            if (conversations.size() != 0) {
+                letters = letterRepo.getConversation(user, conversations.get(0));
+            }
+
+            Map<String, Object> objects = new HashMap<>();
+            objects.put("user", user);
+            objects.put("friends", friends);
+            objects.put("convarsations", conversations);
+            objects.put("letters", letters);
+
+            try {
+                Render.render(response, objects, "my_conversation.ftl");
+            } catch (TemplateException e) {
+                e.printStackTrace();
             }
         }
 

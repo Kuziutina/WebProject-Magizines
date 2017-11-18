@@ -48,11 +48,58 @@
                 <div><a href="/user/${another_user.id}/subscriptions"><button id="user_subscriptions">Подписки пользователя</button></a></div>
                 <#if user??>
                 <div><a href="#"><button id="send_msg">Отправить сообщение</button></a></div>
-                <div><a href="#"><button id="send_msg">Добавить в друзья</button></a></div>
+                <div><a><button onclick="friend()" id="add_friend"><#if !has>Добавить в друзья<#else >Убрать из друзей</#if></button></a></div>
                 </#if>
             </div>
         </#if>
+<script>
+    var friend = function () {
+        var text = $("#add_friend").text();
+        var has;
+        console.log("i start and has " + text);
+        if (text == 'Добавить в друзья') {
+            has = true;
+            $("#add_friend").text('Убрать из друзей');
+        }
+        else {
+            has = false;
+            $("#add_friend").text("Добавить в друзья");
+        }
+        $.ajax({
+            type: "POST",
+            url: "/ajax_change_friend",
+            data: {
+                "friend_id": ${another_user.id},
+                "has" : has
+            },
+            dataType: "json",
+            success: function (result) {
 
+            },
+            error: function (jqXHR, exception) {
+
+                if (jqXHR.status === 0) {
+                    alert('Not connect.\n Verify Network.');
+                } else if (jqXHR.status == 404) {
+                    alert('Requested page not found. [404]');
+                } else if (jqXHR.status == 500) {
+                    alert('Internal Server Error [500].');
+                } else if (exception === 'parsererror') {
+                    alert('Requested JSON parse failed.');
+                } else if (exception === 'timeout') {
+                    alert('Time out error.');
+                } else if (exception === 'abort') {
+                    alert('Ajax request aborted.');
+                } else {
+                    alert('Uncaught Error.\n' + jqXHR.responseText);
+                }
+            },
+        });
+
+        console.log("i end");
+
+    }
+</script>
 
 
 

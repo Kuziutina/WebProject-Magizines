@@ -5,6 +5,7 @@ import Objects.MagazineCopy;
 import Objects.MagazineReview;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MagazineRepo {
@@ -113,6 +114,76 @@ public class MagazineRepo {
         return -1;
     }
 
+    public List<Magazine> getNewerMagazine(int n) {
+        List<Magazine> magazines;
+        PreparedStatement statement;
+        try {
+            magazines = new ArrayList<>();
+            conn = DBConnection.getConnection();
+            statement = conn.prepareStatement("select DISTINCT test.mag_id, test.name, test.description, test.picture_path from (select magazines.id as mag_id, magazines.name, magazines.description, magazines.picture_path, date from magazines join magazines_copies on magazines.id = magazines_copies.magazine_id order by date)  AS test limit(?)");
+            statement.setInt(1, n);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                magazines.add(new Magazine().newBuilder().setName(resultSet.getString("name")).setDescription(resultSet.getString("description"))
+                                            .setPicture_path(resultSet.getString("picture_path")).setId(resultSet.getInt("mag_id")).build());
+            }
+
+            return magazines;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public List<Magazine> getPopularMagazine(int n) {
+        List<Magazine> magazines;
+        PreparedStatement statement;
+        try {
+            magazines = new ArrayList<>();
+            conn = DBConnection.getConnection();
+            statement = conn.prepareStatement("select id, name, description, picture_path from magazines left join subscriptions on id = magazine_id group by id order by id desc limit(?)");
+            statement.setInt(1, n);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                magazines.add(new Magazine().newBuilder().setName(resultSet.getString("name")).setDescription(resultSet.getString("description"))
+                        .setPicture_path(resultSet.getString("picture_path")).setId(resultSet.getInt("id")).build());
+            }
+
+            return magazines;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public List<Magazine> getAllMagazines() {
+        List<Magazine> magazines;
+        PreparedStatement statement;
+        try {
+            magazines = new ArrayList<>();
+            conn = DBConnection.getConnection();
+            statement = conn.prepareStatement("select * from magazines order by name");
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                magazines.add(new Magazine().newBuilder().setName(resultSet.getString("name")).setDescription(resultSet.getString("description"))
+                        .setPicture_path(resultSet.getString("picture_path")).setId(resultSet.getInt("id")).build());
+            }
+
+            return magazines;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
 
 

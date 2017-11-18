@@ -168,6 +168,27 @@ public class UserRepo {
         return false;
     }
 
+    public boolean addFriend(User user, int friend_id) {
+        PreparedStatement statement;
+        try {
+            conn = DBConnection.getConnection();
+            statement = conn.prepareStatement("insert into friends VALUES (?, ?)");
+            statement.setInt(1, user.getId());
+            statement.setInt(2, friend_id);
+
+            statement.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+
+
     public User getUserByCookie(String cookie) {
         PreparedStatement statement;
         conn = DBConnection.getConnection();
@@ -358,6 +379,25 @@ public class UserRepo {
             statement = conn.prepareStatement("select * from subscriptions where user_id = ? and magazine_id = ?");
             statement.setInt(1, user.getId());
             statement.setInt(2, magazine_id);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+
+    }
+
+    public boolean hasFriend(User user, int friend_id) {
+        PreparedStatement statement;
+        try {
+            conn = DBConnection.getConnection();
+            statement = conn.prepareStatement("select * from friends where user_id = ? and friend_id = ?");
+            statement.setInt(1, user.getId());
+            statement.setInt(2, friend_id);
 
             ResultSet resultSet = statement.executeQuery();
 

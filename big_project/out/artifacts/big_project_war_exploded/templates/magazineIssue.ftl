@@ -130,6 +130,7 @@
             <img id="magazine_image" src="/load/${magazineCopy.picture_path}">
         </div>
 
+        <#--<embed src="/load/2.pdf" width="500" height="375" type='application/pdf'>-->
         <div class="col-md-5 order-md-2">
             <p id="magazine_descr">${magazineCopy.description}</p>
         </div>
@@ -147,7 +148,7 @@
         </div>
     </div>
 
-    <button id="read_issue">Посмотреть выпуск</button>
+    <button id="read_issue"><a href="/load/2.txt">Посмотреть выпуск</a></button>
     <div class="review_list" id="reviews">
     <#if !magazineCopy.reviews?? || magazineCopy.reviews?size == 0>
         <p>К данному журналу пока нет отзывов</p>
