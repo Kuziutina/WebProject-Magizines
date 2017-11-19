@@ -78,7 +78,7 @@ public class LetterRepo {
         return null;
     }
 
-    public List<Letter> getConversation(User sender, User recepinet) {
+    public List<Letter> getConversation(User sender, User recipient) {
         PreparedStatement statement;
         List<Letter> letters;
 
@@ -86,11 +86,11 @@ public class LetterRepo {
             conn = DBConnection.getConnection();
             letters = new ArrayList<>();
 
-            statement = conn.prepareStatement("select id, header, body, date from letters order by \"date\" ASC where " +
-                    "(sender_id = ? and recepient_id = ?) or (user_id = ? and recepient = ?)");
+            statement = conn.prepareStatement("select * from letters where " +
+                    "(sender_id = ? and recepient_id = ?) or (sender_id = ? and recepient_id = ?) order by date ASC");
             statement.setInt(1, sender.getId());
-            statement.setInt(2, recepinet.getId());
-            statement.setInt(3, recepinet.getId());
+            statement.setInt(2, recipient.getId());
+            statement.setInt(3, recipient.getId());
             statement.setInt(4, sender.getId());
 
             ResultSet resultSet = statement.executeQuery();
@@ -117,12 +117,37 @@ public class LetterRepo {
             statement = conn.prepareStatement("insert into letters(header, body, date, sender_id, recepient_id) values (?, ?, ?, ?, ?)");
             statement.setString(1, letter.getHeader());
             statement.setString(2, letter.getBody());
-            statement.setTimestamp(3, (Timestamp) letter.getDate());/////////////////////////voprooosishe
+            statement.setTimestamp(3, new Timestamp(letter.getDate().getTime()));/////////////////////////voprooosishe
 
             statement.setInt(4, letter.getSender_id());
             statement.setInt(5, letter.getRecepient_id());
 
+            statement.executeUpdate();
+
             return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public boolean hasConversation(User sender, int recipient_id) {
+        PreparedStatement statement;
+
+        try {
+            conn = DBConnection.getConnection();
+
+            statement = conn.prepareStatement("select id, header, body, date from letters  where " +
+                    "(sender_id = ? and recepient_id = ?) or (sender_id = ? and recepient_id = ?) order by date ASC");
+            statement.setInt(1, sender.getId());
+            statement.setInt(2, recipient_id);
+            statement.setInt(3, recipient_id);
+            statement.setInt(4, sender.getId());
+
+            ResultSet resultSet = statement.executeQuery();
+
+            return resultSet.next();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <#include "header_menu.ftl">
+<#include "stars.ftl">
 <html>
 <head>
     <meta charset="UTF-8" content="text/html">
@@ -137,18 +138,12 @@
         <div class="col-md-2 order-md-3">
             <div class="rating_bar" align="center">
                 <h3>Рейтинг</h3>
-                <fieldset class="rating">
-                    <label contenteditable="false" class="full checked"></label>
-                    <label contenteditable="false" class="full checked"></label>
-                    <label contenteditable="false" class="full checked"></label>
-                    <label contenteditable="false" class="full"></label>
-                    <label contenteditable="false" class="full"></label>
-                </fieldset>
+                <@stars count=magazineCopy.int_score></@stars>
             </div>
         </div>
     </div>
 
-    <button id="read_issue"><a href="/load/2.txt">Посмотреть выпуск</a></button>
+    <button id="read_issue"><a href="/magazine/${magazineCopy.magazine_id}/${magazineCopy.id}/read">Посмотреть выпуск</a></button>
     <div class="review_list" id="reviews">
     <#if !magazineCopy.reviews?? || magazineCopy.reviews?size == 0>
         <p>К данному журналу пока нет отзывов</p>
@@ -157,13 +152,7 @@
             <div class="review">
                 <a href="/user/${review.user_id}" class="review_author">${review.user.name}</a>
                 <p class="review_text">${review.review}</p>
-                <fieldset class="review_rating">
-                    <label contenteditable="false"></label>
-                    <label contenteditable="false" class="full"></label>
-                    <label contenteditable="false" class="full checked"></label>
-                    <label contenteditable="false" class="full checked"></label>
-                    <label contenteditable="false" class="full checked"></label>
-                </fieldset>
+                <@stars count=review.score></@stars>
             </div>
         </#list>
     </#if>

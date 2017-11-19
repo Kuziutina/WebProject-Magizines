@@ -11,7 +11,11 @@
 </head>
 <body>
 
-<@header_menu></@header_menu>
+<#if user?? && user.id = another_user.id>
+    <@header_menu five=true></@header_menu>
+<#else >
+    <@header_menu></@header_menu>
+</#if>
 
 <div id="content" align="center">
 
@@ -39,7 +43,7 @@
             <a href="/myfriends"><button id="my_friends">Мои друзья</button></a>
         </div>
         <div>
-            <a href="#"><button id="my_conversations">Мои беседы</button></a>
+            <a href="/conversation"><button id="my_conversations">Мои беседы</button></a>
         </div>
         </div>
         <#else >
@@ -47,7 +51,11 @@
                 <div><a class="username">${another_user.name}</a></div>
                 <div><a href="/user/${another_user.id}/subscriptions"><button id="user_subscriptions">Подписки пользователя</button></a></div>
                 <#if user??>
-                <div><a href="#"><button id="send_msg">Отправить сообщение</button></a></div>
+                <div>
+                    <form method="post" action="/conversation?an_id=${another_user.id}">
+                        <button type="submit">send</button>
+                    </form>
+                </div>
                 <div><a><button onclick="friend()" id="add_friend"><#if !has>Добавить в друзья<#else >Убрать из друзей</#if></button></a></div>
                 </#if>
             </div>

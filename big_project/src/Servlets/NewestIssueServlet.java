@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "NewestIssueServlet", urlPatterns = "/newest_issue")
+@WebServlet(name = "NewestIssueServlet", urlPatterns = "/newest_issues")
 public class NewestIssueServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

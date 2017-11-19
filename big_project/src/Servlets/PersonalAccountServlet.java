@@ -104,7 +104,7 @@ public class PersonalAccountServlet extends HttpServlet {
             Map<String, Object> objects = new HashMap<>();
             objects.put("user", user);
             objects.put("friends", friends);
-            objects.put("convarsations", conversations);
+            objects.put("conversations", conversations);
             objects.put("letters", letters);
 
             try {

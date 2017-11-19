@@ -1,5 +1,6 @@
 package Objects;
 
+import Repositories.MagazineCopyRepo;
 import Repositories.MagazineCopyReviewRepo;
 
 import java.util.Date;
@@ -16,6 +17,7 @@ public class MagazineCopy {
     private int number;
     private double score;
     private String format_date;
+    private int int_score;
 
     private List<MagazineCopyReview> reviews;
     private Magazine magazine;
@@ -128,11 +130,15 @@ public class MagazineCopy {
     }
 
     public double getScore() {
-        double summ = 0;
-        for (MagazineCopyReview magazineReview: this.getReviews()) {
-            summ += magazineReview.getScore();
-        }
-        score = summ/this.getReviews().size();
-        return score;
+        MagazineCopyRepo magazineCopyRepo = new MagazineCopyRepo();
+        return magazineCopyRepo.getMagazineCopyScore(this);
+    }
+
+    public int getInt_score() {
+        return (int) Math.round(getScore());
+    }
+
+    public void setInt_score(int int_score) {
+        this.int_score = int_score;
     }
 }

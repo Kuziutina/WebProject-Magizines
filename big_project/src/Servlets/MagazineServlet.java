@@ -72,6 +72,21 @@ public class MagazineServlet extends HttpServlet {
             }
 
         }
+        else if (path.length == 4) {
+            objects = new HashMap<>();
+            int id = Integer.parseInt(path[2]);
+            MagazineCopyRepo magazineCopyRepo = new MagazineCopyRepo();
+            MagazineCopy magazineCopy = magazineCopyRepo.getMagazineCopyById(id);
+            User user = (User) request.getSession().getAttribute("current_user");
+
+            objects.put("user", user);
+            objects.put("magazineIssue", magazineCopy);
+            try {
+                Render.render(response, objects, "/issue_read.ftl");
+            } catch (TemplateException e) {
+                e.printStackTrace();
+            }
+        }
 
 
     }

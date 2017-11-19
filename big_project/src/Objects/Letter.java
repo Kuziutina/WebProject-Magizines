@@ -1,5 +1,7 @@
 package Objects;
 
+import Repositories.UserRepo;
+
 import java.util.Date;
 import java.util.Date;
 
@@ -25,6 +27,15 @@ public class Letter {
         this.sender_id = sender_id;
         this.recepient_id = recepient_id;
     }
+
+    public Letter(String header, String body, Date date, int sender_id, int recepient_id) {
+        this.header = header;
+        this.body = body;
+        this.date = date;
+        this.sender_id = sender_id;
+        this.recepient_id = recepient_id;
+    }
+
 
     public int getId() {
         return id;
@@ -72,5 +83,13 @@ public class Letter {
 
     public void setRecepient_id(int recepient_id) {
         this.recepient_id = recepient_id;
+    }
+
+    public User getSender() {
+        if (sender == null) {
+            UserRepo userRepo = new UserRepo();
+            sender = userRepo.getUserById(sender_id);
+        }
+        return sender;
     }
 }

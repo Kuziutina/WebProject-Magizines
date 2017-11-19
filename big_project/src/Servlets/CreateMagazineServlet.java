@@ -32,8 +32,8 @@ public class CreateMagazineServlet extends HttpServlet {
         }
         else {
 
-            String fileName = GenerateString.generate() + "." + cover[1];
-            String path = "D:/project_images/";
+            String fileName = "project_images/" + GenerateString.generate() + "." + cover[1];
+            String path = "D:/";
             File uploads = new File(path);
             File file = new File(uploads, fileName);
 

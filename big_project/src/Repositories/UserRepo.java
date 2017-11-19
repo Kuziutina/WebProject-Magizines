@@ -187,8 +187,6 @@ public class UserRepo {
         return false;
     }
 
-
-
     public User getUserByCookie(String cookie) {
         PreparedStatement statement;
         conn = DBConnection.getConnection();
@@ -432,6 +430,30 @@ public class UserRepo {
 
         return null;
 
+    }
+
+    public List<User> getUserByPartName(String name) {
+        PreparedStatement statement;
+        conn = DBConnection.getConnection();
+        List<User> users;
+
+        try {
+            users = new ArrayList<>();
+            statement = conn.prepareStatement("select * FROM users where name like ?");
+            statement.setString(1, "%" + name + "%");
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                users.add(new User().newBuilder().setLogin(resultSet.getString("login")).setName(resultSet.getString("name"))
+                                    .setId(resultSet.getInt("id")).build());
+            }
+            return users;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 }

@@ -158,4 +158,22 @@ public class User {
     public void setSubscriptions(List<Magazine> subscriptions) {
         this.subscriptions = subscriptions;
     }
+
+    public void setLetters(List<Letter> letters) {
+        this.letters = letters;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (getClass() == obj.getClass()) {
+            User user = (User) obj;
+            return this.getId() == user.getId();
+        }
+        else {
+            return false;
+        }
+    }
+
+
+
 }

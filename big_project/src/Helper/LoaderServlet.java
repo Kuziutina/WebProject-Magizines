@@ -15,7 +15,7 @@ public class LoaderServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String filename = "D://project_images" + request.getPathInfo();
+        String filename = "D://" + request.getPathInfo();
 
         ServletContext sc = getServletContext();
 

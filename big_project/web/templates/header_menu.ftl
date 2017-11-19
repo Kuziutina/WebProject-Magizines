@@ -1,4 +1,4 @@
-<#macro header_menu>
+<#macro header_menu one=false two=false three=false four=false five=false six=false>
 
 
 
@@ -381,25 +381,25 @@
             <button id="sign_in_btn" onclick="showSignIn()">Войти</button>
             <button id="sign_up_btn" onclick="showSignUp()">Регистрация</button>
         </#if>
-        <form name="search" action="....." method="get">
-            <input type="text" name="q" placeholder="Поиск">
+        <form name="search" action="/search" method="get">
+            <input type="text" name="query" placeholder="Поиск">
             <button type="submit">Искать</button>
         </form>
     </div>
-    <a href="/" name="logo"><img src=/images/magazines.png alt="SiteName logo"></a>
+    <a href="/main" name="logo"><img src=/images/magazines.png alt="SiteName logo"></a>
 </header>
 <nav>
     <ul class="top-menu">
-        <li><a href="/">Главная Страница</a></li>
-        <li><a href="/magazines">Журналы</a></li>
-        <li><a href="/newest_issues">Последние выпуски</a></li>
+        <li class="<#if one>active </#if>"><a href="/main">Главная Страница</a></li>
+        <li class="<#if two>active </#if>"><a href="/magazines">Журналы</a></li>
+        <li class="<#if three>active </#if>"><a href="/newest_issues">Последние выпуски</a></li>
 
         <#if user??>
             <!-- Класс auth отображаются только у авторизованного юзера-->
-            <li class="auth"><span class="add_magazine" onclick="showAddMagazine()">Добавить журнал</span></li>
-            <li class="auth"><a href="/user/${user.id}">Личный кабинет</a></li>
+            <li class="<#if four>active </#if>auth"><span class="add_magazine" onclick="showAddMagazine()">Добавить журнал</span></li>
+            <li class="<#if five>active </#if>auth"><a href="/user/${user.id}">Личный кабинет</a></li>
         </#if>
-        <li class="active">О сайте</li>
+        <li class="<#if six>active </#if>"><a href="/about" >О сайте</a></li>
     </ul>
 </nav>
 </#macro>

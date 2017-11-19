@@ -1,6 +1,7 @@
 package Objects;
 
 import Repositories.MagazineCopyRepo;
+import Repositories.MagazineRepo;
 import Repositories.MagazineReviewRepo;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class Magazine {
     private String picture_path;
     private String path;
     private double score;
+    private int int_score;
 
     private List<User> subscribers;
     private List<MagazineCopy> copies;
@@ -79,12 +81,9 @@ public class Magazine {
     }
 
     public double getScore() {
-        double summ = 0;
-        for (MagazineReview magazineReview: this.getReviews()) {
-            summ += magazineReview.getScore();
-        }
-        score = summ/this.getReviews().size();
-        return score;
+
+        MagazineRepo magazineRepo = new MagazineRepo();
+        return magazineRepo.getMagazineScore(this);
     }
 
     public void setScore(double score) {
@@ -137,5 +136,13 @@ public class Magazine {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public int getInt_score() {
+        return (int) Math.round(getScore());
+    }
+
+    public void setInt_score(int int_score) {
+        this.int_score = int_score;
     }
 }

@@ -42,8 +42,8 @@ public class CreateMagazineCopyServlet extends HttpServlet {
         }
         else {
 
-            String fileName = GenerateString.generate() + "." + cover[1];
-            String path = "D:/project_images/";
+            String fileName = "project_images/" + GenerateString.generate() + "." + cover[1];
+            String path = "D:/";
             File file = new File(new File(path), fileName);
 
             try (InputStream input = imagePart.getInputStream()) {
@@ -56,8 +56,8 @@ public class CreateMagazineCopyServlet extends HttpServlet {
         }
 
 
-        String fileMagazineName = GenerateString.generate() + "." + extension;
-        String path = "D:/project_documents/";
+        String fileMagazineName = "project_documents/" + GenerateString.generate() + "." + extension;
+        String path = "D:/";
         File file = new File(new File(path), fileMagazineName);
 
         try (InputStream input = magazinePart.getInputStream()) {

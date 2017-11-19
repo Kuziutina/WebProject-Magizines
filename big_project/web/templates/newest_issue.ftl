@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <#include "header_menu.ftl">
+<#include "stars.ftl">
 <html>
 <head>
     <meta charset="UTF-8" content="text/html">
@@ -11,7 +12,7 @@
 </head>
 <body>
 
-<@header_menu></@header_menu>
+<@header_menu three=true></@header_menu>
 
 <div id="content" align="center">
 
@@ -20,10 +21,10 @@
     </div>
     <div align="center">
         <ul class="list_limiter">
-            <li><a id="show-20" href="/newest_issue?page=${page}&showby=20">20</a></li>
-            <li><a id="show-40" href="/newest_issue?page=${page}&showby=40">40</a></li>
-            <li><a id="show-100" href="/newest_issue?page=${page}&showby=60">100</a></li>
-            <li><a id="show-all" href="/newest_issue?page=${page}&showby=all">все</a></li>
+            <li><a id="show-20" href="/newest_issues?page=${page}&showby=20">20</a></li>
+            <li><a id="show-40" href="/newest_issues?page=${page}&showby=40">40</a></li>
+            <li><a id="show-100" href="/newest_issues?page=${page}&showby=60">100</a></li>
+            <li><a id="show-all" href="/newest_issues?page=${page}&showby=all">все</a></li>
         </ul>
     </div>
     <div id="result_list">
@@ -35,13 +36,7 @@
             </a>
             <div class="text-date">${sub.format_date}</div>
             <div class="rating_bar">
-                <fieldset class="rating">
-                    <label contenteditable="false" class="full checked"></label>
-                    <label contenteditable="false" class="full checked"></label>
-                    <label contenteditable="false" class="full checked"></label>
-                    <label contenteditable="false" class="full"></label>
-                    <label contenteditable="false" class="full"></label>
-                </fieldset>
+                <@stars count=sub.int_score></@stars>
             </div>
             <!-- Дополнительные элементы списка тут-->
         </div>
@@ -49,7 +44,7 @@
     </div>
     <div>
     <#list 1..max_count as i>
-        <li><a href="/newest_issue?page=${i}&showby=${count}"> ${i} </a></li>
+        <li><a href="/newest_issues?page=${i}&showby=${count}"> ${i} </a></li>
     </#list>
     </div>
 </div>

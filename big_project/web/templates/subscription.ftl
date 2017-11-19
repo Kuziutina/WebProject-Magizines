@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <#include "header_menu.ftl">
+<#include "stars.ftl">
 <html>
 <head>
     <meta charset="UTF-8" content="text/html">
@@ -41,13 +42,7 @@
                     <img class="result_img" src="/load/${sub.picture_path}">
                 </a>
                 <div class="rating_bar" align="center">
-                    <fieldset class="rating">
-                        <label contenteditable="false" class="full checked"></label>
-                        <label contenteditable="false" class="full checked"></label>
-                        <label contenteditable="false" class="full checked"></label>
-                        <label contenteditable="false" class="full"></label>
-                        <label contenteditable="false" class="full"></label>
-                    </fieldset>
+                    <@stars count=sub.int_score></@stars>
                 </div>
             </div>
         </#list>

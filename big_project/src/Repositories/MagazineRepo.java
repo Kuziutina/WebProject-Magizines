@@ -185,6 +185,29 @@ public class MagazineRepo {
         return null;
     }
 
+    public List<Magazine> getMagazineByPartName (String name) {
+        List<Magazine> magazines;
+        PreparedStatement statement;
+        try {
+            magazines = new ArrayList<>();
+            conn = DBConnection.getConnection();
+            statement = conn.prepareStatement("select * from magazines where name LIKE ? order by name");
+            statement.setString(1, "%" + name + "%");
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                magazines.add(new Magazine().newBuilder().setName(resultSet.getString("name")).setDescription(resultSet.getString("description"))
+                        .setPicture_path(resultSet.getString("picture_path")).setId(resultSet.getInt("id")).build());
+            }
+
+            return magazines;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 
 
 

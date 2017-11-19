@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<@header_menu></@header_menu>
+<@header_menu one=true></@header_menu>
 
 <div id="content" align="center">
     <div id="heading">

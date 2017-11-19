@@ -141,6 +141,23 @@ public class MagazineCopyRepo {
         return null;
     }
 
+    public double getMagazineCopyScore(MagazineCopy magazineCopy) {
+        PreparedStatement statement;
+        try {
+            conn = DBConnection.getConnection();
+            statement = conn.prepareStatement("select AVG(score) from magazines_copies_reviews where magazine_copy_id = ?");
+            statement.setInt(1, magazineCopy.getId());
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next())
+                return resultSet.getDouble("avg");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
 //    public MagazineCopy getConcreteMagazineCopy (MagazineCopy magazineCopy) {
 //        PreparedStatement statement = null;
 //

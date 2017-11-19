@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <#include "header_menu.ftl">
+<#include "stars.ftl">
 <html>
 <head>
     <meta charset="UTF-8" content="text/html">
@@ -11,7 +12,7 @@
 </head>
 <body>
 
-<@header_menu></@header_menu>
+<@header_menu two=true></@header_menu>
 
 <div id="content" align="center">
 
@@ -33,15 +34,12 @@
             <a href="/magazine/${sub.id}" class="thumbnail">
                 <img class="result_img" src="/load/${sub.picture_path}">
             </a>
-            <div class="rating_bar" align="center">
-                <fieldset class="rating">
-                    <label contenteditable="false" class="full checked"></label>
-                    <label contenteditable="false" class="full checked"></label>
-                    <label contenteditable="false" class="full checked"></label>
-                    <label contenteditable="false" class="full"></label>
-                    <label contenteditable="false" class="full"></label>
-                </fieldset>
-            </div>
+        <div class="rating_bar" align="center">
+            <@stars count=sub.int_score></@stars>
+        </div>
+
+
+
         </div>
     </#list>
     </div>
