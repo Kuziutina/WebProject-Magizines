@@ -3,6 +3,7 @@ package Servlets;
 import Helper.GenerateString;
 import Objects.Magazine;
 import Objects.MagazineCopy;
+import Objects.User;
 import Repositories.MagazineCopyRepo;
 import Repositories.MagazineRepo;
 
@@ -23,6 +24,8 @@ import java.util.Date;
 @MultipartConfig
 public class CreateMagazineCopyServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
         request.setCharacterEncoding("UTF-8");
         String title = request.getParameter("copy_title");
         String description = request.getParameter("copy_description");
@@ -38,7 +41,7 @@ public class CreateMagazineCopyServlet extends HttpServlet {
         magazineCopy.setDate(new Date(System.currentTimeMillis()));
         magazineCopy.setMagazine_id(Integer.parseInt(magazineId));
         if (!cover[0].equals("image")) {
-            magazineCopy.setPicture_path("default.png");
+            magazineCopy.setPicture_path("project_images/default.png");
         }
         else {
 

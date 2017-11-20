@@ -101,22 +101,21 @@ public class UserRepo {
         return null;
     }
 
-    public List<User> getUsersByNamePart(String name_part) {
+    public User getUsersByName(String name) {
         PreparedStatement statement;
         conn = DBConnection.getConnection();
         List<User> users;
 
         try {
             users = new ArrayList<>();
-            statement = conn.prepareStatement("select id, name FROM users where name like ?");
-            statement.setString(1, "%" + name_part + "%");
+            statement = conn.prepareStatement("select id, name FROM users where name = ?");
+            statement.setString(1, name);
 
             ResultSet resultSet = statement.executeQuery();
 
-            while (resultSet.next()) {
-                users.add(new User(resultSet.getInt("id"), resultSet.getString("name")));
+            if (resultSet.next()) {
+                return new User(resultSet.getInt("id"), resultSet.getString("name"));
             }
-            return users;
         } catch (SQLException e) {
             e.printStackTrace();
         }

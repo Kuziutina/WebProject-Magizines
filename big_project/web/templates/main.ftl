@@ -24,6 +24,7 @@
     <#if user??>
     <div class="container">
         <div id="subscribes" class="carousel slide">
+            <#if user.subscriptions?size != 0>
             <ol class="carousel-indicators">
                 <li class="active" data-target="#subscribes" data-slide-to="0"></li>
                 <#if 0 < count>
@@ -32,10 +33,15 @@
                 </#list>
                 </#if>
             </ol>
+                </#if>
 
             <div class="featurette-heading">
                 <p>Ваши подписки</p>
             </div>
+
+            <#if user.subscriptions?size == 0>
+                <p class="text-center">К сожалению, вы пока ни на что не подписаны</p>
+            <#else >
 
             <div class="carousel-inner">
                 <div class="carousel-item active">
@@ -69,6 +75,7 @@
                 </#list>
                 </#if>
             </div>
+            </#if>
             <#if 0 < count>
             <a data-slide="prev" href="#subscribes" class="carousel-control-prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -196,7 +203,7 @@
                     </#list>
                 </#if>
             </div>
-        <#if 0 < count_pop + 3>
+        <#if 0 < count_pop - 1>
             <a data-slide="prev" href="#popular_magazines" class="carousel-control-prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             </a>

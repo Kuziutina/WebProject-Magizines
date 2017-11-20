@@ -23,6 +23,7 @@ public class FriendsServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute("current_user");
+
         UserRepo userRepo = new UserRepo();
         List<User> friends = userRepo.getFriends(user);
         Map<String, Object> objects = new HashMap<>();

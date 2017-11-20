@@ -21,6 +21,7 @@ import java.nio.file.Paths;
 @MultipartConfig
 public class CreateMagazineServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         request.setCharacterEncoding("UTF-8");
         String title = request.getParameter("title");
         String description = request.getParameter("description");
@@ -28,7 +29,7 @@ public class CreateMagazineServlet extends HttpServlet {
         String cover[] = imagePart.getContentType().split("/");
         Magazine magazine = new Magazine().newBuilder().setName(title).setDescription(description).build();
         if (!cover[0].equals("image")) {
-            magazine.setPicture_path("default.png");
+            magazine.setPicture_path("project_images/default.png");
         }
         else {
 

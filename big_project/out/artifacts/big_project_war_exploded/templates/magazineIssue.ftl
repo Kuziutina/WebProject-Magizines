@@ -102,18 +102,22 @@
                 },
             });
 
-            $("#reviews").append("<div class='review'>" +
+            var mes_result = "<div class='review'>" +
                     "<#if user??><a href='/user/${user.id}' class='review_author'>${user.name}</a></#if>" +
                     "<p class='review_text'>"+$("#review_area_create").val()+"</p>" +
-                    "<fieldset class='review_rating'>" +
-                    "<label contenteditable='false'></label>" +
-                    "<label contenteditable='false' class='full'></label>" +
-                    "<label contenteditable='false' class='full checked'></label>" +
-                    "<label contenteditable='false' class='full checked'></label>" +
-                    "<label contenteditable='false' class='full checked'></label>" +
-                    "</fieldset></div>");
-            $("#review_area_create").val("");
-            $("#leave_review").hide();
+                    "<fieldset class='review_rating'>";
+
+            for (var i = 1; i <= parseInt(text, 10); i++) {
+                mes_result += "<label contenteditable='false' class='full checked'></label>";
+            }
+            for (var j = 5 - parseInt(text, 10); j > 0; j--) {
+                mes_result +="<label contenteditable='false' class='full '></label>";
+            }
+
+            $("#reviews").append(mes_result + "</fielset></div>");
+
+            console.log("i end");
+            $("#leave_review").modal('hide');
             console.log("i end");
         }
     }

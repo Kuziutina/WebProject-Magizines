@@ -18,8 +18,8 @@
     <div align="center" id="search_bar">
         <form name="search" action="/search" method="get">
             <input type="text" name="query" value="<#if query??>${query}</#if>" placeholder="Поиск" class="col-md-7">
-            <input type="radio" name="object" value="magazine" id="mag" checked><label for="mag">Magazine</label>
-            <input type="radio" name="object" value="people" id="peo"><label for="peo">People</label>
+            <input type="radio" name="object" value="magazine" id="mag" <#if !people??>checked</#if><label for="mag">Magazine</label>
+            <input type="radio" name="object" value="people" id="peo" <#if people??>checked</#if>><label for="peo">People</label>
             <button type="submit">Искать</button>
         </form>
     </div>

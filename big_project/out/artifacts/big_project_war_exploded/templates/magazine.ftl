@@ -30,7 +30,7 @@
                             </div>
                         </div>
                         <div class="form-group" align="center">
-                            <div id="error-score"></div>
+                            <div id="error-score" class="error_box"></div>
                             <a>Поставьте оценку:</a>
                             <fieldset class="rating_vote">
                                 <input type="radio" id="star5" name="rating" value="5"/><label class="full"
@@ -101,17 +101,22 @@
                 },
             });
 
-            $("#reviews").append("<div class='review'>" +
+            var mes_result = "<div class='review'>" +
                     "<#if user??><a href='/user/${user.id}' class='review_author'>${user.name}</a></#if>" +
                     "<p class='review_text'>"+$("#review_area_create").val()+"</p>" +
-                    "<fieldset class='review_rating'>" +
-                    "<label contenteditable='false'></label>" +
-                    "<label contenteditable='false' class='full'></label>" +
-                    "<label contenteditable='false' class='full checked'></label>" +
-                    "<label contenteditable='false' class='full checked'></label>" +
-                    "<label contenteditable='false' class='full checked'></label>" +
-                    "</fieldset></div>");
+                    "<fieldset class='review_rating'>";
+
+            for (var i = 1; i <= parseInt(text, 10); i++) {
+                mes_result += "<label contenteditable='false' class='full checked'></label>";
+            }
+            for (var j = 5 - parseInt(text, 10); j > 0; j--) {
+                mes_result +="<label contenteditable='false' class='full '></label>";
+            }
+
+            $("#reviews").append(mes_result + "</fielset></div>");
+
             console.log("i end");
+            $("#leave_review").modal('hide');
         }
     }
 
@@ -166,10 +171,10 @@
         var title = $("#copy-name").val();
         var mag = $("#magazine_file").val();
         if (title == "") {
-            alert("name empty");
+            alert("Пустое название файла недопустимо. Пожалуйста, введите название.");
         }
         else if(mag == "") {
-            alert("file empty");
+            alert("Файл не выбран. Пожалуйста, веберете файл.");
         }
         else {
             $("#create-copy").submit();
@@ -257,6 +262,11 @@
         <button class="tablink" id="onDefault" onclick="openTab(event,'reviews')">Отзывы</button>
         <button class="tablink" onclick="openTab(event, 'issues')">Выпуски</button>
     </div>
+    <script>
+
+        document.getElementById("onDefault").click();
+
+    </script>
     <div class="tabcontent" id="reviews">
         <#if magazine.reviews?size == 0>
             <p>К данному журналу пока нет отзывов</p>
@@ -274,7 +284,7 @@
     <div class="tabcontent" id="issues">
         <ul id="issue_list">
             <#if magazine.copies?size == 0>
-                <p> данном разделе пока нет журналов</p>
+                <p class="text-center">В данном разделе пока нет журналов</p>
                 <#else >
             <#list magazine.copies as copy>
                 <li><a href="/magazine/${magazine.id}/${copy.id}">${copy.name}</a></li>
@@ -294,6 +304,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
     <script src="/js/bootstrap.js"></script>
     <script src="/js/horizontal_tab.js"></script>
+    <script>
+        document.getElementById("onDefault").click();
+    </script>
     <script src="/js/module_wind.js"></script>
 </footer>
 </html>

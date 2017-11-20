@@ -22,6 +22,7 @@ public class ChangeAccountServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         User user = (User) request.getSession().getAttribute("current_user");
+
         Map<String, Object> objects = new HashMap<>();
         objects.put("user", user);
 

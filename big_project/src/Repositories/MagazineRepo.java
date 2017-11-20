@@ -120,7 +120,7 @@ public class MagazineRepo {
         try {
             magazines = new ArrayList<>();
             conn = DBConnection.getConnection();
-            statement = conn.prepareStatement("select DISTINCT test.mag_id, test.name, test.description, test.picture_path from (select magazines.id as mag_id, magazines.name, magazines.description, magazines.picture_path, date from magazines join magazines_copies on magazines.id = magazines_copies.magazine_id order by date)  AS test limit(?)");
+            statement = conn.prepareStatement("select DISTINCT test.mag_id, test.name, test.description, test.picture_path from (select magazines.id as mag_id, magazines.name, magazines.description, magazines.picture_path, date from magazines join magazines_copies on magazines.id = magazines_copies.magazine_id order by date ASC ) AS test limit(?)");
             statement.setInt(1, n);
 
             ResultSet resultSet = statement.executeQuery();
@@ -144,7 +144,7 @@ public class MagazineRepo {
         try {
             magazines = new ArrayList<>();
             conn = DBConnection.getConnection();
-            statement = conn.prepareStatement("select id, name, description, picture_path from magazines left join subscriptions on id = magazine_id group by id order by id desc limit(?)");
+            statement = conn.prepareStatement("select id, name, description, picture_path from magazines left join subscriptions on id = magazine_id group by id order by id ASC limit(?)");
             statement.setInt(1, n);
 
             ResultSet resultSet = statement.executeQuery();

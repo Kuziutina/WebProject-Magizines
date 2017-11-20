@@ -201,6 +201,9 @@
                     if (result.email_used != null) {
                         $("#empty_email").html("").append("<p>Данная почта уже используется</p>");
                     }
+                    else if (result.username_used != null) {
+                        $("#empty_username").html("").append("<p>Данное имя уже используется</p>")
+                    }
                     else {
                         window.location.reload();
                     }
@@ -353,12 +356,12 @@
                   </form>
             </div>
             <div class="form-group">
-                <div class="col-md-12">
+                <div class="col-md-12 text-center">
                 <#--<button form="create" class="btn btn-lg btn-block purple-bg" type="submit">-->
                 <#--Добавить-->
                 <#--</button>-->
 
-                    <input form="create" type="submit" value="ok">
+                    <input form="create" type="submit" value="Добавить">
                 </div>
 
             </div>
@@ -367,7 +370,7 @@
 </div>
     <#if user??>
         <#if user.confirmation != "">
-        <div><p>Please podtverdite email</p></div>
+        <div><p class="error_box text-center">Пожалуйста, подтвердите вашу почту</p></div>
         </#if>
     </#if>
 <header>

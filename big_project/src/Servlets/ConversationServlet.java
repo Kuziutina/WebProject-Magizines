@@ -22,6 +22,7 @@ import java.util.Map;
 public class ConversationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute("current_user");
+
         UserRepo userRepo = new UserRepo();
         int another_id = Integer.parseInt(request.getParameter("an_id"));
 
@@ -30,7 +31,13 @@ public class ConversationServlet extends HttpServlet {
         LetterRepo letterRepo = new LetterRepo();
         List<User> conversations = letterRepo.getAllConversation(user);
 
-        friends.removeAll(conversations);
+//        friends.removeAll(conversations);
+        List<User> low = new ArrayList<>();
+        low.addAll(friends);
+        low.retainAll(conversations);
+        friends.addAll(conversations);
+        friends.removeAll(low);
+        friends.addAll(low);
         friends.remove(another_user);
 
 
@@ -56,6 +63,7 @@ public class ConversationServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute("current_user");
+
         UserRepo userRepo = new UserRepo();
         List<List<Letter>> letters = new ArrayList<>();
 
@@ -69,7 +77,13 @@ public class ConversationServlet extends HttpServlet {
 //                }
 //            }
 //        }
-        friends.removeAll(conversations);
+
+        List<User> low = new ArrayList<>();
+        low.addAll(friends);
+        low.retainAll(conversations);
+        friends.addAll(conversations);
+        friends.removeAll(low);
+        friends.addAll(low);
 
         for (User conver: conversations) {
             letters.add(letterRepo.getConversation(user, conver));

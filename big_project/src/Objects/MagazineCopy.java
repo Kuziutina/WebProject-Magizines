@@ -3,8 +3,11 @@ package Objects;
 import Repositories.MagazineCopyRepo;
 import Repositories.MagazineCopyReviewRepo;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MagazineCopy {
     private int id;
@@ -122,7 +125,25 @@ public class MagazineCopy {
     }
 
     public String getFormat_date() {
-        return date.toString();
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(new SimpleDateFormat("dd", Locale.US).format(date));
+        String m = new SimpleDateFormat("MM", Locale.US).format(date);
+        switch (m) {
+            case "12": stringBuilder.append(" декабря, ");break;
+            case "11": stringBuilder.append(" ноября, ");break;
+            case "10": stringBuilder.append(" октября, ");break;
+            case "9": stringBuilder.append(" сентября, ");break;
+            case "8": stringBuilder.append(" августа, ");break;
+            case "7": stringBuilder.append(" июля, ");break;
+            case "6": stringBuilder.append(" июня, ");break;
+            case "5": stringBuilder.append(" мая, ");break;
+            case "4": stringBuilder.append(" апреля, ");break;
+            case "3": stringBuilder.append(" марта, ");break;
+            case "2": stringBuilder.append(" февраля, ");break;
+            case "1": stringBuilder.append(" января, ");break;
+        }
+        stringBuilder.append(new SimpleDateFormat("yyyy", Locale.US).format(date));
+        return stringBuilder.toString();
     }
 
     public void setFormat_date(String format_date) {

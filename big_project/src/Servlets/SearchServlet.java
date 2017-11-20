@@ -71,7 +71,9 @@ public class SearchServlet extends HttpServlet {
             UserRepo userRepo = new UserRepo();
             List<User> users = userRepo.getUserByPartName(query);
 
+            objects.put("query", query);
             objects.put("users", users);
+            objects.put("people", true);
         }
 
         try {

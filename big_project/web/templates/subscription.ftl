@@ -24,6 +24,9 @@
         </#if>
 
     </div>
+<#if another_user.subscriptions?size == 0>
+    <p>На данный момент подписок нет</p>
+<#else >
     <div align="center">
         <ul class="list_limiter">
             <li><a id="show-20" href="/user/${another_user.id}/subscription?page=${page}&showby=20">20</a></li>
@@ -33,6 +36,8 @@
         </ul>
     </div>
     <div id="result_list">
+
+
 
 
         <#list another_user.subscriptions as sub>
@@ -53,6 +58,7 @@
             <li><a href="/user/${another_user.id}/subscription?page=${i}&showby=${count}"> ${i} </a></li>
         </#list>
     </div>
+</#if>
 
 </div>
 </body>

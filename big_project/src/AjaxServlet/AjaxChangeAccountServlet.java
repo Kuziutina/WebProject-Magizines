@@ -1,5 +1,6 @@
 package AjaxServlet;
 
+import Helper.MD5Hash;
 import Helper.SenderEmail;
 import Objects.User;
 import Repositories.UserRepo;
@@ -28,8 +29,13 @@ public class AjaxChangeAccountServlet extends HttpServlet {
         User user = (User) request.getSession().getAttribute("current_user");
 
         if (username != null && username != "") {
-            userRepo.updateUserUsername(user, username);
-            user.setName(username);
+            if (userRepo.getUsersByName(username) != null) {
+                userRepo.updateUserUsername(user, username);
+                user.setName(username);
+            }
+            else {
+                jsonObject.put("username_used", "");
+            }
         }
         else if (email != null && email != "") {
             if (userRepo.getUserByLogin(email) != null) {
@@ -37,7 +43,7 @@ public class AjaxChangeAccountServlet extends HttpServlet {
             }
             else {
                 change_email = true;
-                confirmation = String.valueOf(java.util.UUID.randomUUID());
+                confirmation = "";
                 userRepo.updateUserConfirmation(user, confirmation);
                 userRepo.updateUserLogin(user, email);
                 user.setConfirmation(confirmation);
@@ -45,10 +51,11 @@ public class AjaxChangeAccountServlet extends HttpServlet {
             }
         }
         else if (newPassword != null && newPassword != "") {
-            if (!user.getPassword().equals(lastPassword)) {
+            if (!user.getPassword().equals(MD5Hash.getHash(lastPassword))) {
                 jsonObject.put("errors", true);
             }
             else {
+                newPassword = MD5Hash.getHash(newPassword);
                 userRepo.updateUserPassword(user, newPassword);
                 user.setPassword(newPassword);
             }
@@ -62,10 +69,10 @@ public class AjaxChangeAccountServlet extends HttpServlet {
         response.getWriter().print(jsonObject.toString());
         response.getWriter().close();
 
-        if (change_email) {
-            SenderEmail senderEmail = new SenderEmail("localhost:8080/confirmation/" + confirmation, email);
-            senderEmail.run();
-        }
+//        if (change_email) {
+//            SenderEmail senderEmail = new SenderEmail("localhost:8080/confirmation/" + confirmation, email);
+//            senderEmail.run();
+//        }
 
     }
 

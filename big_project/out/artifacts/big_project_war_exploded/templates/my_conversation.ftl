@@ -28,9 +28,9 @@
                         <#else >
                     <option value="-1"></option>
                         </#if>
-                    <#list conversations as con>
-                    <option value="${con.id}">${con.name}</option>
-                    </#list>
+                    <#--<#list conversations as con>-->
+                    <#--<option value="${con.id}">${con.name}</option>-->
+                    <#--</#list>-->
                     <#list friends as friend>
                         <option value="${friend.id}">${friend.name}</option>
                     </#list>

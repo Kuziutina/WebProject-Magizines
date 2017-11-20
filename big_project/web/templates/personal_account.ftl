@@ -37,7 +37,7 @@
             <a href="/edit"><button  id="user_settings">Настройки аккаунта</button></a>
         </div>
         <div>
-            <a href="/user/${user.id}/subscriptions"><buttonid="my_subscriptions">Мои подписки</button></a>
+            <a href="/user/${user.id}/subscriptions"><button id="my_subscriptions">Мои подписки</button></a>
         </div>
         <div>
             <a href="/myfriends"><button id="my_friends">Мои друзья</button></a>
@@ -53,7 +53,7 @@
                 <#if user??>
                 <div>
                     <form method="post" action="/conversation?an_id=${another_user.id}">
-                        <button type="submit">send</button>
+                        <button type="submit">Отправить сообщение</button>
                     </form>
                 </div>
                 <div><a><button onclick="friend()" id="add_friend"><#if !has>Добавить в друзья<#else >Убрать из друзей</#if></button></a></div>

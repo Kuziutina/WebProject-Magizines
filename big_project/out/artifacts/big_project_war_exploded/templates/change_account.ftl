@@ -21,12 +21,12 @@
 
     <div class="user_data">
         <div>
-            <div id="error_username"></div>
+            <div id="error_username" ></div>
             <form action="#">
                 <input type="text" id="user_name_change" placeholder="Введите новое имя пользователя">
                 <button onclick="changeUsername()" type="button">Изменить имя пользователя</button>
             </form>
-            <div id="error-email"></div>
+            <div id="error-email" ></div>
             <form name="email_change">
                 <input type="text" id="email_change" placeholder="Введите новый email" name="un">
                 <button onclick="change_email()" id="email_change_btn" type="button">Изменить email</button>
@@ -56,8 +56,13 @@
                 url: "/ajax_change_account",
                 data: {"username" : $("#user_name_change").val()},
                 dataType: "json",
-                success: function () {
-                    alert("Ваше имя было изменено");
+                success: function (result) {
+                    if (result.username_used == null) {
+                        $("#error_username").html("").append("<p>Данное имя уже занято</p>");
+                    }
+                    else {
+                        alert("Ваше имя было изменено");
+                    }
                 },
                 error: function (jqXHR, exception) {
 
@@ -101,7 +106,8 @@
                         $("#error-email").append("Данная почта уже используется");
                     }
                     else {
-                        alert("Ваша почта была изменена. На почту было выслано письмо для подтверждения, пожалуйста, воспользуйтесь им.");
+                        alert("Ваша почта была изменена");
+//                        alert("Ваша почта была изменена. На почту было выслано письмо для подтверждения, пожалуйста, воспользуйтесь им.");
                     }
                 },
                 error: function (jqXHR, exception) {

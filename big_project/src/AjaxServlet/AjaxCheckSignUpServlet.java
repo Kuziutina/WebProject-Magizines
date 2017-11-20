@@ -1,5 +1,6 @@
 package AjaxServlet;
 
+import Helper.MD5Hash;
 import Helper.SenderEmail;
 import Objects.User;
 import Repositories.UserRepo;
@@ -21,19 +22,23 @@ public class AjaxCheckSignUpServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String repPassword = request.getParameter("repeate_password");
+        String confirmation = "";
         JSONObject jo = new JSONObject();
 
-        UserRepo userRepo = new UserRepo();
 
-        if (userRepo.getUserByLogin(email) != null) {
+        UserRepo userRepo = new UserRepo();
+        boolean has = userRepo.getUserByLogin(email) != null;
+        if (has) {
             jo.put("email_used", "");
         }
+        else if (userRepo.getUsersByName(username) != null) {
+            jo.put("username_used", "");
+        }
         else {
-            String confirmation = String.valueOf(java.util.UUID.randomUUID());
-            User user = User.newBuilder().setName(username).setLogin(email).setPassword(password)
+            confirmation = String.valueOf(java.util.UUID.randomUUID());
+            User user = User.newBuilder().setName(username).setLogin(email).setPassword(MD5Hash.getHash(password))
                     .setConfirmation(confirmation).build();
-            SenderEmail senderEmail = new SenderEmail("https://localhost:8080/confirmation/" + confirmation, email);
-            senderEmail.run();
+
             userRepo.addUser(user);
             user = userRepo.getUserByLogin(user.getLogin());
             request.getSession().setAttribute("current_user", user);
@@ -46,6 +51,10 @@ public class AjaxCheckSignUpServlet extends HttpServlet {
         response.getWriter().print(jo.toString());
         response.getWriter().close();
 
+        if (!has) {
+            SenderEmail senderEmail = new SenderEmail("https://localhost:8080/confirmation/" + confirmation, email);
+            new Thread(senderEmail).start();
+        }
 
     }
 
@@ -57,7 +66,7 @@ public class AjaxCheckSignUpServlet extends HttpServlet {
         JSONObject jo = new JSONObject();
         User user = userRepo.getUserByLogin(email);
 
-        boolean errors = user == null || !user.getPassword().equals(password);
+        boolean errors = user == null || !user.getPassword().equals(MD5Hash.getHash(password));
         if (!errors) {
             request.getSession().setAttribute("current_user", user);
             if (remember) {

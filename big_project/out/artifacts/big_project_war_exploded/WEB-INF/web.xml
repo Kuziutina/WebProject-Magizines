@@ -153,5 +153,18 @@
         <servlet-name>MainServlet</servlet-name>
         <!--здесь калякаем все, в которых эт надо вызывать-->
     </filter-mapping>
+
+    <filter>
+        <filter-name>HavingFilter</filter-name>
+        <filter-class>Helper.HavingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>HavingFilter</filter-name>
+        <servlet-name>ChangeAccount</servlet-name>
+        <servlet-name>ConversationServlet</servlet-name>
+        <servlet-name>CreateMagazine</servlet-name>
+        <servlet-name>CreatMagazineIssue</servlet-name>
+        <servlet-name>Friends</servlet-name>
+    </filter-mapping>
     
 </web-app>

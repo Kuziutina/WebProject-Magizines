@@ -23,13 +23,20 @@ body {
     margin-bottom: 60px;
 }
 
+.error_box {
+    border: 1px solid red;
+    border-radius: 3px;
+    background-color: lavenderblush;
+    margin-bottom: 0px;
+}
+
 footer {
     background-image: url('http://old.nasha.lv/siteimages/a/17/5e/a07e3ce6df5fab50192df633fa3f3b.jpg');
     height: 150px;
 }
 
 #magazine_descr {
-    float: right;
+    float: left;;
     font-size: 20px;
     margin-left: 40px;
 }
