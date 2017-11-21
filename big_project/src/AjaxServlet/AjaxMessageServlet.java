@@ -1,7 +1,7 @@
 package AjaxServlet;
 
-import Objects.Letter;
-import Objects.User;
+import Models.Letter;
+import Models.User;
 import Repositories.LetterRepo;
 import org.json.JSONObject;
 

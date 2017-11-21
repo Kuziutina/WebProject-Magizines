@@ -1,8 +1,7 @@
 package Repositories;
 
-import Objects.Magazine;
-import Objects.MagazineCopy;
-import Objects.MagazineCopyReview;
+import Models.MagazineCopy;
+import Models.MagazineCopyReview;
 
 import java.sql.*;
 import java.util.ArrayList;

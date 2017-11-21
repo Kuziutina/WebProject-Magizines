@@ -1,6 +1,6 @@
 package Helper;
 
-import Objects.User;
+import Models.User;
 import Repositories.UserRepo;
 
 import javax.servlet.*;

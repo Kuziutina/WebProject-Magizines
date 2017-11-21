@@ -1,11 +1,8 @@
 package Servlets;
 
 import Helper.GenerateString;
-import Objects.Magazine;
-import Objects.MagazineCopy;
-import Objects.User;
+import Models.MagazineCopy;
 import Repositories.MagazineCopyRepo;
-import Repositories.MagazineRepo;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;

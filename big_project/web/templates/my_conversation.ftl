@@ -63,7 +63,7 @@
             <div class="message ${i-1}">
 
                 <a class="message_author">${letter.sender.name}</a>
-                <div class="message_theme">${letter.header}</div>
+                <div class="message_theme" style="font-size: 15px;">${letter.header}</div>
                 <p class="message_text">${letter.body}</p>
             </div>
                 <#--</#list>-->
@@ -103,7 +103,7 @@
                     if (has) {
                         $("#" + recipient).append("<div class='message'>" +
                                 "                <a class='message_author'>${user.name}</a>" +
-                                "                <div class='message_theme'>" + header + "</div>" +
+                                "                <div class='message_theme' style='font-size: 15px:'>" + header + "</div>" +
                                 "                <p class='message_text'>" + text + "</p>" +
                                 "            </div>");
                     }

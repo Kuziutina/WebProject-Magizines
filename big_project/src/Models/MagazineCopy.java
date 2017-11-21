@@ -1,9 +1,8 @@
-package Objects;
+package Models;
 
 import Repositories.MagazineCopyRepo;
 import Repositories.MagazineCopyReviewRepo;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;

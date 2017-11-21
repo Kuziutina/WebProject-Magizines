@@ -2,9 +2,8 @@ package AjaxServlet;
 
 import Helper.MD5Hash;
 import Helper.SenderEmail;
-import Objects.User;
+import Models.User;
 import Repositories.UserRepo;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -72,7 +71,7 @@ public class AjaxCheckSignUpServlet extends HttpServlet {
             if (remember) {
                 String cookie = String.valueOf(java.util.UUID.randomUUID());
                 Cookie c = new Cookie("userid", cookie);
-                c.setMaxAge(8*60);
+                c.setMaxAge(15*60);
                 response.addCookie(c);
 
                 userRepo.updateUserCookie(user, cookie);

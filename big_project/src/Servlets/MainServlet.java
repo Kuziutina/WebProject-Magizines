@@ -1,8 +1,8 @@
 package Servlets;
 
 import Helper.Render;
-import Objects.Magazine;
-import Objects.User;
+import Models.Magazine;
+import Models.User;
 import Repositories.MagazineRepo;
 import freemarker.template.TemplateException;
 
@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +30,7 @@ public class MainServlet extends HttpServlet {
         int count = 0;
         if (user != null) {
             count = user.getSubscriptions().size()/3;
-            user.getSubscriptions();
+            user.updateSubscriptions();
         }
 
 

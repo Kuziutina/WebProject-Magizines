@@ -63,12 +63,14 @@
                 <div class="carousel-item">
                     <div class="row">
                         <#list 0..2 as j>
+                            <#if i*3+j < user.subscriptions?size>
                         <div class="col-md-4">
                             <a href="/magazine/${user.subscriptions[i*3 + j].id}" class="thumbnail">
                                 <img src="/load/${user.subscriptions[i*3 + j].picture_path}" alt="MagazineName">
                             </a>
                             <p>${user.subscriptions[i*3 + j].name}</p>
                         </div>
+                            </#if>
                         </#list>
                     </div>
                 </div>

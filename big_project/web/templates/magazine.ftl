@@ -30,7 +30,7 @@
                             </div>
                         </div>
                         <div class="form-group" align="center">
-                            <div id="error-score" class="error_box"></div>
+                            <div id="error-score"></div>
                             <a>Поставьте оценку:</a>
                             <fieldset class="rating_vote">
                                 <input type="radio" id="star5" name="rating" value="5"/><label class="full"

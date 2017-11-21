@@ -1,8 +1,7 @@
 package AjaxServlet;
 
 import Helper.MD5Hash;
-import Helper.SenderEmail;
-import Objects.User;
+import Models.User;
 import Repositories.UserRepo;
 import org.json.JSONObject;
 

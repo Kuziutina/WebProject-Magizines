@@ -170,19 +170,34 @@
     function check_singup() {
         console.log("i start check");
         var errors = false;
+        var text_email = $("#email").val();
+        var text_username = $("#username").val();
+        var text_password = $("#password").val();
 
-        if ($("#username").val() == "") {
+        if (text_username == "") {
             $("#empty_username").html("").append("<p>Поле не может быть пустым</p>");
             errors = true;
         }
-
-        if ($("#email").val() == "") {
-            $("#empty_email").html("").append("<p>Поле не может быть пустым</p>");
+        else if (text_username.search(/\~|`|!|@|#|$|\%|^|\&|\*|\(|\)|_|\+|=|\{|\}|\[|\]|\|\||\/|\?|\.|\,|>|<|;|:|'|\"/) != -1) {
+            $("#empty_username").html("").append("<p>Имя не может содержать знаков кроме '-'");
             errors = true;
         }
 
-        if ($("#password").val() == "") {
+        if (text_email == "") {
+            $("#empty_email").html("").append("<p>Поле не может быть пустым</p>");
+            errors = true;
+        }
+        else if ((text_email.search(/@yandex.ru|@gmail.com|@mail.ru/)) == -1) {
+            $("#empty_email").html("").append("<p>Формат посты не поддерживается</p>");
+            errors = true;
+        }
+
+        if (text_password == "") {
             $("#short_password").html("").append("<p>Поле не может быть пустым</p>");
+            errors = true;
+        }
+        else if (text_password.search(/[a-zA-Z0-9]/) == -1) {
+            $("#short_password").html("").append("<p>В пароле должен быть минимум один латинский символ</p>");
             errors = true;
         }
 

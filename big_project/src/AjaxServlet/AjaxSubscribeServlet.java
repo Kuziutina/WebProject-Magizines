@@ -1,6 +1,6 @@
 package AjaxServlet;
 
-import Objects.User;
+import Models.User;
 import Repositories.UserRepo;
 import org.json.JSONObject;
 
@@ -24,6 +24,7 @@ public class AjaxSubscribeServlet extends HttpServlet {
 
         UserRepo userRepo = new UserRepo();
         if (has) {
+            user.getSubscriptions();
             userRepo.addSubscription(user, magazine_id);
         }
         else {

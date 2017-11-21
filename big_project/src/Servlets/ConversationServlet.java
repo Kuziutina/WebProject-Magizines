@@ -1,8 +1,8 @@
 package Servlets;
 
 import Helper.Render;
-import Objects.Letter;
-import Objects.User;
+import Models.Letter;
+import Models.User;
 import Repositories.LetterRepo;
 import Repositories.UserRepo;
 import freemarker.template.TemplateException;

@@ -23,7 +23,7 @@
             <li>К сожалению, у вас нет друзей</li>
         <#else>
             <#list friends as friend>
-                <li>${friend.name}<a href="/user/${friend.id}"><button class="friend_profile">Перейти к профилю</button></a><button id="${friend.id}" class="delete" type="button">Убрать из друзей</button> </li>
+                <li><div class="row friend_item"><span class="col-md-4 text-right">${friend.name}</span><span class="col-md-4 text-left"><a href="/user/${friend.id}"><button class="friend_profile">Перейти к профилю</button></a><button id="${friend.id}" class="delete" type="button">Убрать из друзей</button></span></div> </li>
             </#list>
         </#if>
         </ul>
@@ -32,7 +32,7 @@
 
         $(".delete").bind("click", function () {
             var id = $(this).attr('id');
-            var ob = $(this).parent('li');
+            var ob = $(this).parent('span').parent('div').parent('li');
             console.log("i start delete friend");
             $.ajax({
                 type: "GET",

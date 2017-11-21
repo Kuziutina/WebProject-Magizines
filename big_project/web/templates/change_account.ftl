@@ -50,6 +50,10 @@
         if (text == "") {
             $("#error_username").append("Это поле не может быть пустым");
         }
+        else if (text.search(/\~|`|!|@|#|$|\%|^|\&|\*|\(|\)|_|\+|=|\{|\}|\[|\]|\|\||\/|\?|\.|\,|>|<|;|:|'|\"/) != -1) {
+            $("#error_username").html("").append("<p>Имя не может содержать знаков кроме '-'");
+        }
+
         else {
             $.ajax({
                 type: "POST",
@@ -94,6 +98,10 @@
         $("#error-email").html("");
         if (text == "") {
             $("#error-email").append("Это поле не может быть пустым");
+        }
+
+        else if ((text.search(/@yandex.ru|@gmail.com|@mail.ru/)) == -1) {
+            $("#error_email").html("").append("<p>Формат посты не поддерживается</p>");
         }
         else {
             $.ajax({
@@ -143,6 +151,9 @@
         }
         else if (text.length <= 4) {
             $("#error-password").append("Пароль слишком короткий");
+        }
+        else if (text.search(/[a-zA-Z0-9]/) == -1) {
+            $("#error_password").html("").append("<p>В пароле должен быть минимум один латинский символ</p>");
         }
         else {
             $.ajax({

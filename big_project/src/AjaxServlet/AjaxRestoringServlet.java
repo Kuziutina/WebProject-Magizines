@@ -1,7 +1,7 @@
 package AjaxServlet;
 
 import Helper.SenderEmail;
-import Objects.User;
+import Models.User;
 import Repositories.UserRepo;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONObject;

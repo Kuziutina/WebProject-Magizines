@@ -1,6 +1,6 @@
 package AjaxServlet;
 
-import Objects.User;
+import Models.User;
 import Repositories.UserRepo;
 import org.json.JSONObject;
 

@@ -1,7 +1,7 @@
 package Repositories;
 
-import Objects.Magazine;
-import Objects.User;
+import Models.Magazine;
+import Models.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

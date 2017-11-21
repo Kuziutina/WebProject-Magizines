@@ -1,9 +1,9 @@
 package Servlets;
 
 import Helper.Render;
-import Objects.Letter;
-import Objects.Magazine;
-import Objects.User;
+import Models.Letter;
+import Models.Magazine;
+import Models.User;
 import Repositories.LetterRepo;
 import Repositories.UserRepo;
 import freemarker.template.TemplateException;
@@ -50,6 +50,7 @@ public class PersonalAccountServlet extends HttpServlet {
             }
         }
         else if (path.length == 3 && path[2].equals("subscriptions")) {
+
             String spage = request.getParameter("p");
             String scount = request.getParameter("showby");
             int page, count;
@@ -93,24 +94,27 @@ public class PersonalAccountServlet extends HttpServlet {
             }
         }
         else if (path.length == 3 && path[2].equals("conversation")) {
-            List<User> friends = userRepo.getFriends(user);
-            LetterRepo letterRepo = new LetterRepo();
-            List<User> conversations = letterRepo.getAllConversation(user);
-            List<Letter> letters = null;
-            if (conversations.size() != 0) {
-                letters = letterRepo.getConversation(user, conversations.get(0));
-            }
+            if (user == null) response.sendRedirect("/main");
+            else {
+                List<User> friends = userRepo.getFriends(user);
+                LetterRepo letterRepo = new LetterRepo();
+                List<User> conversations = letterRepo.getAllConversation(user);
+                List<Letter> letters = null;
+                if (conversations.size() != 0) {
+                    letters = letterRepo.getConversation(user, conversations.get(0));
+                }
 
-            Map<String, Object> objects = new HashMap<>();
-            objects.put("user", user);
-            objects.put("friends", friends);
-            objects.put("conversations", conversations);
-            objects.put("letters", letters);
+                Map<String, Object> objects = new HashMap<>();
+                objects.put("user", user);
+                objects.put("friends", friends);
+                objects.put("conversations", conversations);
+                objects.put("letters", letters);
 
-            try {
-                Render.render(response, objects, "my_conversation.ftl");
-            } catch (TemplateException e) {
-                e.printStackTrace();
+                try {
+                    Render.render(response, objects, "my_conversation.ftl");
+                } catch (TemplateException e) {
+                    e.printStackTrace();
+                }
             }
         }
 

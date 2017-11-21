@@ -1,7 +1,7 @@
 package Repositories;
 
-import Objects.Letter;
-import Objects.User;
+import Models.Letter;
+import Models.User;
 
 import java.sql.*;
 import java.util.ArrayList;

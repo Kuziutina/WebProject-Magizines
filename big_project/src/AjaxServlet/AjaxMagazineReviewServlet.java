@@ -1,8 +1,8 @@
 package AjaxServlet;
 
-import Objects.MagazineCopyReview;
-import Objects.MagazineReview;
-import Objects.User;
+import Models.MagazineCopyReview;
+import Models.MagazineReview;
+import Models.User;
 import Repositories.MagazineCopyReviewRepo;
 import Repositories.MagazineReviewRepo;
 import org.json.JSONObject;

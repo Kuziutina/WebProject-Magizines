@@ -1,8 +1,8 @@
 package Repositories;
 
-import Objects.Magazine;
-import Objects.MagazineCopy;
-import Objects.MagazineReview;
+import Models.Magazine;
+import Models.MagazineCopy;
+import Models.MagazineReview;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -144,7 +144,7 @@ public class MagazineRepo {
         try {
             magazines = new ArrayList<>();
             conn = DBConnection.getConnection();
-            statement = conn.prepareStatement("select id, name, description, picture_path from magazines left join subscriptions on id = magazine_id group by id order by id ASC limit(?)");
+            statement = conn.prepareStatement("select id, name, description, picture_path from magazines left join subscriptions on id = magazine_id group by id order by count(id) ASC limit(?)");
             statement.setInt(1, n);
 
             ResultSet resultSet = statement.executeQuery();

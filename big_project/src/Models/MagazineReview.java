@@ -1,11 +1,8 @@
-package Objects;
-
-import Repositories.UserRepo;
+package Models;
 
 import java.util.Date;
-import java.util.Date;
 
-public class MagazineReview extends Review{
+public class MagazineReview extends Review {
 
     private int magazine_id;
 
@@ -31,8 +28,6 @@ public class MagazineReview extends Review{
         this.user_id = user_id;
         this.magazine_id = magazine_id;
     }
-
-
 
     public int getMagazine_id() {
         return magazine_id;

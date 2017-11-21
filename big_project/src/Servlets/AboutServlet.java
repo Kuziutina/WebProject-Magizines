@@ -1,13 +1,12 @@
 package Servlets;
 
 import Helper.Render;
-import Objects.User;
+import Models.User;
 import Repositories.UserRepo;
 import freemarker.template.TemplateException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +18,7 @@ import java.util.Map;
 @WebServlet(name = "AboutServlet")
 public class AboutServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User newUser = new User();
+       /* User newUser = new User();
         newUser.setName(request.getParameter("username"));
         newUser.setPassword(request.getParameter("password"));
         newUser.setLogin(request.getParameter("mail"));
@@ -33,7 +32,7 @@ public class AboutServlet extends HttpServlet {
             Render.render(response, new HashMap<>(), "/about.ftl");
         } catch (TemplateException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

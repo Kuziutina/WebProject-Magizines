@@ -41,6 +41,10 @@ footer {
     margin-left: 40px;
 }
 
+.friend_item {
+    margin-bottom: 15px;
+}
+
 #log_in {
     float: right;
     margin: 40px 100px 40px 0;

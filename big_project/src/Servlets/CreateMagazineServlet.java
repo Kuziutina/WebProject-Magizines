@@ -1,7 +1,7 @@
 package Servlets;
 
 import Helper.GenerateString;
-import Objects.Magazine;
+import Models.Magazine;
 import Repositories.MagazineRepo;
 
 import javax.servlet.ServletException;
@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 
 @WebServlet(name = "CreateMagazineServlet")
 @MultipartConfig

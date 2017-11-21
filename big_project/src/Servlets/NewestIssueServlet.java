@@ -1,10 +1,8 @@
 package Servlets;
 
 import Helper.Render;
-import Objects.Magazine;
-import Objects.MagazineCopy;
+import Models.MagazineCopy;
 import Repositories.MagazineCopyRepo;
-import Repositories.MagazineRepo;
 import freemarker.template.TemplateException;
 
 import javax.servlet.ServletException;

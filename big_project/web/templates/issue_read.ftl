@@ -18,7 +18,7 @@
     <div id="heading">
         <h1>${magazineIssue.name}</h1>
     </div>
-    <embed src="/load/${magazineIssue.path}" width="1000" height="2000" type='application/pdf'>
+    <embed src="/load/${magazineIssue.path}" width="1000" height="1000" type='application/pdf'>
 
     <a href="/magazine/${magazineIssue.magazine_id}/${magazineIssue.id}"><button id="back">Назад</button></a>
 

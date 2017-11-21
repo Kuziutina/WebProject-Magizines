@@ -1,4 +1,4 @@
-package Objects;
+package Models;
 
 import Repositories.MagazineCopyRepo;
 import Repositories.MagazineRepo;

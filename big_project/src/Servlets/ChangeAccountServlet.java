@@ -1,7 +1,7 @@
 package Servlets;
 
 import Helper.Render;
-import Objects.User;
+import Models.User;
 import freemarker.template.TemplateException;
 
 import javax.servlet.ServletException;

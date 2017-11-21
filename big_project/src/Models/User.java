@@ -1,4 +1,4 @@
-package Objects;
+package Models;
 
 import Repositories.UserRepo;
 
@@ -79,7 +79,6 @@ public class User {
         this.name = name;
     }
 
-
     public User(String login, String password, String name) {
         this.login = login;
         this.password = password;
@@ -153,6 +152,13 @@ public class User {
             subscriptions = userRepo.getSubscriptions(this);
         }
         return subscriptions;
+    }
+
+    public boolean updateSubscriptions() {
+        UserRepo userRepo = new UserRepo();
+        subscriptions = userRepo.getSubscriptions(this);
+
+        return true;
     }
 
     public void setSubscriptions(List<Magazine> subscriptions) {

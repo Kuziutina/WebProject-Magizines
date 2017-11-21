@@ -1,13 +1,12 @@
 package Servlets;
 
 import Helper.Render;
-import Objects.Magazine;
-import Objects.MagazineCopy;
-import Objects.User;
+import Models.Magazine;
+import Models.MagazineCopy;
+import Models.User;
 import Repositories.MagazineCopyRepo;
 import Repositories.MagazineRepo;
 import Repositories.UserRepo;
-import com.sun.org.apache.regexp.internal.RE;
 import freemarker.template.TemplateException;
 
 import javax.servlet.ServletException;

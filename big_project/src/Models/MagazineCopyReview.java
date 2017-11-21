@@ -1,9 +1,8 @@
-package Objects;
+package Models;
 
 import java.util.Date;
-import java.util.Date;
 
-public class MagazineCopyReview extends Review{
+public class MagazineCopyReview extends Review {
 
 
     private int magazine_copy_id;
