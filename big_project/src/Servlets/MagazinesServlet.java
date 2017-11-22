@@ -2,7 +2,9 @@ package Servlets;
 
 import Helper.Render;
 import Models.Magazine;
-import Repositories.MagazineRepo;
+import DAO.DAOImpl.MagazineDAO;
+import Services.Interfaces.MagazineServiceInterface;
+import Services.MagazineService;
 import freemarker.template.TemplateException;
 
 import javax.servlet.ServletException;
@@ -18,6 +20,14 @@ import java.util.Map;
 
 @WebServlet(name = "MagazinesServlet", urlPatterns = "/magazines")
 public class MagazinesServlet extends HttpServlet {
+
+    private MagazineServiceInterface magazineService;
+
+    @Override
+    public void init() throws ServletException {
+        magazineService = new MagazineService(new MagazineDAO());
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
@@ -25,6 +35,20 @@ public class MagazinesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String spage = request.getParameter("page");
         String scount = request.getParameter("showby");
+
+        Map<String, Object> objects = computationPage(magazineService.getAllMagazines(), spage, scount);
+        objects.put("user", request.getSession().getAttribute("current_user"));
+
+
+        try {
+            Render.render(response, objects, "/magazines.ftl");
+        } catch (TemplateException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Map<String, Object> computationPage(List<Magazine> magazines, String spage, String scount) {
+
         int page, count;
         if (spage == null) page = 1;
         else page = Integer.parseInt(spage);
@@ -37,32 +61,24 @@ public class MagazinesServlet extends HttpServlet {
         int max_count;
 
         Map<String, Object> objects = new HashMap<>();
-        MagazineRepo magazineRepo = new MagazineRepo();
-        List<Magazine> magazines = magazineRepo.getAllMagazines();
-
-        max_count = magazines.size()/count + 1;
-
-            if (page > max_count) page = max_count;
 
 
-            List<Magazine> result = new ArrayList<>();
-            if (page*count >= magazines.size()) {
-                result = magazines.subList((page-1)*count, magazines.size());
-            }
-            else {
-                result = magazines.subList((page-1)* count, page*count);
-            }
+        max_count = magazines.size() / count + 1;
 
-            objects.put("user", request.getSession().getAttribute("current_user"));
-            objects.put("page", page);
-            objects.put("count", count);
-            objects.put("max_count", max_count);
-            objects.put("magazines", result);
+        if (page > max_count) page = max_count;
+        List<Magazine> result = new ArrayList<>();
+        if (page * count >= magazines.size()) {
+            result = magazines.subList((page - 1) * count, magazines.size());
+        } else {
+            result = magazines.subList((page - 1) * count, page * count);
+        }
 
-            try {
-                Render.render(response, objects, "/magazines.ftl");
-            } catch (TemplateException e) {
-                e.printStackTrace();
-            }
+        objects.put("page", page);
+        objects.put("count", count);
+        objects.put("max_count", max_count);
+        objects.put("magazines", result);
+
+        return objects;
     }
+
 }

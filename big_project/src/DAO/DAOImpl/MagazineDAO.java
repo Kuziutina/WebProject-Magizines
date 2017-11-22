@@ -1,17 +1,19 @@
-package Repositories;
+package DAO.DAOImpl;
 
+import DAO.Interfaces.MagazineDAOInterface;
+import Helper.DBConnection;
 import Models.Magazine;
-import Models.MagazineCopy;
+import Models.MagazineIssue;
 import Models.MagazineReview;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MagazineRepo {
+public class MagazineDAO implements MagazineDAOInterface{
     private Connection conn;
 
-    public Magazine getMagazineByName(String name) {
+ /*   public Magazine getMagazineByName(String name) {
         PreparedStatement statement = null;
         try {
             conn = DBConnection.getConnection();
@@ -28,14 +30,15 @@ public class MagazineRepo {
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 
-    public Magazine getMagazineById(int id) {
+    @Override
+    public Magazine find(Long id) {
         PreparedStatement statement = null;
         try {
             conn = DBConnection.getConnection();
             statement = conn.prepareStatement("select * from magazines where id=?");
-            statement.setInt(1, id);
+            statement.setLong(1, id);
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -49,7 +52,8 @@ public class MagazineRepo {
         return null;
     }
 
-    public boolean addMagazine(Magazine magazine) {
+    @Override
+    public boolean add(Magazine magazine) {
         PreparedStatement statement;
         try {
             conn = DBConnection.getConnection();
@@ -67,6 +71,17 @@ public class MagazineRepo {
         return false;
     }
 
+    @Override
+    public void delete(Magazine model) {
+
+    }
+
+    @Override
+    public void update(Magazine model) {
+
+    }
+
+    @Override
     public int getMagazineId(Magazine magazine) {
         PreparedStatement statement = null;
         try {
@@ -87,17 +102,18 @@ public class MagazineRepo {
         return -1;
     }
 
-    public List<MagazineCopy> getMagazineCopies(Magazine magazine) {
-        MagazineCopyRepo magazineCopyRepo = new MagazineCopyRepo();
-        return magazineCopyRepo.getMagazineCopiesByMagazine(magazine);
-    }
+//    public List<MagazineIssue> getMagazineCopies(Magazine magazine) {
+//        MagazineIssueDAO magazineCopyRepo = new MagazineIssueDAO();
+//        return magazineCopyRepo.getMagazineCopiesByMagazine(magazine);
+//    }
+//
+//    public List<MagazineReview> getMagazineReviews(Magazine magazine) {
+//        MagazineReviewDAO magazineReviewRepo = new MagazineReviewDAO();
+//        return magazineReviewRepo.getMagazineReview(magazine);
+//    }
 
-    public List<MagazineReview> getMagazineReviews(Magazine magazine) {
-        MagazineReviewRepo magazineReviewRepo = new MagazineReviewRepo();
-        return magazineReviewRepo.getMagazineReview(magazine);
-    }
-
-    public double getMagazineScore(Magazine magazine) {
+    @Override
+    public double getScore(Magazine magazine) {
         PreparedStatement statement;
         try {
             conn = DBConnection.getConnection();
@@ -114,7 +130,8 @@ public class MagazineRepo {
         return -1;
     }
 
-    public List<Magazine> getNewerMagazine(int n) {
+    @Override
+    public List<Magazine> getNewer(int n) {
         List<Magazine> magazines;
         PreparedStatement statement;
         try {
@@ -138,7 +155,8 @@ public class MagazineRepo {
         return null;
     }
 
-    public List<Magazine> getPopularMagazine(int n) {
+    @Override
+    public List<Magazine> getPopular(int n) {
         List<Magazine> magazines;
         PreparedStatement statement;
         try {
@@ -162,7 +180,8 @@ public class MagazineRepo {
         return null;
     }
 
-    public List<Magazine> getAllMagazines() {
+    @Override
+    public List<Magazine> findAll() {
         List<Magazine> magazines;
         PreparedStatement statement;
         try {
@@ -185,7 +204,8 @@ public class MagazineRepo {
         return null;
     }
 
-    public List<Magazine> getMagazineByPartName (String name) {
+    @Override
+    public List<Magazine> getByNamePattern (String name) {
         List<Magazine> magazines;
         PreparedStatement statement;
         try {

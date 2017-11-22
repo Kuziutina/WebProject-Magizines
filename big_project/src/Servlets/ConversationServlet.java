@@ -3,8 +3,8 @@ package Servlets;
 import Helper.Render;
 import Models.Letter;
 import Models.User;
-import Repositories.LetterRepo;
-import Repositories.UserRepo;
+import DAO.DAOImpl.LetterDAO;
+import DAO.DAOImpl.UserDAO;
 import freemarker.template.TemplateException;
 
 import javax.servlet.ServletException;
@@ -23,13 +23,13 @@ public class ConversationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute("current_user");
 
-        UserRepo userRepo = new UserRepo();
+        UserDAO userDAO = new UserDAO();
         int another_id = Integer.parseInt(request.getParameter("an_id"));
 
-        User another_user = userRepo.getUserById(another_id);
-        List<User> friends = userRepo.getFriends(user);
-        LetterRepo letterRepo = new LetterRepo();
-        List<User> conversations = letterRepo.getAllConversation(user);
+        User another_user = userDAO.find(another_id);
+        List<User> friends = userDAO.getFriends(user);
+        LetterDAO letterDAO = new LetterDAO();
+        List<User> conversations = letterDAO.getAllUserConversation(user);
 
 //        friends.removeAll(conversations);
         List<User> low = new ArrayList<>();
@@ -43,7 +43,7 @@ public class ConversationServlet extends HttpServlet {
 
         List<List<Letter>> letters = new ArrayList<>();
         for (User conver: conversations) {
-            letters.add(letterRepo.getConversation(user, conver));
+            letters.add(letterDAO.getConversationByUser(user, conver));
         }
 
         Map<String, Object> objects = new HashMap<>();
@@ -64,12 +64,12 @@ public class ConversationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute("current_user");
 
-        UserRepo userRepo = new UserRepo();
+        UserDAO userDAO = new UserDAO();
         List<List<Letter>> letters = new ArrayList<>();
 
-        List<User> friends = userRepo.getFriends(user);
-        LetterRepo letterRepo = new LetterRepo();
-        List<User> conversations = letterRepo.getAllConversation(user);
+        List<User> friends = userDAO.getFriends(user);
+        LetterDAO letterDAO = new LetterDAO();
+        List<User> conversations = letterDAO.getAllUserConversation(user);
 //        for (int i = 0; i < friends.size(); i++) {
 //            for (User con: conversations) {
 //                if (i < friends.size() && con.getId() == friends.get(i).getId()) {
@@ -86,7 +86,7 @@ public class ConversationServlet extends HttpServlet {
         friends.addAll(low);
 
         for (User conver: conversations) {
-            letters.add(letterRepo.getConversation(user, conver));
+            letters.add(letterDAO.getConversationByUser(user, conver));
         }
 
         Map<String, Object> objects = new HashMap<>();

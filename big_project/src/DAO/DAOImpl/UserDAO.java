@@ -1,5 +1,7 @@
-package Repositories;
+package DAO.DAOImpl;
 
+import DAO.Interfaces.UserDAOInterface;
+import Helper.DBConnection;
 import Models.Magazine;
 import Models.User;
 
@@ -10,11 +12,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserRepo {
+public class UserDAO implements UserDAOInterface{
 
     private Connection conn;
 
-    public User getUserById(int id) {
+    @Override
+    public User find(Integer id) {
         PreparedStatement statement;
         conn = DBConnection.getConnection();
 
@@ -35,6 +38,38 @@ public class UserRepo {
         return null;
     }
 
+    @Override
+    public void delete(User model) {
+
+    }
+
+
+    //Узнать по поводу более оптимального варианта
+    @Override
+    public void update(User model) {
+//        PreparedStatement statement;
+//        conn = DBConnection.getConnection();
+//
+//        try {
+//            statement = conn.prepareStatement("update users set cookie_login = ? where  = ?");
+//            statement.setString(1, cookie);
+//            statement.setString(2, user.getLogin());
+//
+//            statement.executeUpdate();
+//
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+
+    }
+
+    @Override
+    public List<User> findAll() {
+        return null;
+    }
+
+    @Override
     public User getEasyUserById(int id) {
         PreparedStatement statement;
         conn = DBConnection.getConnection();
@@ -56,7 +91,8 @@ public class UserRepo {
         return null;
     }
 
-    public User getUserByConfirmation(String confirmation) {
+    @Override
+    public User getByConfirmation(String confirmation) {
         PreparedStatement statement;
         conn = DBConnection.getConnection();
 
@@ -78,7 +114,8 @@ public class UserRepo {
         return null;
     }
 
-    public User getUserByLogin(String login) {
+    @Override
+    public User getByLogin(String login) {
         PreparedStatement statement;
         conn = DBConnection.getConnection();
 
@@ -101,13 +138,13 @@ public class UserRepo {
         return null;
     }
 
-    public User getUsersByName(String name) {
+    @Override
+    public User getByName(String name) {
         PreparedStatement statement;
         conn = DBConnection.getConnection();
         List<User> users;
 
         try {
-            users = new ArrayList<>();
             statement = conn.prepareStatement("select id, name FROM users where name = ?");
             statement.setString(1, name);
 
@@ -123,70 +160,8 @@ public class UserRepo {
         return null;
     }
 
-    public List<User> getFriends(User user) {
-        PreparedStatement statement;
-        conn = DBConnection.getConnection();
-        List<User> users;
-
-        try {
-            users = new ArrayList<>();
-            statement = conn.prepareStatement("select * FROM friends where user_id = ?");
-            statement.setInt(1, user.getId());
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                users.add(getUserById(resultSet.getInt("friend_id")));
-            }
-            return users;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    public boolean addUser(User user) {
-        PreparedStatement statement;
-
-        try {
-            conn = DBConnection.getConnection();
-            statement = conn.prepareStatement("insert into users (login, password, name, confirmation) values (?, ?, ?, ?) ");
-            statement.setString(1, user.getLogin());
-            statement.setString(2, user.getPassword());
-            statement.setString(3, user.getName());
-            statement.setString(4, user.getConfirmation());
-
-            statement.executeUpdate();
-
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-
-    public boolean addFriend(User user, int friend_id) {
-        PreparedStatement statement;
-        try {
-            conn = DBConnection.getConnection();
-            statement = conn.prepareStatement("insert into friends VALUES (?, ?)");
-            statement.setInt(1, user.getId());
-            statement.setInt(2, friend_id);
-
-            statement.executeUpdate();
-
-            return true;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-
-    public User getUserByCookie(String cookie) {
+    @Override
+    public User getByCookie(String cookie) {
         PreparedStatement statement;
         conn = DBConnection.getConnection();
 
@@ -207,6 +182,136 @@ public class UserRepo {
         }
 
         return null;
+
+    }
+
+    @Override
+    public List<User> getByNamePattern(String name) {
+        PreparedStatement statement;
+        conn = DBConnection.getConnection();
+        List<User> users;
+
+        try {
+            users = new ArrayList<>();
+            statement = conn.prepareStatement("select * FROM users where name like ?");
+            statement.setString(1, "%" + name + "%");
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                users.add(new User().newBuilder().setLogin(resultSet.getString("login")).setName(resultSet.getString("name"))
+                        .setId(resultSet.getInt("id")).build());
+            }
+            return users;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<User> getFriends(User user) {
+        PreparedStatement statement;
+        conn = DBConnection.getConnection();
+        List<User> users;
+
+        try {
+            users = new ArrayList<>();
+            statement = conn.prepareStatement("select * FROM friends where user_id = ?");
+            statement.setInt(1, user.getId());
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                users.add(find(resultSet.getInt("friend_id")));
+            }
+            return users;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Override
+    public boolean add(User user) {
+        PreparedStatement statement;
+
+        try {
+            conn = DBConnection.getConnection();
+            statement = conn.prepareStatement("insert into users (login, password, name, confirmation) values (?, ?, ?, ?) ");
+            statement.setString(1, user.getLogin());
+            statement.setString(2, user.getPassword());
+            statement.setString(3, user.getName());
+            statement.setString(4, user.getConfirmation());
+
+            statement.executeUpdate();
+
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean addFriend(User user, int friend_id) {
+        PreparedStatement statement;
+        try {
+            conn = DBConnection.getConnection();
+            statement = conn.prepareStatement("insert into friends VALUES (?, ?)");
+            statement.setInt(1, user.getId());
+            statement.setInt(2, friend_id);
+
+            statement.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean deleteFriend(User user, int friend_id) {
+        PreparedStatement statement;
+        try {
+            conn = DBConnection.getConnection();
+            statement = conn.prepareStatement("delete from friends where user_id = ? and friend_id = ?");
+            statement.setInt(1, user.getId());
+            statement.setInt(2, friend_id);
+
+            statement.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean hasFriend(User user, int friend_id) {
+        PreparedStatement statement;
+        try {
+            conn = DBConnection.getConnection();
+            statement = conn.prepareStatement("select * from friends where user_id = ? and friend_id = ?");
+            statement.setInt(1, user.getId());
+            statement.setInt(2, friend_id);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
 
     }
 
@@ -315,23 +420,8 @@ public class UserRepo {
 
     }
 
-    public boolean deleteFriend(User user, int friend_id) {
-        PreparedStatement statement;
-        try {
-            conn = DBConnection.getConnection();
-            statement = conn.prepareStatement("delete from friends where user_id = ? and friend_id = ?");
-            statement.setInt(1, user.getId());
-            statement.setInt(2, friend_id);
 
-            statement.executeUpdate();
 
-            return true;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
 
     public boolean addSubscription(User user, int magazine_id) {
         PreparedStatement statement;
@@ -388,25 +478,6 @@ public class UserRepo {
 
     }
 
-    public boolean hasFriend(User user, int friend_id) {
-        PreparedStatement statement;
-        try {
-            conn = DBConnection.getConnection();
-            statement = conn.prepareStatement("select * from friends where user_id = ? and friend_id = ?");
-            statement.setInt(1, user.getId());
-            statement.setInt(2, friend_id);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            return resultSet.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-
-    }
-
     public List<Magazine> getSubscriptions(User user) {
         PreparedStatement statement;
         List<Magazine> magazines;
@@ -431,28 +502,6 @@ public class UserRepo {
 
     }
 
-    public List<User> getUserByPartName(String name) {
-        PreparedStatement statement;
-        conn = DBConnection.getConnection();
-        List<User> users;
 
-        try {
-            users = new ArrayList<>();
-            statement = conn.prepareStatement("select * FROM users where name like ?");
-            statement.setString(1, "%" + name + "%");
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                users.add(new User().newBuilder().setLogin(resultSet.getString("login")).setName(resultSet.getString("name"))
-                                    .setId(resultSet.getInt("id")).build());
-            }
-            return users;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
 
 }

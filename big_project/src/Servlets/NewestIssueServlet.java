@@ -1,8 +1,8 @@
 package Servlets;
 
+import DAO.DAOImpl.MagazineIssueDAO;
 import Helper.Render;
-import Models.MagazineCopy;
-import Repositories.MagazineCopyRepo;
+import Models.MagazineIssue;
 import freemarker.template.TemplateException;
 
 import javax.servlet.ServletException;
@@ -37,15 +37,15 @@ public class NewestIssueServlet extends HttpServlet {
         int max_count;
 
         Map<String, Object> objects = new HashMap<>();
-        MagazineCopyRepo magazineCopyRepo = new MagazineCopyRepo();
-        List<MagazineCopy> magazines = magazineCopyRepo.getAllMagazineCopies();
+        MagazineIssueDAO magazineIssueDAO = new MagazineIssueDAO();
+        List<MagazineIssue> magazines = magazineIssueDAO.findAll();
 
         max_count = magazines.size()/count + 1;
 
         if (page > max_count) page = max_count;
 
 
-        List<MagazineCopy> result = new ArrayList<>();
+        List<MagazineIssue> result = new ArrayList<>();
         if (page*count >= magazines.size()) {
             result = magazines.subList((page-1)*count, magazines.size());
         }

@@ -3,7 +3,8 @@ package Servlets;
 import Helper.Render;
 import Models.Magazine;
 import Models.User;
-import Repositories.MagazineRepo;
+import DAO.DAOImpl.MagazineDAO;
+import Services.MagazineService;
 import freemarker.template.TemplateException;
 
 import javax.servlet.ServletException;
@@ -18,19 +19,26 @@ import java.util.Map;
 
 @WebServlet(name = "MainServlet", urlPatterns = "/main")
 public class MainServlet extends HttpServlet {
+    private MagazineService magazineService;
+
+    @Override
+    public void init() throws ServletException {
+        magazineService = new MagazineService(new MagazineDAO());
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute("current_user");
-        MagazineRepo magazineRepo = new MagazineRepo();
-        List<Magazine> newer = magazineRepo.getNewerMagazine(9);
-        List<Magazine> popular = magazineRepo.getPopularMagazine(9);
+
+        List<Magazine> newer = magazineService.getNewest();
+        List<Magazine> popular = magazineService.getPopular();
         int count = 0;
         if (user != null) {
-            count = user.getSubscriptions().size()/3;
             user.updateSubscriptions();
+            count = user.getSubscriptions().size()/3;
         }
 
 

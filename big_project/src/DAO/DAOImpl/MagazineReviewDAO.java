@@ -1,5 +1,7 @@
-package Repositories;
+package DAO.DAOImpl;
 
+import DAO.Interfaces.ReviewDAOInterface;
+import Helper.DBConnection;
 import Models.Magazine;
 import Models.MagazineReview;
 
@@ -7,11 +9,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MagazineReviewRepo {
+public class MagazineReviewDAO implements ReviewDAOInterface<Magazine, MagazineReview>{
 
     Connection conn;
 
-    public List<MagazineReview> getMagazineReview(Magazine magazine) {
+    @Override
+    public List<MagazineReview> getReview(Magazine magazine) {
         PreparedStatement statement;
         List<MagazineReview> magazineReviews;
         try {
@@ -37,7 +40,8 @@ public class MagazineReviewRepo {
         return null;
     }
 
-    public boolean addMagazineReview(MagazineReview magazineReview) {
+    @Override
+    public boolean add(MagazineReview magazineReview) {
         PreparedStatement statement;
         try {
             conn = DBConnection.getConnection();
@@ -56,4 +60,25 @@ public class MagazineReviewRepo {
         }
         return false;
     }
+
+    @Override
+    public MagazineReview find(Integer id) {
+        return null;
+    }
+
+    @Override
+    public void delete(MagazineReview model) {
+
+    }
+
+    @Override
+    public void update(MagazineReview model) {
+
+    }
+
+    @Override
+    public List<MagazineReview> findAll() {
+        return null;
+    }
+
 }

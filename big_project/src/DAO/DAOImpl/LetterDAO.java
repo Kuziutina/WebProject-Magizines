@@ -1,5 +1,7 @@
-package Repositories;
+package DAO.DAOImpl;
 
+import DAO.Interfaces.LetterDAOInterface;
+import Helper.DBConnection;
 import Models.Letter;
 import Models.User;
 
@@ -9,11 +11,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class LetterRepo {
+public class LetterDAO implements LetterDAOInterface{
 
     private Connection conn;
 
-    public List<Letter> getLetter(User sender, User recepient) {
+    @Override
+    public List<Letter> getLetterBuUsers(User sender, User recipient) {
         PreparedStatement statement = null;
         List<Letter> letters;
 
@@ -22,14 +25,14 @@ public class LetterRepo {
             conn = DBConnection.getConnection();
             statement = conn.prepareStatement("select * from letters order by date asc where sender_id = ? and recepient_id = ?");
             statement.setInt(1, sender.getId());
-            statement.setInt(2, recepient.getId());
+            statement.setInt(2, recipient.getId());
 
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
                 letters.add(new Letter(resultSet.getInt("id"), resultSet.getString("header"),
                         resultSet.getString("body"), resultSet.getTimestamp("date"),
-                        sender.getId(), recepient.getId()));
+                        sender.getId(), recipient.getId()));
             }
             return letters;
         } catch (SQLException e) {
@@ -38,14 +41,15 @@ public class LetterRepo {
         return null;
     }
 
-    public List<User> getAllConversation(User sender) {
+    @Override
+    public List<User> getAllUserConversation(User sender) {
         PreparedStatement statement = null;
         List<User> users;
         Set<Integer> ids;
         conn = DBConnection.getConnection();
 
         try {
-            UserRepo userRepo = new UserRepo();
+            UserDAO userDAO = new UserDAO();
             users = new ArrayList<>();
             ids = new HashSet<>();
             int sender_id, recepient_id;
@@ -68,7 +72,7 @@ public class LetterRepo {
             }
 
             for (int id : ids) {
-                users.add(userRepo.getEasyUserById(id));
+                users.add(userDAO.getEasyUserById(id));
             }
 
             return users;
@@ -76,9 +80,10 @@ public class LetterRepo {
             e.printStackTrace();
         }
         return null;
-    }
+    }////TO DO
 
-    public List<Letter> getConversation(User sender, User recipient) {
+    @Override
+    public List<Letter> getConversationByUser(User sender, User recipient) {
         PreparedStatement statement;
         List<Letter> letters;
 
@@ -108,7 +113,32 @@ public class LetterRepo {
         return null;
     }
 
-    public boolean addLetter(Letter letter) {
+    @Override
+    public boolean hasConversationWithUser(User sender, int recipient_id) {
+        PreparedStatement statement;
+
+        try {
+            conn = DBConnection.getConnection();
+
+            statement = conn.prepareStatement("select id, header, body, date from letters  where " +
+                    "(sender_id = ? and recepient_id = ?) or (sender_id = ? and recepient_id = ?) order by date ASC");
+            statement.setInt(1, sender.getId());
+            statement.setInt(2, recipient_id);
+            statement.setInt(3, recipient_id);
+            statement.setInt(4, sender.getId());
+
+            ResultSet resultSet = statement.executeQuery();
+
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean add(Letter letter) {
         PreparedStatement statement;
 
         try {
@@ -132,28 +162,23 @@ public class LetterRepo {
         return false;
     }
 
-    public boolean hasConversation(User sender, int recipient_id) {
-        PreparedStatement statement;
-
-        try {
-            conn = DBConnection.getConnection();
-
-            statement = conn.prepareStatement("select id, header, body, date from letters  where " +
-                    "(sender_id = ? and recepient_id = ?) or (sender_id = ? and recepient_id = ?) order by date ASC");
-            statement.setInt(1, sender.getId());
-            statement.setInt(2, recipient_id);
-            statement.setInt(3, recipient_id);
-            statement.setInt(4, sender.getId());
-
-            ResultSet resultSet = statement.executeQuery();
-
-            return resultSet.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return false;
+    @Override
+    public Letter find(Long id) {
+        return null;
     }
 
+    @Override
+    public void delete(Letter model) {
 
+    }
+
+    @Override
+    public void update(Letter model) {
+
+    }
+
+    @Override
+    public List<Letter> findAll() {
+        return null;
+    }
 }

@@ -1,6 +1,6 @@
 package Models;
 
-import Repositories.UserRepo;
+import DAO.DAOImpl.UserDAO;
 
 import java.util.Date;
 
@@ -86,8 +86,8 @@ public class Letter {
 
     public User getSender() {
         if (sender == null) {
-            UserRepo userRepo = new UserRepo();
-            sender = userRepo.getUserById(sender_id);
+            UserDAO userDAO = new UserDAO();
+            sender = userDAO.find(sender_id);
         }
         return sender;
     }

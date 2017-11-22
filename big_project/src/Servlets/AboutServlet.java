@@ -2,7 +2,6 @@ package Servlets;
 
 import Helper.Render;
 import Models.User;
-import Repositories.UserRepo;
 import freemarker.template.TemplateException;
 
 import javax.servlet.ServletException;
@@ -23,7 +22,7 @@ public class AboutServlet extends HttpServlet {
         newUser.setPassword(request.getParameter("password"));
         newUser.setLogin(request.getParameter("mail"));
 
-        UserRepo userRepo = new UserRepo();
+        UserDAO userRepo = new UserDAO();
         if (!userRepo.addUser(newUser)) {
             userRepo.addUser(newUser);
         }

@@ -1,10 +1,10 @@
 package AjaxServlet;
 
-import Models.MagazineCopyReview;
+import Models.MagazineIssueReview;
 import Models.MagazineReview;
 import Models.User;
-import Repositories.MagazineCopyReviewRepo;
-import Repositories.MagazineReviewRepo;
+import DAO.DAOImpl.MagazineIssueReviewDAO;
+import DAO.DAOImpl.MagazineReviewDAO;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -26,13 +26,13 @@ public class AjaxMagazineReviewServlet extends HttpServlet {
 
         if (copy == null) {
             MagazineReview magazineReview = new MagazineReview(review, new Date(System.currentTimeMillis()), score, user.getId(), magazine_id);
-            MagazineReviewRepo magazineReviewRepo = new MagazineReviewRepo();
-            magazineReviewRepo.addMagazineReview(magazineReview);
+            MagazineReviewDAO magazineReviewDAO = new MagazineReviewDAO();
+            magazineReviewDAO.add(magazineReview);
         }
         else {
-            MagazineCopyReview magazineCopyReview = new MagazineCopyReview(review, new Date(System.currentTimeMillis()), score, user.getId(), magazine_id);
-            MagazineCopyReviewRepo magazineCopyReviewRepo = new MagazineCopyReviewRepo();
-            magazineCopyReviewRepo.addMagazineCopyReview(magazineCopyReview);
+            MagazineIssueReview magazineIssueReview = new MagazineIssueReview(review, new Date(System.currentTimeMillis()), score, user.getId(), magazine_id);
+            MagazineIssueReviewDAO magazineIssueReviewDAO = new MagazineIssueReviewDAO();
+            magazineIssueReviewDAO.add(magazineIssueReview);
         }
 
         JSONObject jsonObject = new JSONObject();

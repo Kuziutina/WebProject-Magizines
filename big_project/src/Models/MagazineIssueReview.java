@@ -2,16 +2,16 @@ package Models;
 
 import java.util.Date;
 
-public class MagazineCopyReview extends Review {
+public class MagazineIssueReview extends Review {
 
 
     private int magazine_copy_id;
 
 
-    public MagazineCopyReview() {
+    public MagazineIssueReview() {
     }
 
-    public MagazineCopyReview(int id, String review, Date date, int score, int user_id, int magazine_id) {
+    public MagazineIssueReview(int id, String review, Date date, int score, int user_id, int magazine_id) {
         this.id = id;
         this.review = review;
         this.date = date;
@@ -20,7 +20,7 @@ public class MagazineCopyReview extends Review {
         this.magazine_copy_id = magazine_id;
     }
 
-    public MagazineCopyReview(String review, Date date, int score, int user_id, int magazine_id) {
+    public MagazineIssueReview(String review, Date date, int score, int user_id, int magazine_id) {
         this.review = review;
         this.date = date;
         this.score = score;

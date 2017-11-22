@@ -1,7 +1,7 @@
 package AjaxServlet;
 
+import DAO.DAOImpl.UserDAO;
 import Models.User;
-import Repositories.UserRepo;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -22,13 +22,13 @@ public class AjaxSubscribeServlet extends HttpServlet {
         int magazine_id = Integer.parseInt(request.getParameter("magazine_id"));
         boolean has = Boolean.parseBoolean(request.getParameter("has"));
 
-        UserRepo userRepo = new UserRepo();
+        UserDAO userDAO = new UserDAO();
         if (has) {
             user.getSubscriptions();
-            userRepo.addSubscription(user, magazine_id);
+            userDAO.addSubscription(user, magazine_id);
         }
         else {
-            userRepo.deleteSubscription(user, magazine_id);
+            userDAO.deleteSubscription(user, magazine_id);
         }
 
         JSONObject jo = new JSONObject();

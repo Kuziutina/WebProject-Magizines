@@ -1,6 +1,6 @@
 package Models;
 
-import Repositories.UserRepo;
+import DAO.DAOImpl.UserDAO;
 
 import java.util.Date;
 
@@ -56,8 +56,8 @@ public class Review {
 
     public User getUser() {
         if (user == null) {
-            UserRepo userRepo = new UserRepo();
-            user = userRepo.getEasyUserById(user_id);
+            UserDAO userDAO = new UserDAO();
+            user = userDAO.getEasyUserById(user_id);
         }
         return user;
     }

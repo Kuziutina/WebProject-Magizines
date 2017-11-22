@@ -1,7 +1,7 @@
 package Servlets;
 
+import DAO.DAOImpl.UserDAO;
 import Models.User;
-import Repositories.UserRepo;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,11 +19,11 @@ public class ConfirmationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String confirmation = request.getPathInfo().replaceFirst("/", "");
 
-        UserRepo userRepo = new UserRepo();
-        User user = userRepo.getUserByConfirmation(confirmation);
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.getByConfirmation(confirmation);
 
         if (user != null) {
-            userRepo.updateUserConfirmation(user, "");
+            userDAO.updateUserConfirmation(user, "");
             user.setConfirmation("");
             request.getSession().setAttribute("current_user", user);
         }

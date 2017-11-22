@@ -1,7 +1,7 @@
 package AjaxServlet;
 
+import DAO.DAOImpl.UserDAO;
 import Models.User;
-import Repositories.UserRepo;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -20,10 +20,10 @@ public class AjaxExitServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
          User user = (User) request.getSession().getAttribute("current_user");
-         UserRepo userRepo = new UserRepo();
+         UserDAO userDAO = new UserDAO();
 
         if (user.getCookie_login() != null && user.getCookie_login() != "") {
-            userRepo.updateUserCookie(user, "");
+            userDAO.updateUserCookie(user, "");
 
             Cookie sessionCookie = new Cookie("userid", null);
             sessionCookie.setMaxAge(0);

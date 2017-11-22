@@ -73,7 +73,7 @@
                 type: "POST",
                 url: "/ajax_magazine_review",
                 data: {
-                    "magazine_id": ${magazineCopy.id},
+                    "magazine_id": ${magazineIssue.id},
                     "review": $("textarea#review_area_create").val(),
                     "score": $("input[name='rating']:checked").val(),
                     "copy" : 'true'
@@ -128,31 +128,31 @@
 <div id="content" align="center">
 
     <div id="heading">
-        <h1>${magazineCopy.name}</h1>
+        <h1>${magazineIssue.name}</h1>
     </div>
     <div class="row align-items-center">
         <div class="col-md-5 order-md-1">
-            <img id="magazine_image" src="/load/${magazineCopy.picture_path}">
+            <img id="magazine_image" src="/load/${magazineIssue.picture_path}">
         </div>
 
         <#--<embed src="/load/2.pdf" width="500" height="375" type='application/pdf'>-->
         <div class="col-md-5 order-md-2">
-            <p id="magazine_descr">${magazineCopy.description}</p>
+            <p id="magazine_descr">${magazineIssue.description}</p>
         </div>
         <div class="col-md-2 order-md-3">
             <div class="rating_bar" align="center">
                 <h3>Рейтинг</h3>
-                <@stars count=magazineCopy.int_score></@stars>
+                <@stars count=magazineIssue.int_score></@stars>
             </div>
         </div>
     </div>
 
-    <button id="read_issue"><a href="/magazine/${magazineCopy.magazine_id}/${magazineCopy.id}/read">Посмотреть выпуск</a></button>
+    <button id="read_issue"><a href="/magazine/${magazineIssue.magazine_id}/${magazineIssue.id}/read">Посмотреть выпуск</a></button>
     <div class="review_list" id="reviews">
-    <#if !magazineCopy.reviews?? || magazineCopy.reviews?size == 0>
+    <#if !magazineIssue.reviews?? || magazineIssue.reviews?size == 0>
         <p>К данному журналу пока нет отзывов</p>
     <#else >
-        <#list magazineCopy.reviews as review>
+        <#list magazineIssue.reviews as review>
             <div class="review">
                 <a href="/user/${review.user_id}" class="review_author">${review.user.name}</a>
                 <p class="review_text">${review.review}</p>

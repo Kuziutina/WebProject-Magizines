@@ -2,7 +2,7 @@ package Servlets;
 
 import Helper.GenerateString;
 import Models.Magazine;
-import Repositories.MagazineRepo;
+import DAO.DAOImpl.MagazineDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -46,10 +46,10 @@ public class CreateMagazineServlet extends HttpServlet {
             magazine.setPicture_path(fileName);
         }
 
-        MagazineRepo magazineRepo = new MagazineRepo();
-        magazineRepo.addMagazine(magazine);
+        MagazineDAO magazineDAO = new MagazineDAO();
+        magazineDAO.add(magazine);
 
-        int id = magazineRepo.getMagazineId(magazine);
+        int id = magazineDAO.getMagazineId(magazine);
 
         response.sendRedirect("/magazine/" + id);
 

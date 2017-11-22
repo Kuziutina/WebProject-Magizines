@@ -2,7 +2,7 @@ package AjaxServlet;
 
 import Models.Letter;
 import Models.User;
-import Repositories.LetterRepo;
+import DAO.DAOImpl.LetterDAO;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -26,11 +26,11 @@ public class AjaxMessageServlet extends HttpServlet {
         String body = request.getParameter("message");
 
         User user = (User) request.getSession().getAttribute("current_user");
-        LetterRepo letterRepo = new LetterRepo();
-        boolean has = letterRepo.hasConversation(user, recipient_id);
+        LetterDAO letterDAO = new LetterDAO();
+        boolean has = letterDAO.hasConversationWithUser(user, recipient_id);
 
 
-        letterRepo.addLetter(new Letter(header, body, new Date(System.currentTimeMillis()), user.getId(), recipient_id));
+        letterDAO.add(new Letter(header, body, new Date(System.currentTimeMillis()), user.getId(), recipient_id));
 
 
         JSONObject jsonObject = new JSONObject();

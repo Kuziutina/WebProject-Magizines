@@ -1,8 +1,8 @@
 package Models;
 
-import Repositories.MagazineCopyRepo;
-import Repositories.MagazineRepo;
-import Repositories.MagazineReviewRepo;
+import DAO.DAOImpl.MagazineIssueDAO;
+import DAO.DAOImpl.MagazineDAO;
+import DAO.DAOImpl.MagazineReviewDAO;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class Magazine {
     private int int_score;
 
     private List<User> subscribers;
-    private List<MagazineCopy> copies;
+    private List<MagazineIssue> copies;
     private List<MagazineReview> reviews;
 
     public Magazine() {
@@ -72,18 +72,18 @@ public class Magazine {
         this.path = path;
     }
 
-    public List<MagazineCopy> getCopies() {
+    public List<MagazineIssue> getCopies() {
         if (copies == null) {
-            MagazineCopyRepo magazineCopyRepo = new MagazineCopyRepo();
-            copies = magazineCopyRepo.getMagazineCopiesByMagazine(this);
+            MagazineIssueDAO magazineIssueDAO = new MagazineIssueDAO();
+            copies = magazineIssueDAO.getByMagazine(this);
         }
         return copies;
     }
 
     public double getScore() {
 
-        MagazineRepo magazineRepo = new MagazineRepo();
-        return magazineRepo.getMagazineScore(this);
+        MagazineDAO magazineDAO = new MagazineDAO();
+        return magazineDAO.getScore(this);
     }
 
     public void setScore(double score) {
@@ -92,8 +92,8 @@ public class Magazine {
 
     public List<MagazineReview> getReviews() {
         if (reviews == null) {
-            MagazineReviewRepo magazineReviewRepo = new MagazineReviewRepo();
-            reviews = magazineReviewRepo.getMagazineReview(this);
+            MagazineReviewDAO magazineReviewDAO = new MagazineReviewDAO();
+            reviews = magazineReviewDAO.getReview(this);
         }
         return reviews;
     }

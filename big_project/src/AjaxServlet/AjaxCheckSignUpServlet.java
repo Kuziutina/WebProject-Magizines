@@ -1,9 +1,9 @@
 package AjaxServlet;
 
+import DAO.DAOImpl.UserDAO;
 import Helper.MD5Hash;
 import Helper.SenderEmail;
 import Models.User;
-import Repositories.UserRepo;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -25,12 +25,12 @@ public class AjaxCheckSignUpServlet extends HttpServlet {
         JSONObject jo = new JSONObject();
 
 
-        UserRepo userRepo = new UserRepo();
-        boolean has = userRepo.getUserByLogin(email) != null;
+        UserDAO userDAO = new UserDAO();
+        boolean has = userDAO.getByLogin(email) != null;
         if (has) {
             jo.put("email_used", "");
         }
-        else if (userRepo.getUsersByName(username) != null) {
+        else if (userDAO.getByName(username) != null) {
             jo.put("username_used", "");
         }
         else {
@@ -38,8 +38,8 @@ public class AjaxCheckSignUpServlet extends HttpServlet {
             User user = User.newBuilder().setName(username).setLogin(email).setPassword(MD5Hash.getHash(password))
                     .setConfirmation(confirmation).build();
 
-            userRepo.addUser(user);
-            user = userRepo.getUserByLogin(user.getLogin());
+            userDAO.add(user);
+            user = userDAO.getByLogin(user.getLogin());
             request.getSession().setAttribute("current_user", user);
         }
 
@@ -61,9 +61,9 @@ public class AjaxCheckSignUpServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         boolean remember = Boolean.parseBoolean(request.getParameter("remember_me"));
-        UserRepo userRepo = new UserRepo();
+        UserDAO userDAO = new UserDAO();
         JSONObject jo = new JSONObject();
-        User user = userRepo.getUserByLogin(email);
+        User user = userDAO.getByLogin(email);
 
         boolean errors = user == null || !user.getPassword().equals(MD5Hash.getHash(password));
         if (!errors) {
@@ -74,7 +74,7 @@ public class AjaxCheckSignUpServlet extends HttpServlet {
                 c.setMaxAge(15*60);
                 response.addCookie(c);
 
-                userRepo.updateUserCookie(user, cookie);
+                userDAO.updateUserCookie(user, cookie);
             }
         }
         jo.put("errors", errors);

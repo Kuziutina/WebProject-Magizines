@@ -1,8 +1,8 @@
 package AjaxServlet;
 
+import DAO.DAOImpl.UserDAO;
 import Helper.MD5Hash;
 import Models.User;
-import Repositories.UserRepo;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -24,12 +24,12 @@ public class AjaxChangeAccountServlet extends HttpServlet {
 
         JSONObject jsonObject = new JSONObject();
 
-        UserRepo userRepo = new UserRepo();
+        UserDAO userDAO = new UserDAO();
         User user = (User) request.getSession().getAttribute("current_user");
 
         if (username != null && username != "") {
-            if (userRepo.getUsersByName(username) != null) {
-                userRepo.updateUserUsername(user, username);
+            if (userDAO.getByName(username) == null) {
+                userDAO.updateUserUsername(user, username);
                 user.setName(username);
             }
             else {
@@ -37,14 +37,14 @@ public class AjaxChangeAccountServlet extends HttpServlet {
             }
         }
         else if (email != null && email != "") {
-            if (userRepo.getUserByLogin(email) != null) {
+            if (userDAO.getByLogin(email) != null) {
                 jsonObject.put("errors", true);
             }
             else {
                 change_email = true;
                 confirmation = "";
-                userRepo.updateUserConfirmation(user, confirmation);
-                userRepo.updateUserLogin(user, email);
+                userDAO.updateUserConfirmation(user, confirmation);
+                userDAO.updateUserLogin(user, email);
                 user.setConfirmation(confirmation);
                 user.setLogin(email);
             }
@@ -55,7 +55,7 @@ public class AjaxChangeAccountServlet extends HttpServlet {
             }
             else {
                 newPassword = MD5Hash.getHash(newPassword);
-                userRepo.updateUserPassword(user, newPassword);
+                userDAO.updateUserPassword(user, newPassword);
                 user.setPassword(newPassword);
             }
         }

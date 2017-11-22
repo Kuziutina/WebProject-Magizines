@@ -1,11 +1,11 @@
 package Servlets;
 
+import DAO.DAOImpl.UserDAO;
 import Helper.Render;
 import Models.Letter;
 import Models.Magazine;
 import Models.User;
-import Repositories.LetterRepo;
-import Repositories.UserRepo;
+import DAO.DAOImpl.LetterDAO;
 import freemarker.template.TemplateException;
 
 import javax.servlet.ServletException;
@@ -29,8 +29,8 @@ public class PersonalAccountServlet extends HttpServlet {
         String path[] = request.getPathInfo().split("/");
         String id = path[1];
 
-        UserRepo userRepo = new UserRepo();
-        User another_user = userRepo.getEasyUserById(Integer.parseInt(id));
+        UserDAO userDAO = new UserDAO();
+        User another_user = userDAO.getEasyUserById(Integer.parseInt(id));
         User user = (User) request.getSession().getAttribute("current_user");
 
         if (path.length == 2) {
@@ -38,7 +38,7 @@ public class PersonalAccountServlet extends HttpServlet {
                 response.sendRedirect("/error");
             } else {
                 Map<String, Object> objects = new HashMap<>();
-                objects.put("has", user != null && userRepo.hasFriend(user, another_user.getId()));
+                objects.put("has", user != null && userDAO.hasFriend(user, another_user.getId()));
                 objects.put("another_user", another_user);
                 objects.put("user", user);
 
@@ -96,12 +96,12 @@ public class PersonalAccountServlet extends HttpServlet {
         else if (path.length == 3 && path[2].equals("conversation")) {
             if (user == null) response.sendRedirect("/main");
             else {
-                List<User> friends = userRepo.getFriends(user);
-                LetterRepo letterRepo = new LetterRepo();
-                List<User> conversations = letterRepo.getAllConversation(user);
+                List<User> friends = userDAO.getFriends(user);
+                LetterDAO letterDAO = new LetterDAO();
+                List<User> conversations = letterDAO.getAllUserConversation(user);
                 List<Letter> letters = null;
                 if (conversations.size() != 0) {
-                    letters = letterRepo.getConversation(user, conversations.get(0));
+                    letters = letterDAO.getConversationByUser(user, conversations.get(0));
                 }
 
                 Map<String, Object> objects = new HashMap<>();

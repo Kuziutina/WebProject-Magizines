@@ -1,7 +1,7 @@
 package Helper;
 
+import DAO.DAOImpl.UserDAO;
 import Models.User;
-import Repositories.UserRepo;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -16,7 +16,7 @@ public class AuthCookieFilter implements Filter {
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) req;
-        UserRepo userRepo = new UserRepo();
+        UserDAO userDAO = new UserDAO();
 
         Cookie[] cookies = request.getCookies();     // request is an instance of type
 
@@ -34,7 +34,7 @@ public class AuthCookieFilter implements Filter {
         }
 
         if (foundCookie) {
-            User user = userRepo.getUserByCookie(userId);
+            User user = userDAO.getByCookie(userId);
             if (user != null) {
                 request.getSession().setAttribute("current_user", user);
             }

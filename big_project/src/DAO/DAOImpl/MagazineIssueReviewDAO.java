@@ -1,17 +1,20 @@
-package Repositories;
+package DAO.DAOImpl;
 
-import Models.MagazineCopy;
-import Models.MagazineCopyReview;
+import DAO.Interfaces.ReviewDAOInterface;
+import Helper.DBConnection;
+import Models.MagazineIssue;
+import Models.MagazineIssueReview;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MagazineCopyReviewRepo {
+public class MagazineIssueReviewDAO implements ReviewDAOInterface<MagazineIssue, MagazineIssueReview>{
     private Connection conn;
-    public List<MagazineCopyReview> getMagazineCopyReview(MagazineCopy magazine) {
+    @Override
+    public List<MagazineIssueReview> getReview(MagazineIssue magazine) {
         PreparedStatement statement;
-        List<MagazineCopyReview> magazineReviews;
+        List<MagazineIssueReview> magazineReviews;
         try {
             magazineReviews = new ArrayList<>();
             conn = DBConnection.getConnection();
@@ -21,7 +24,7 @@ public class MagazineCopyReviewRepo {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                magazineReviews.add(new MagazineCopyReview(resultSet.getInt("id"), resultSet.getString("review"),
+                magazineReviews.add(new MagazineIssueReview(resultSet.getInt("id"), resultSet.getString("review"),
                         resultSet.getTimestamp("date"), resultSet.getInt("score"),
                         resultSet.getInt("user_id"), magazine.getId()));
             }
@@ -35,7 +38,8 @@ public class MagazineCopyReviewRepo {
         return null;
     }
 
-    public boolean addMagazineCopyReview(MagazineCopyReview magazineReview) {
+    @Override
+    public boolean add(MagazineIssueReview magazineReview) {
         PreparedStatement statement;
         try {
             conn = DBConnection.getConnection();
@@ -53,5 +57,25 @@ public class MagazineCopyReviewRepo {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public MagazineIssueReview find(Integer id) {
+        return null;
+    }
+
+    @Override
+    public void delete(MagazineIssueReview model) {
+
+    }
+
+    @Override
+    public void update(MagazineIssueReview model) {
+
+    }
+
+    @Override
+    public List<MagazineIssueReview> findAll() {
+        return null;
     }
 }

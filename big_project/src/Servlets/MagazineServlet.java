@@ -1,12 +1,12 @@
 package Servlets;
 
+import DAO.DAOImpl.MagazineIssueDAO;
+import DAO.DAOImpl.UserDAO;
 import Helper.Render;
 import Models.Magazine;
-import Models.MagazineCopy;
+import Models.MagazineIssue;
 import Models.User;
-import Repositories.MagazineCopyRepo;
-import Repositories.MagazineRepo;
-import Repositories.UserRepo;
+import DAO.DAOImpl.MagazineDAO;
 import freemarker.template.TemplateException;
 
 import javax.servlet.ServletException;
@@ -30,15 +30,15 @@ public class MagazineServlet extends HttpServlet {
         if (path.length == 2) {
             objects = new HashMap<>();
             int id = Integer.parseInt(path[1]);
-            MagazineRepo magazineRepo = new MagazineRepo();
-            Magazine magazine = magazineRepo.getMagazineById(id);
+            MagazineDAO magazineDAO = new MagazineDAO();
+            Magazine magazine = magazineDAO.find((long) id);
             magazine.getCopies();
             magazine.getReviews();
             int score = (int) Math.round(magazine.getScore());
-            UserRepo userRepo = new UserRepo();
+            UserDAO userDAO = new UserDAO();
             User user = (User) request.getSession().getAttribute("current_user");
             if (user != null) {
-                objects.put("has", userRepo.hasSubscription(user, id));
+                objects.put("has", userDAO.hasSubscription(user, id));
             }
             else {
                 objects.put("has", false);
@@ -57,13 +57,13 @@ public class MagazineServlet extends HttpServlet {
         else if (path.length == 3) {
             objects = new HashMap<>();
             int id = Integer.parseInt(path[2]);
-            MagazineCopyRepo magazineCopyRepo = new MagazineCopyRepo();
-            MagazineCopy magazineCopy = magazineCopyRepo.getMagazineCopyById(id);
-            magazineCopy.getReviews();
+            MagazineIssueDAO magazineIssueDAO = new MagazineIssueDAO();
+            MagazineIssue magazineIssue = magazineIssueDAO.find(id);
+            magazineIssue.getReviews();
             User user = (User) request.getSession().getAttribute("current_user");
 
             objects.put("user", user);
-            objects.put("magazineCopy", magazineCopy);
+            objects.put("magazineIssue", magazineIssue);
             try {
                 Render.render(response, objects, "/magazineIssue.ftl");
             } catch (TemplateException e) {
@@ -74,12 +74,12 @@ public class MagazineServlet extends HttpServlet {
         else if (path.length == 4) {
             objects = new HashMap<>();
             int id = Integer.parseInt(path[2]);
-            MagazineCopyRepo magazineCopyRepo = new MagazineCopyRepo();
-            MagazineCopy magazineCopy = magazineCopyRepo.getMagazineCopyById(id);
+            MagazineIssueDAO magazineIssueDAO = new MagazineIssueDAO();
+            MagazineIssue magazineIssue = magazineIssueDAO.find(id);
             User user = (User) request.getSession().getAttribute("current_user");
 
             objects.put("user", user);
-            objects.put("magazineIssue", magazineCopy);
+            objects.put("magazineIssue", magazineIssue);
             try {
                 Render.render(response, objects, "/issue_read.ftl");
             } catch (TemplateException e) {

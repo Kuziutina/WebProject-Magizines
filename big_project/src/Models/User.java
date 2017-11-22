@@ -1,6 +1,6 @@
 package Models;
 
-import Repositories.UserRepo;
+import DAO.DAOImpl.UserDAO;
 
 import java.util.List;
 
@@ -148,15 +148,15 @@ public class User {
 
     public List<Magazine> getSubscriptions() {
         if (subscriptions == null) {
-            UserRepo userRepo = new UserRepo();
-            subscriptions = userRepo.getSubscriptions(this);
+            UserDAO userDAO = new UserDAO();
+            subscriptions = userDAO.getSubscriptions(this);
         }
         return subscriptions;
     }
 
     public boolean updateSubscriptions() {
-        UserRepo userRepo = new UserRepo();
-        subscriptions = userRepo.getSubscriptions(this);
+        UserDAO userDAO = new UserDAO();
+        subscriptions = userDAO.getSubscriptions(this);
 
         return true;
     }

@@ -50,7 +50,7 @@
         if (text == "") {
             $("#error_username").append("Это поле не может быть пустым");
         }
-        else if (text.search(/\~|`|!|@|#|$|\%|^|\&|\*|\(|\)|_|\+|=|\{|\}|\[|\]|\|\||\/|\?|\.|\,|>|<|;|:|'|\"/) != -1) {
+        else if (text.search(/[\~`!@#$\%^\&\*\(\)_\+=\{\}\[\]\|\/\?\.\,><;:'\"]/) != -1) {
             $("#error_username").html("").append("<p>Имя не может содержать знаков кроме '-'");
         }
 
@@ -61,7 +61,7 @@
                 data: {"username" : $("#user_name_change").val()},
                 dataType: "json",
                 success: function (result) {
-                    if (result.username_used == null) {
+                    if (result.username_used != null) {
                         $("#error_username").html("").append("<p>Данное имя уже занято</p>");
                     }
                     else {
@@ -153,7 +153,7 @@
             $("#error-password").append("Пароль слишком короткий");
         }
         else if (text.search(/[a-zA-Z0-9]/) == -1) {
-            $("#error_password").html("").append("<p>В пароле должен быть минимум один латинский символ</p>");
+            $("#error-password").append("<p>В пароле должен быть минимум один латинский символ или цифра</p>");
         }
         else {
             $.ajax({

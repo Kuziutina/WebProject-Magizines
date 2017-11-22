@@ -1,8 +1,8 @@
 package Servlets;
 
 import Helper.GenerateString;
-import Models.MagazineCopy;
-import Repositories.MagazineCopyRepo;
+import Models.MagazineIssue;
+import DAO.DAOImpl.MagazineIssueDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -32,13 +32,13 @@ public class CreateMagazineCopyServlet extends HttpServlet {
         Part magazinePart = request.getPart("magazine-file");
         String extension = getExtension(getFileName(magazinePart));
 
-        MagazineCopy magazineCopy = new MagazineCopy();
-        magazineCopy.setName(title);
-        magazineCopy.setDescription(description);
-        magazineCopy.setDate(new Date(System.currentTimeMillis()));
-        magazineCopy.setMagazine_id(Integer.parseInt(magazineId));
+        MagazineIssue magazineIssue = new MagazineIssue();
+        magazineIssue.setName(title);
+        magazineIssue.setDescription(description);
+        magazineIssue.setDate(new Date(System.currentTimeMillis()));
+        magazineIssue.setMagazine_id(Integer.parseInt(magazineId));
         if (!cover[0].equals("image")) {
-            magazineCopy.setPicture_path("project_images/default.png");
+            magazineIssue.setPicture_path("project_images/default.png");
         }
         else {
 
@@ -52,7 +52,7 @@ public class CreateMagazineCopyServlet extends HttpServlet {
 //            imagePart.write(path);
             imagePart.getInputStream().close();
             imagePart.delete();
-            magazineCopy.setPicture_path(fileName);
+            magazineIssue.setPicture_path(fileName);
         }
 
 
@@ -66,11 +66,11 @@ public class CreateMagazineCopyServlet extends HttpServlet {
 //            imagePart.write(path);
         magazinePart.getInputStream().close();
         magazinePart.delete();
-        magazineCopy.setPath(fileMagazineName);
+        magazineIssue.setPath(fileMagazineName);
 
-        MagazineCopyRepo magazineCopyRepo = new MagazineCopyRepo();
-        magazineCopyRepo.addMagazineCopy(magazineCopy);
-        int id = magazineCopyRepo.getMagazineCopyId(magazineCopy);
+        MagazineIssueDAO magazineIssueDAO = new MagazineIssueDAO();
+        magazineIssueDAO.add(magazineIssue);
+        int id = magazineIssueDAO.getMagazineIssueId(magazineIssue);
 
         response.sendRedirect("/magazine/" + magazineId + "/" + id);
 

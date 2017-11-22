@@ -1,8 +1,8 @@
 package AjaxServlet;
 
+import DAO.DAOImpl.UserDAO;
 import Helper.SenderEmail;
 import Models.User;
-import Repositories.UserRepo;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONObject;
 
@@ -22,8 +22,8 @@ public class AjaxRestoringServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
 
-        UserRepo userRepo = new UserRepo();
-        User user = userRepo.getUserByLogin(email);
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.getByLogin(email);
         JSONObject jo = new JSONObject();
 
         if (user == null) {
@@ -32,7 +32,7 @@ public class AjaxRestoringServlet extends HttpServlet {
         else {
             String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?";
             String pwd = RandomStringUtils.random( 8, characters );
-            userRepo.updateUserPassword(user, pwd);
+            userDAO.updateUserPassword(user, pwd);
 
             SenderEmail senderEmail = new SenderEmail(pwd, email);
             senderEmail.run();

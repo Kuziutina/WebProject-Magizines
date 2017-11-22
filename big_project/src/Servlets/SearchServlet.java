@@ -3,8 +3,8 @@ package Servlets;
 import Helper.Render;
 import Models.Magazine;
 import Models.User;
-import Repositories.MagazineRepo;
-import Repositories.UserRepo;
+import DAO.DAOImpl.MagazineDAO;
+import DAO.DAOImpl.UserDAO;
 import freemarker.template.TemplateException;
 
 import javax.servlet.ServletException;
@@ -44,8 +44,8 @@ public class SearchServlet extends HttpServlet {
 
             int max_count;
 
-            MagazineRepo magazineRepo = new MagazineRepo();
-            List<Magazine> magazines = magazineRepo.getMagazineByPartName(query);
+            MagazineDAO magazineDAO = new MagazineDAO();
+            List<Magazine> magazines = magazineDAO.getByNamePattern(query);
 
             max_count = magazines.size()/count;
             if (magazines.size() ==0 || magazines.size() % count != 0) max_count++;
@@ -68,8 +68,8 @@ public class SearchServlet extends HttpServlet {
             objects.put("magazines", result);
         }
         else {
-            UserRepo userRepo = new UserRepo();
-            List<User> users = userRepo.getUserByPartName(query);
+            UserDAO userDAO = new UserDAO();
+            List<User> users = userDAO.getByNamePattern(query);
 
             objects.put("query", query);
             objects.put("users", users);

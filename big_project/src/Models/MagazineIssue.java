@@ -1,14 +1,14 @@
 package Models;
 
-import Repositories.MagazineCopyRepo;
-import Repositories.MagazineCopyReviewRepo;
+import DAO.DAOImpl.MagazineIssueDAO;
+import DAO.DAOImpl.MagazineIssueReviewDAO;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class MagazineCopy {
+public class MagazineIssue {
     private int id;
     private String name;
     private String description;
@@ -21,13 +21,13 @@ public class MagazineCopy {
     private String format_date;
     private int int_score;
 
-    private List<MagazineCopyReview> reviews;
+    private List<MagazineIssueReview> reviews;
     private Magazine magazine;
 
-    public MagazineCopy() {
+    public MagazineIssue() {
     }
 
-    public MagazineCopy(int id, String name, String description, String picture_path, String path, Date date, int magazine_id) {
+    public MagazineIssue(int id, String name, String description, String picture_path, String path, Date date, int magazine_id) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -38,7 +38,7 @@ public class MagazineCopy {
 
     }
 
-    public MagazineCopy(String name, String description, String picture_path, String path, Date date, int magazine_id) {
+    public MagazineIssue(String name, String description, String picture_path, String path, Date date, int magazine_id) {
         this.name = name;
         this.description = description;
         this.picture_path = picture_path;
@@ -111,15 +111,15 @@ public class MagazineCopy {
         this.magazine_id = magazine_id;
     }
 
-    public List<MagazineCopyReview> getReviews() {
+    public List<MagazineIssueReview> getReviews() {
         if (reviews == null) {
-            MagazineCopyReviewRepo magazineCopyReviewRepo = new MagazineCopyReviewRepo();
-            reviews = magazineCopyReviewRepo.getMagazineCopyReview(this);
+            MagazineIssueReviewDAO magazineIssueReviewDAO = new MagazineIssueReviewDAO();
+            reviews = magazineIssueReviewDAO.getReview(this);
         }
         return reviews;
     }
 
-    public void setReviews(List<MagazineCopyReview> reviews) {
+    public void setReviews(List<MagazineIssueReview> reviews) {
         this.reviews = reviews;
     }
 
@@ -150,8 +150,8 @@ public class MagazineCopy {
     }
 
     public double getScore() {
-        MagazineCopyRepo magazineCopyRepo = new MagazineCopyRepo();
-        return magazineCopyRepo.getMagazineCopyScore(this);
+        MagazineIssueDAO magazineIssueDAO = new MagazineIssueDAO();
+        return magazineIssueDAO.getScore(this);
     }
 
     public int getInt_score() {

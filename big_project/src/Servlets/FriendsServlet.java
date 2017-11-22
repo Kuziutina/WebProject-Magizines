@@ -1,8 +1,8 @@
 package Servlets;
 
+import DAO.DAOImpl.UserDAO;
 import Helper.Render;
 import Models.User;
-import Repositories.UserRepo;
 import freemarker.template.TemplateException;
 
 import javax.servlet.ServletException;
@@ -24,8 +24,8 @@ public class FriendsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute("current_user");
 
-        UserRepo userRepo = new UserRepo();
-        List<User> friends = userRepo.getFriends(user);
+        UserDAO userDAO = new UserDAO();
+        List<User> friends = userDAO.getFriends(user);
         Map<String, Object> objects = new HashMap<>();
 
         objects.put("friends", friends);

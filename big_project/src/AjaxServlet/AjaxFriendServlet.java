@@ -1,7 +1,7 @@
 package AjaxServlet;
 
+import DAO.DAOImpl.UserDAO;
 import Models.User;
-import Repositories.UserRepo;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -17,13 +17,13 @@ public class AjaxFriendServlet extends HttpServlet {
         User user = (User) request.getSession().getAttribute("current_user");
         String id = request.getParameter("friend_id");
         String has = request.getParameter("has");
-        UserRepo userRepo = new UserRepo();
+        UserDAO userDAO = new UserDAO();
 
         if (has.equals("true")) {
-            userRepo.addFriend(user, Integer.parseInt(id));
+            userDAO.addFriend(user, Integer.parseInt(id));
         }
         else {
-            userRepo.deleteFriend(user, Integer.parseInt(id));
+            userDAO.deleteFriend(user, Integer.parseInt(id));
         }
 
         JSONObject jsonObject = new JSONObject();
@@ -36,9 +36,9 @@ public class AjaxFriendServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute("current_user");
         String id = request.getParameter("delete_id");
-        UserRepo userRepo = new UserRepo();
+        UserDAO userDAO = new UserDAO();
 
-        userRepo.deleteFriend(user, Integer.parseInt(id));
+        userDAO.deleteFriend(user, Integer.parseInt(id));
 
         JSONObject jsonObject = new JSONObject();
         response.setCharacterEncoding("UTF-8");
