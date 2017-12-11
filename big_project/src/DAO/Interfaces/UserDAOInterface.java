@@ -15,4 +15,9 @@ public interface UserDAOInterface extends DAOInterface<User, Integer> {
     boolean addFriend(User user, int friend_id);
     boolean deleteFriend(User user, int friend_id);
     boolean hasFriend(User user, int friend_id);
+    boolean updateCookie(User user, String cookie);
+    boolean updatePassword(User user, String password);
+    boolean updateConfirmation(User user, String confirmation);
+    boolean updateUsername(User user, String username);
+    boolean updateLogin(User user, String login);
 }

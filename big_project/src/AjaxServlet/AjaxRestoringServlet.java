@@ -3,6 +3,8 @@ package AjaxServlet;
 import DAO.DAOImpl.UserDAO;
 import Helper.SenderEmail;
 import Models.User;
+import Services.Interfaces.UserServiceInterface;
+import Services.UserService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONObject;
 
@@ -15,6 +17,13 @@ import java.io.IOException;
 
 @WebServlet(name = "AjaxRestoringServlet")
 public class AjaxRestoringServlet extends HttpServlet {
+    private UserServiceInterface userService;
+
+    @Override
+    public void init() throws ServletException {
+        userService = new UserService(new UserDAO());
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
@@ -30,12 +39,8 @@ public class AjaxRestoringServlet extends HttpServlet {
             jo.put("errors", true);
         }
         else {
-            String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?";
-            String pwd = RandomStringUtils.random( 8, characters );
-            userDAO.updateUserPassword(user, pwd);
-
-            SenderEmail senderEmail = new SenderEmail(pwd, email);
-            senderEmail.run();
+            SenderEmail senderEmail = new SenderEmail(userService.restoringPassword(user), email);
+            new Thread(senderEmail).start();
 //            senderEmail.sendMessage();
         }
 

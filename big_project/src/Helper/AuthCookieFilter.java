@@ -23,13 +23,13 @@ public class AuthCookieFilter implements Filter {
         boolean foundCookie = false;
         String userId = "";
 
-        for(int i = 0; i < cookies.length && !foundCookie; i++)
-        {
-            Cookie c = cookies[i];
-            if (c.getName().equals("userid"))
-            {
-                userId= c.getValue();
-                foundCookie = true;
+        if (cookies != null) {
+            for (int i = 0; i < cookies.length && !foundCookie; i++) {
+                Cookie c = cookies[i];
+                if (c.getName().equals("userid")) {
+                    userId = c.getValue();
+                    foundCookie = true;
+                }
             }
         }
 

@@ -9,4 +9,7 @@ public interface MagazineServiceInterface {
     List<Magazine> getPopular();
     List<Magazine> getAllMagazines();
     Magazine getMagazineById(Integer id);
+    void addMagazine(Magazine magazine);
+    int getMagazineId(Magazine magazine);
+    void fillMagazine(Magazine magazine);
 }

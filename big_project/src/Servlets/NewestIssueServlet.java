@@ -3,6 +3,8 @@ package Servlets;
 import DAO.DAOImpl.MagazineIssueDAO;
 import Helper.Render;
 import Models.MagazineIssue;
+import Services.Interfaces.MagazineIssueServiceInterface;
+import Services.MagazineIssueService;
 import freemarker.template.TemplateException;
 
 import javax.servlet.ServletException;
@@ -18,13 +20,32 @@ import java.util.Map;
 
 @WebServlet(name = "NewestIssueServlet", urlPatterns = "/newest_issues")
 public class NewestIssueServlet extends HttpServlet {
+    private MagazineIssueServiceInterface magazineIssueService;
+    @Override
+    public void init() throws ServletException {
+        magazineIssueService = new MagazineIssueService(new MagazineIssueDAO());
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         String spage = request.getParameter("page");
         String scount = request.getParameter("showby");
+
+        Map<String, Object> objects = computation(magazineIssueService.getAllMagazineIssues(), spage, scount);
+        objects.put("user", request.getSession().getAttribute("current_user"));
+        try {
+            Render.render(response, objects, "/newest_issue.ftl");
+        } catch (TemplateException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Map<String, Object> computation(List<MagazineIssue> magazines, String spage, String scount) {
+
         int page, count;
         if (spage == null) page = 1;
         else page = Integer.parseInt(spage);
@@ -37,8 +58,6 @@ public class NewestIssueServlet extends HttpServlet {
         int max_count;
 
         Map<String, Object> objects = new HashMap<>();
-        MagazineIssueDAO magazineIssueDAO = new MagazineIssueDAO();
-        List<MagazineIssue> magazines = magazineIssueDAO.findAll();
 
         max_count = magazines.size()/count + 1;
 
@@ -53,16 +72,12 @@ public class NewestIssueServlet extends HttpServlet {
             result = magazines.subList((page-1)* count, page*count);
         }
 
-        objects.put("user", request.getSession().getAttribute("current_user"));
+
         objects.put("page", page);
         objects.put("count", count);
         objects.put("max_count", max_count);
         objects.put("magazines", result);
 
-        try {
-            Render.render(response, objects, "/newest_issue.ftl");
-        } catch (TemplateException e) {
-            e.printStackTrace();
-        }
+        return objects;
     }
 }

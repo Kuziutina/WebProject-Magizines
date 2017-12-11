@@ -3,6 +3,8 @@ package Servlets;
 import Helper.GenerateString;
 import Models.Magazine;
 import DAO.DAOImpl.MagazineDAO;
+import Services.Interfaces.MagazineServiceInterface;
+import Services.MagazineService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -19,6 +21,13 @@ import java.nio.file.Files;
 @WebServlet(name = "CreateMagazineServlet")
 @MultipartConfig
 public class CreateMagazineServlet extends HttpServlet {
+    private MagazineServiceInterface magazineService;
+
+    @Override
+    public void init() throws ServletException {
+        magazineService = new MagazineService(new MagazineDAO());
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         request.setCharacterEncoding("UTF-8");
@@ -31,25 +40,12 @@ public class CreateMagazineServlet extends HttpServlet {
             magazine.setPicture_path("project_images/default.png");
         }
         else {
-
-            String fileName = "project_images/" + GenerateString.generate() + "." + cover[1];
-            String path = "D:/";
-            File uploads = new File(path);
-            File file = new File(uploads, fileName);
-
-            try (InputStream input = imagePart.getInputStream()) {
-                Files.copy(input, file.toPath());
-            }
-//            imagePart.write(path);
-            imagePart.getInputStream().close();
-            imagePart.delete();
-            magazine.setPicture_path(fileName);
+            loadImage(magazine, imagePart, cover[1]);
         }
 
-        MagazineDAO magazineDAO = new MagazineDAO();
-        magazineDAO.add(magazine);
+        magazineService.addMagazine(magazine);
 
-        int id = magazineDAO.getMagazineId(magazine);
+        int id = magazineService.getMagazineId(magazine);
 
         response.sendRedirect("/magazine/" + id);
 
@@ -57,5 +53,23 @@ public class CreateMagazineServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+    }
+
+    private void loadImage(Magazine magazine, Part imagePart, String exp) {
+        String fileName = "project_images/" + GenerateString.generate() + "." + exp;
+        String path = "D:/";
+        File uploads = new File(path);
+        File file = new File(uploads, fileName);
+
+        try (InputStream input = imagePart.getInputStream()) {
+            Files.copy(input, file.toPath());
+            imagePart.getInputStream().close();
+            imagePart.delete();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//            imagePart.write(path);
+
+        magazine.setPicture_path(fileName);
     }
 }

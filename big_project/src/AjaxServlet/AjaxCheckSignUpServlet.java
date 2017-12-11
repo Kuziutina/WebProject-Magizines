@@ -74,7 +74,7 @@ public class AjaxCheckSignUpServlet extends HttpServlet {
                 c.setMaxAge(15*60);
                 response.addCookie(c);
 
-                userDAO.updateUserCookie(user, cookie);
+                userDAO.updateCookie(user, cookie);
             }
         }
         jo.put("errors", errors);

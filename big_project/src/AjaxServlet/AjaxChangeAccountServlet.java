@@ -29,7 +29,7 @@ public class AjaxChangeAccountServlet extends HttpServlet {
 
         if (username != null && username != "") {
             if (userDAO.getByName(username) == null) {
-                userDAO.updateUserUsername(user, username);
+                userDAO.updateUsername(user, username);
                 user.setName(username);
             }
             else {
@@ -43,8 +43,8 @@ public class AjaxChangeAccountServlet extends HttpServlet {
             else {
                 change_email = true;
                 confirmation = "";
-                userDAO.updateUserConfirmation(user, confirmation);
-                userDAO.updateUserLogin(user, email);
+                userDAO.updateConfirmation(user, confirmation);
+                userDAO.updateLogin(user, email);
                 user.setConfirmation(confirmation);
                 user.setLogin(email);
             }
@@ -55,7 +55,7 @@ public class AjaxChangeAccountServlet extends HttpServlet {
             }
             else {
                 newPassword = MD5Hash.getHash(newPassword);
-                userDAO.updateUserPassword(user, newPassword);
+                userDAO.updatePassword(user, newPassword);
                 user.setPassword(newPassword);
             }
         }

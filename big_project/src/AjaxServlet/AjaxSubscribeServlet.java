@@ -24,8 +24,8 @@ public class AjaxSubscribeServlet extends HttpServlet {
 
         UserDAO userDAO = new UserDAO();
         if (has) {
-            user.getSubscriptions();
             userDAO.addSubscription(user, magazine_id);
+            user.updateSubscriptions();
         }
         else {
             userDAO.deleteSubscription(user, magazine_id);

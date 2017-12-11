@@ -7,6 +7,10 @@ import Models.Magazine;
 import Models.MagazineIssue;
 import Models.User;
 import DAO.DAOImpl.MagazineDAO;
+import Services.Interfaces.MagazineIssueServiceInterface;
+import Services.Interfaces.MagazineServiceInterface;
+import Services.MagazineIssueService;
+import Services.MagazineService;
 import freemarker.template.TemplateException;
 
 import javax.servlet.ServletException;
@@ -20,20 +24,31 @@ import java.util.Map;
 
 @WebServlet(name = "MagazineServlet")
 public class MagazineServlet extends HttpServlet {
+
+    private MagazineServiceInterface magazineService;
+    private MagazineIssueServiceInterface magazineIssueService;
+
+    @Override
+    public void init() throws ServletException {
+        magazineService = new MagazineService(new MagazineDAO());
+        magazineIssueService = new MagazineIssueService(new MagazineIssueDAO());
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path[] = request.getPathInfo().split("/");
+        int id;
         Map<String, Object> objects;
+
         if (path.length == 2) {
+            id = Integer.parseInt(path[1]);
             objects = new HashMap<>();
-            int id = Integer.parseInt(path[1]);
-            MagazineDAO magazineDAO = new MagazineDAO();
-            Magazine magazine = magazineDAO.find((long) id);
-            magazine.getCopies();
-            magazine.getReviews();
+
+            Magazine magazine = magazineService.getMagazineById(id);
+
             int score = (int) Math.round(magazine.getScore());
             UserDAO userDAO = new UserDAO();
             User user = (User) request.getSession().getAttribute("current_user");
@@ -56,10 +71,12 @@ public class MagazineServlet extends HttpServlet {
         }
         else if (path.length == 3) {
             objects = new HashMap<>();
-            int id = Integer.parseInt(path[2]);
-            MagazineIssueDAO magazineIssueDAO = new MagazineIssueDAO();
-            MagazineIssue magazineIssue = magazineIssueDAO.find(id);
-            magazineIssue.getReviews();
+            id = Integer.parseInt(path[2]);
+
+
+            MagazineIssue magazineIssue = magazineIssueService.getMagazineIssue(id);
+            magazineIssueService.initMagazineIssue(magazineIssue);
+
             User user = (User) request.getSession().getAttribute("current_user");
 
             objects.put("user", user);
@@ -71,11 +88,12 @@ public class MagazineServlet extends HttpServlet {
             }
 
         }
-        else if (path.length == 4) {
+        else if (path.length == 4 && path[3].equals("read")) {
             objects = new HashMap<>();
-            int id = Integer.parseInt(path[2]);
-            MagazineIssueDAO magazineIssueDAO = new MagazineIssueDAO();
-            MagazineIssue magazineIssue = magazineIssueDAO.find(id);
+            id = Integer.parseInt(path[2]);
+
+            MagazineIssue magazineIssue = magazineIssueService.getMagazineIssue(id);
+
             User user = (User) request.getSession().getAttribute("current_user");
 
             objects.put("user", user);
@@ -85,6 +103,10 @@ public class MagazineServlet extends HttpServlet {
             } catch (TemplateException e) {
                 e.printStackTrace();
             }
+        }
+
+        else {
+            response.sendRedirect("/error");
         }
 
 

@@ -1,7 +1,10 @@
 package Servlets;
 
 import DAO.DAOImpl.UserDAO;
+import DAO.Interfaces.UserDAOInterface;
 import Models.User;
+import Services.Interfaces.UserServiceInterface;
+import Services.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +15,12 @@ import java.io.IOException;
 
 @WebServlet(name = "ConfirmationServlet")
 public class ConfirmationServlet extends HttpServlet {
+    private UserServiceInterface userService;
+    @Override
+    public void init() throws ServletException {
+        userService = new UserService(new UserDAO());
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
@@ -19,12 +28,10 @@ public class ConfirmationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String confirmation = request.getPathInfo().replaceFirst("/", "");
 
-        UserDAO userDAO = new UserDAO();
-        User user = userDAO.getByConfirmation(confirmation);
+        User user = userService.getByConfirmation(confirmation);
 
         if (user != null) {
-            userDAO.updateUserConfirmation(user, "");
-            user.setConfirmation("");
+            userService.changeConfirmation(user, confirmation);
             request.getSession().setAttribute("current_user", user);
         }
 

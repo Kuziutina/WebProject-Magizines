@@ -315,7 +315,8 @@ public class UserDAO implements UserDAOInterface{
 
     }
 
-    public boolean updateUserCookie(User user, String cookie) {
+    @Override
+    public boolean updateCookie(User user, String cookie) {
         PreparedStatement statement;
         conn = DBConnection.getConnection();
 
@@ -336,7 +337,8 @@ public class UserDAO implements UserDAOInterface{
 
     }
 
-    public boolean updateUserPassword(User user, String password) {
+    @Override
+    public boolean updatePassword(User user, String password) {
         PreparedStatement statement;
         conn = DBConnection.getConnection();
 
@@ -357,7 +359,8 @@ public class UserDAO implements UserDAOInterface{
 
     }
 
-    public boolean updateUserConfirmation(User user, String confirmation) {
+    @Override
+    public boolean updateConfirmation(User user, String confirmation) {
         PreparedStatement statement;
         conn = DBConnection.getConnection();
 
@@ -378,7 +381,8 @@ public class UserDAO implements UserDAOInterface{
 
     }
 
-    public boolean updateUserUsername(User user, String username) {
+    @Override
+    public boolean updateUsername(User user, String username) {
         PreparedStatement statement;
         conn = DBConnection.getConnection();
 
@@ -399,7 +403,8 @@ public class UserDAO implements UserDAOInterface{
 
     }
 
-    public boolean updateUserLogin(User user, String login) {
+    @Override
+    public boolean updateLogin(User user, String login) {
         PreparedStatement statement;
         conn = DBConnection.getConnection();
 

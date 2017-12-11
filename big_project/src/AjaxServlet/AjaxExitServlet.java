@@ -23,7 +23,7 @@ public class AjaxExitServlet extends HttpServlet {
          UserDAO userDAO = new UserDAO();
 
         if (user.getCookie_login() != null && user.getCookie_login() != "") {
-            userDAO.updateUserCookie(user, "");
+            userDAO.updateCookie(user, "");
 
             Cookie sessionCookie = new Cookie("userid", null);
             sessionCookie.setMaxAge(0);

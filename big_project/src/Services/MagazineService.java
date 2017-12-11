@@ -33,4 +33,22 @@ public class MagazineService implements MagazineServiceInterface {
     public Magazine getMagazineById(Integer id) {
         return magazineDAO.find(Long.valueOf(id));
     }
+
+    @Override
+    public void addMagazine(Magazine magazine) {
+        magazineDAO.add(magazine);
+    }
+
+    @Override
+    public int getMagazineId(Magazine magazine) {
+        return magazineDAO.getMagazineId(magazine);
+    }
+
+    @Override
+    public void fillMagazine(Magazine magazine) {
+        magazine.getCopies();
+        magazine.getReviews();
+    }
+
+
 }
